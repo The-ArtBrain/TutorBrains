@@ -31,9 +31,13 @@ The three shortlisted schemes are:
 
 ## What is the current decision for the first implementation slice?
 
-Use a Progressive Web App (PWA) for the first localized read-and-speak learning slice, with no application server. Keep Tauri as an escalation path for a demonstrated native requirement rather than making it an assumed foundation.
+Use a Progressive Web App (PWA) for the Chapter 01 localized read-and-speak learning slice. English remains the default instruction language, and Hindi is the second instruction language used to prove localization and fallback behavior. Keep Tauri as an escalation path for a demonstrated native requirement rather than making it an assumed foundation.
 
-The first slice should use semantic HTML, standard JavaScript, packaged Telugu content, localized instructions, prerecorded reference audio, learner recording and playback, and local preferences or progress. It should not require an account, synchronization, restricted-content authorization, remote inference, or automatic pronunciation assessment.
+The first slice should use semantic HTML, standard JavaScript, packaged Telugu content, localized instructions, prerecorded reference audio, learner recording and playback, and local preferences or progress. It includes account creation and sign-in plus ability-based authorization for restricted content. A minimal connected platform therefore supplies identity integration, token validation, and authoritative ability or entitlement evaluation.
+
+Synchronization, remote inference, content publication, learner-initiated account or submission exports, and automatic pronunciation assessment remain outside the first slice unless separately accepted. The Chapter 01 pilot-data export remains part of the product requirements document; it is research instrumentation rather than a learner account-export feature.
+
+Commercial purchase flows also remain outside the Telugu Tutor learning platform permanently. A separate commerce application or service owns offers, payments, subscriptions, and refunds. Telugu Tutor receives only the resulting explicit, scoped, and optionally time-bounded ability changes; paid and non-paid access use the same authorization contract.
 
 This is a decision about the first implementation slice, not yet a final decision that a PWA satisfies every required production platform. The PWA must still pass the platform evidence described in its [candidate design](PWA_PLATFORM_DESIGN.md), and selecting it as the production scheme would require reconciling the current platform specification as described below.
 

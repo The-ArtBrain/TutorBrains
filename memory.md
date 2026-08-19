@@ -57,11 +57,13 @@ The product decisions in `doc/spec/platform_spec.md` remain authoritative. `doc/
 - Product functions and required intelligence run in the client wherever technically feasible. Missing or unreliable intelligence produces an alternative or **Not assessed**, never silent upload or fabricated feedback.
 - Canonical Telugu, instruction language, interface locale, transliteration, and accessibility preferences are independent. English is the disclosed instruction-language default when no selection exists.
 - Authorization grants explicit abilities over resources and constraints rather than roles or personas.
+- Commerce remains outside the learning applications and Telugu Tutor platform. A separate commerce application or service owns offers, payments, subscriptions, refunds, taxes, and transaction reconciliation and communicates only explicit, scoped, and optionally time-bounded ability changes. Paid and non-paid access use the same authorization contract; Cards never receive commerce state.
 
 ### Accepted implementation direction
 
-- Build the first localized read-and-speak slice as a Progressive Web App (PWA) with semantic HTML, standard JavaScript, packaged content, local preferences and progress, and no application server.
-- The first slice does not require accounts, synchronization, restricted-content authorization, remote inference, or automatic pronunciation assessment.
+- Build Chapter 01 as the first localized read-and-speak slice in a Progressive Web App (PWA). English remains the default instruction language, and Hindi is the second instruction language used to prove localization and fallback behavior.
+- Include account creation and sign-in plus ability-based restricted-content authorization. Use a minimal connected platform for identity integration, token validation, and authoritative ability or entitlement evaluation while keeping lesson behavior and progress client-first.
+- Synchronization, remote inference, content publication, learner-initiated account or submission exports, and automatic pronunciation assessment remain outside the first slice unless separately accepted. Commercial purchase flows remain permanently outside the learning platform. The Chapter 01 pilot-data export remains required research instrumentation.
 - Keep Tauri as an escalation path only when evidence demonstrates a native requirement that the PWA cannot meet adequately.
 - Keep educational-domain meaning in manifests and domain records; HTML owns document and interaction semantics.
 - Keep authored assets, course content, model resources, learner records, raw learner evidence, and exports as separate data classes.

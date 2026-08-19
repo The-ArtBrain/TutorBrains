@@ -1,7 +1,7 @@
 # Architecture Decision Record Log
 
 **Status:** Active discussion log  
-**Last reviewed:** 2026-08-18  
+**Last reviewed:** 2026-08-19  
 **Scope:** Current product-platform and app-skeleton architecture decisions  
 **Authority:** Product decisions remain authoritative in the [platform specification](../spec/platform_spec.md); this log summarizes them alongside implementation decisions.
 
@@ -18,17 +18,17 @@ This file is the Architecture Decision Record (ADR) index for the current design
 ## ADR-002 — PWA for the first implementation slice
 
 - **Status:** Accepted for first slice
-- **Decision:** Implement the first localized read-and-speak learning slice as a PWA.
-- **Rationale:** Semantic Hypertext Markup Language (HTML), standard JavaScript, browser media APIs, offline caching, and local browser storage cover the initial learner behavior with the smallest application-specific dependency surface.
+- **Decision:** Implement Chapter 01 as the first localized read-and-speak learning slice in a PWA. English remains the default instruction language, and Hindi is the second instruction language used to prove localization and fallback behavior.
+- **Rationale:** Chapter 01 already defines the lesson outcome, content, activities, and evidence. Semantic Hypertext Markup Language (HTML), standard JavaScript, browser media APIs, offline caching, and local browser storage cover its core learner behavior with the smallest application-specific dependency surface.
 - **Consequence:** This experiment does not establish that a PWA satisfies every production-platform requirement.
 - **Source:** [Platform options FAQ](PLATFORM_OPTIONS_FAQ.md#what-is-the-current-decision-for-the-first-implementation-slice)
 
-## ADR-003 — No application server in the first slice
+## ADR-003 — Accounts and restricted-content authorization in the first slice
 
 - **Status:** Accepted for first slice
-- **Decision:** Package Telugu content, localized instructions, reference audio, recording and playback behavior, and local preferences or progress entirely in the client.
-- **Rationale:** The first slice does not need an account, restricted content, synchronization, remote inference, publication, purchase, or export.
-- **Consequence:** Server authorization, course distribution, and learner-data contracts are not implemented until a validated feature requires them.
+- **Decision:** Include account creation and sign-in plus ability-based authorization for restricted content. Keep Telugu content, localized instructions, reference audio, recording and playback behavior, and local preferences or progress client-first.
+- **Rationale:** The first slice must exercise the existing identity choices and verify that restricted access is granted by explicit abilities rather than roles or purchase state.
+- **Consequence:** A minimal connected platform is required for identity integration, token validation, and authoritative ability or entitlement evaluation. Synchronization, remote inference, publication, and learner-initiated account or submission exports remain outside the first slice unless separately accepted. Commercial purchase flows remain outside the learning platform under ADR-017.
 - **Source:** [Platform options FAQ](PLATFORM_OPTIONS_FAQ.md#what-is-the-current-decision-for-the-first-implementation-slice)
 
 ## ADR-004 — Tauri as an escalation path
@@ -135,13 +135,21 @@ This file is the Architecture Decision Record (ADR) index for the current design
 - **Consequence:** Keep module boundaries clear, but defer deployment separation until scale, ownership, reliability, or security evidence requires it.
 - **Source:** [App skeleton, minimal connected platform](APP_SKELETON_TECH_DESIGN.md#10-minimal-connected-platform)
 
+## ADR-017 — Commerce remains outside the learning platform
+
+- **Status:** Accepted; fixed product decision
+- **Decision:** Telugu Tutor does not implement offers, checkout, payment processing, subscription billing, refunds, tax handling, or transaction reconciliation. A separate commerce application or service may translate a commercial outcome into an explicit, resource-scoped and optionally time-bounded ability grant, change, or revocation.
+- **Rationale:** Learning behavior and authorization must not depend on a payment provider or assume that purchase is the only source of access. Complimentary, assigned, sponsored, purchased, subscribed, and restored access use the same authorization contract.
+- **Consequence:** Cards never receive commerce or transaction state. A refund or expiry removes only abilities derived from that source and preserves unrelated abilities, progress, Accomplishments, and permitted Submission history.
+- **Source:** [Platform specification, fixed decisions](../spec/platform_spec.md#2-fixed-platform-decisions)
+
 ## Open evidence and review triggers
 
 - Can an installed PWA provide an accepted first-class experience on Android, iOS, Windows, and macOS?
 - Can browser storage provide sufficient durability for permitted learner evidence and model packages?
 - Can useful local Telugu speech processing meet quality and resource gates through browser facilities?
-- Which instruction language beyond English should prove localization and fallback behavior?
-- What validated feature first requires an account or connected platform?
+- How long must restricted Chapter 01 content remain usable offline before reauthorization?
+- Which account recovery and credential-protection behavior is required for the first slice?
 - When should automatic pronunciation assessment enter scope?
 - Does any required media, input, accessibility, augmented-reality, or virtual-reality behavior require a native renderer or plug-in?
 

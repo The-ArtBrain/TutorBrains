@@ -28,7 +28,11 @@ This document does not define visual styling, screen layouts, wireframes, applic
 - Every required platform must support internationalized presentation. Telugu remains the canonical target language; the learner's instruction language, interface locale, transliteration preferences, and accessibility preferences are resolved independently and may be changed without changing Telugu content or learning progress.
 - Presentation definitions are declarative and platform-neutral. A Card rendering engine decides how to express them using the conventions and accessibility facilities of that platform.
 - The exact division between shared and platform-specific implementation is deferred until the logical contracts and local-intelligence requirements have been validated.
-- The server side absolute requirements are for authorization token validations for restricted lessons, course repository, assets for transliterations, student submissions exports etc. 
+- The learning applications and Telugu Tutor platform do not own commercial offers, checkout, payment processing, subscription billing, refunds, tax handling, or transaction reconciliation. Those responsibilities belong to a separate commerce application or service.
+- A commerce application may cause access to be granted, changed, renewed, suspended, restored, or revoked, but it communicates that outcome to Telugu Tutor only as explicit ability or entitlement changes. Each grant identifies its resource and operation scope, effective or expiry time where applicable, issuer, policy version, and provenance.
+- Paid access is not a special authorization mechanism. Complimentary, assigned, sponsored, purchased, subscribed, and restored access are evaluated through the same ability-based authorization contract. Cards do not receive prices, payment methods, transaction identifiers, subscription state, refund state, or commerce-provider identity.
+- Losing or refunding one commercial source removes only the abilities derived from that source. It must not remove unrelated abilities, learner progress, Accomplishments, or permitted Submission history.
+- The connected platform requirements include identity integration, authorization-token validation for restricted content, ability and entitlement evaluation, course-package and approved-asset delivery, and explicitly authorized learner-data operations. They do not require Telugu Tutor to implement commerce.
 
 ### Platform support matrix
 
@@ -248,12 +252,12 @@ A single registered service may satisfy several handles, and one Intelligence co
 | Learner-submission repository | Preserves authorized submission history as distinct Submission records linked to the learner, Card and Card version, referenced units, Course, Chapter, Lesson, time, Evaluation, score where valid, and raw-evidence reference where retained. |
 | Submission-history resolver | Retrieves all submissions an authorized learner or tutor may inspect and produces filtered or ordered review collections without changing the original Cards. |
 | Sensitive-evidence store | Retains raw audio, video, images, text, or strokes only under the applicable purpose, consent, retention, access, and deletion rules. |
-| Connected-service gateway | Provides one policy-controlled boundary for optional remote intelligence, content delivery, account, purchase, or synchronization capabilities. |
+| Connected-service gateway | Provides one policy-controlled boundary for remote intelligence, content delivery, account, authorization, ability or entitlement updates, and synchronization capabilities. Commerce-provider protocols and payment operations remain outside this boundary; only their resulting ability changes may enter it. |
 | Authorization evaluator | Checks explicitly granted abilities for protected content, data, and costly operations. |
 | Telemetry and diagnostics | Records approved product and reliability events without silently collecting sensitive learner evidence. |
 | Content administration and publication | Supports review, versioning, validation, approval, release, withdrawal, and rollback of course packages. |
 
-Cross-device progress recovery is not required. The initial last-accessed Card and Student Card map may remain local to each device. Accounts, synchronization, commerce, notifications, and connected intelligence may be introduced later without changing the Card-owned activity model.
+Cross-device progress recovery is not required. The initial last-accessed Card and Student Card map may remain local to each device. Accounts and restricted-content authorization are included in the first slice; synchronization, notifications, and connected intelligence may be introduced later without changing the Card-owned activity model. Commerce remains a separate application or service and can affect learning access only through explicit ability changes.
 
 ## 5. Logical presentation and composition model
 

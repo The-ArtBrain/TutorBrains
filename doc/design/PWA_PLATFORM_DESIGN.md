@@ -169,14 +169,17 @@ Application-store listing is platform-dependent and not assumed by this design.
 Run the same representative Cards on supported Android, iOS, Windows, and macOS browser versions:
 
 1. localized Telugu read/listen Card;
-2. microphone record, replay, cancel, permission refusal, and interruption;
-3. camera or upload, preview, retake, replace, and delete;
-4. mouse, touch, and stylus writing where hardware permits;
-5. signed course-package install, corrupt-update rejection, activation, and rollback;
-6. durable Student Card map, Submission, Evaluation, and evidence deletion;
-7. a real local speech or language model using WebGPU or Wasm;
-8. screen-reader, keyboard, text-scale, focus, live-region, and language-switch behavior; and
-9. offline relaunch after application, course, and model installation.
+2. English-default and Hindi instruction-language presentation, transliteration, switching, and disclosed fallback;
+3. account creation, sign-in, sign-out, token expiry, and invalid-session recovery;
+4. exact, wrong-scope, expired, malformed, and offline restricted-content ability decisions;
+5. microphone record, replay, cancel, permission refusal, and interruption;
+6. camera or upload, preview, retake, replace, and delete;
+7. mouse, touch, and stylus writing where hardware permits;
+8. signed course-package install, corrupt-update rejection, activation, and rollback;
+9. durable Student Card map, Submission, Evaluation, and evidence deletion;
+10. a real local speech or language model using WebGPU or Wasm;
+11. screen-reader, keyboard, text-scale, focus, live-region, and language-switch behavior; and
+12. offline relaunch after application, course, and model installation.
 
 ## 14. Acceptance conditions
 

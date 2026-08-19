@@ -1,7 +1,7 @@
 # Telugu Tutor App Skeleton Technical Design
 
 **Status:** Discussion draft  
-**Architecture direction:** Three semantic HTML schemes are under evaluation; none is selected  
+**Architecture direction:** PWA is selected for the first slice; the final production host remains open among three semantic HTML schemes  
 **Implements:** `../spec/platform_spec.md`  
 **Related:** `../spec/common_spec.md`, `../spec/capability_matrix.md`, and `../spec/student_onboarding_guide.md`
 
@@ -260,7 +260,7 @@ A grant contains an ability plus optional constraints such as course, chapter, C
 ### Connected and offline decisions
 
 - Public content needs no artificial sign-in requirement.
-- A connected authorization service is authoritative for restricted downloads, purchases, exports, cross-learner evidence access, and other server-side operations.
+- A connected authorization service is authoritative for restricted downloads, explicitly authorized exports, cross-learner evidence access, and other protected server-side operations. Commerce runs in a separate application or service and can affect Telugu Tutor only through explicit ability or entitlement changes.
 - After authentication, the server may issue a short-lived, signed offline entitlement envelope containing the minimum abilities and resource scopes needed on that device.
 - The local evaluator verifies signature, issuer, audience, time bounds, device binding where used, ability, resource scope, and policy version before allowing a protected local action.
 - Online critical operations are re-evaluated by the server; a prior local allow is not proof for the server request.
@@ -344,7 +344,9 @@ Start with a modular monolith, not microservices. The first connected deployment
 - authorized package and asset delivery; and
 - learner-initiated account or submission export when those capabilities are introduced.
 
-Private learner evidence upload, progress synchronization, commerce, remote intelligence, and content administration are later modules unless a validated release requirement needs them.
+Private learner evidence upload, progress synchronization, remote intelligence, and content administration are later modules unless a validated release requirement needs them.
+
+Commerce is not a later Telugu Tutor module. Offers, checkout, payment processing, subscription billing, refunds, tax handling, and transaction reconciliation remain in a separate application or service. The connected platform accepts only validated ability or entitlement changes resulting from that external system.
 
 Expose versioned Hypertext Transfer Protocol (HTTP) contracts described with OpenAPI. The client domain and service contracts must not depend on generated network models directly; gateway adapters translate between them.
 
@@ -413,13 +415,14 @@ This is a responsibility map, not permission to create every host as permanent p
 
 ## 13. Decisions to discuss next
 
-1. Which of the three schemes should enter the first feasibility spike?
-2. Which one or two Cards are the minimum representative skeleton: a localized read/listen Card plus a handwriting or speech Card?
-3. Which instruction language, in addition to English, should prove real fallback and script behavior?
-4. Must restricted course content remain usable offline in the first release, and for how long?
-5. Which assets ship in the application and which arrive only through course packages?
-6. Is an account required for the first technical prototype, or should it prove public and anonymous device-local use first?
-7. Which first connected capability makes a backend necessary: restricted lesson access, package publication, purchase, or export?
+Resolved for the first slice: use a PWA; implement Chapter 01; use Hindi as the second instruction language; and include account creation, sign-in, and ability-based restricted-content authorization through a minimal connected platform.
+
+1. Must restricted Chapter 01 content remain usable offline in the first release, and for how long?
+2. Which assets ship in the application and which arrive only through course packages?
+3. Which account recovery and credential-protection behavior is required for the first slice?
+4. Which Chapter 01 Cards form the minimum cross-platform feasibility fixture in addition to read/listen and speech?
+5. Which non-commerce sources may issue the first restricted-content abilities: assignment, sponsorship, administration, or a complimentary grant?
+6. Is learner-initiated account or submission export required in addition to the Chapter 01 pilot-data export?
 
 ## 14. Current comparison summary
 

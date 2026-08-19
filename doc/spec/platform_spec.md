@@ -4,6 +4,8 @@
 **Scope:** Platform requirements, logical runtime components, and platform-neutral course presentation entities  
 **Related specifications:** `common_spec.md`, `capability_matrix.md`, `characters_spec.md`, `grammar_spec.md`, `vocabulary_spec.md`, and `sentence_spec.md`
 
+**Implementation design:** [App skeleton technical design](../design/APP_SKELETON_TECH_DESIGN.md) compares three potential implementation schemes. The [Architecture Decision Record log](../design/ARCHITECTURE_DECISION_LOG.md) summarizes fixed, accepted, proposed, and deferred decisions. Candidate designs do not change the fixed platform decisions in this specification unless this specification is explicitly amended.
+
 ## 1. Purpose and boundary
 
 This document defines the product-level platform shape required to present and run Telugu Tutor lessons consistently across supported devices. It identifies logical components and their responsibilities without selecting programming languages, application frameworks, storage products, model vendors, service boundaries, or deployment architecture.

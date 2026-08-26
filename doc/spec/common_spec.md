@@ -128,15 +128,27 @@ Stop revealing help as soon as the pupil can complete the current Card. Do not f
 
 ## 6. Common experience and interface requirements
 
-The lesson uses one stable layout:
+Every Lesson contains five flat, directly navigable Cards in this recommended order:
 
-- top: chapter mission and unobtrusive progress through learning phases;
+| Card       | Lesson responsibility                                                                                                                                                                           |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Listen** | Present the target Telugu audio or other primary input first and invite the pupil to notice, distinguish, or predict before explanation.                                                        |
+| **Learn**  | Teach meaning, usage, form, rhythm, or pronunciation with progressive help and an active pupil response.                                                                                        |
+| **Build**  | Let the pupil construct, arrange, distinguish, read, type, or write the lesson's language forms. Building may use characters, syllables, words, sentences, or another chapter-appropriate unit. |
+| **Talk**   | Move from guided production to an understandable spoken or otherwise accessible communicative performance.                                                                                      |
+| **Check**  | Run a short lesson-scoped check, record supported evidence, and summarise what the pupil demonstrated without blocking access to other Cards.                                                   |
+
+These are Card identities and navigation targets, not child Cards, phases inside a parent Card, or a workflow controlled by the Lesson. The Lesson may recommend the order above, but the pupil can open, leave, revisit, or complete any accessible Card. A future Chapter test is separate from the Lesson's **Check** Card and requires its own specification.
+
+Each open Card uses one stable layout:
+
+- top: chapter mission and Lesson Card navigation with the current Card identified;
 - centre: the current Telugu expression, scene, or task;
 - below: contextual support such as meaning or word construction;
 - bottom: one primary action and a small set of help controls; and
 - persistent: pause, exit, and audio controls.
 
-Progress uses named learning phases rather than a countdown that pressures the pupil.
+Lesson navigation names **Listen**, **Learn**, **Build**, **Talk**, and **Check** rather than showing a countdown that pressures the pupil. The current Card and available destinations must be understandable without relying on colour alone. Use links or other navigation semantics when selecting a Card opens a distinct resource; do not expose these controls as tabs merely because they are arranged in one row.
 
 Every speaking activity defines these visible states:
 
@@ -223,12 +235,15 @@ Do not use time spent as the main success measure. Do not store raw audio, photo
 
 ## 9. Common acceptance criteria
 
+- Every Lesson provides directly navigable **Listen**, **Learn**, **Build**, **Talk**, and **Check** Cards.
+- Each of the five Lesson Cards requires an active pupil response appropriate to its responsibility.
+- Leaving or revisiting one Lesson Card does not force a sequence, change another Card's identity, or erase recorded work.
 - The tutor presents no more than one required task at a time.
 - English is the default instruction language, and another supported language can be selected or changed without losing progress.
 - Instructions, meanings, explanations, prompts, feedback, interface text, and transliteration use the selected instruction-language variant.
 - Transliteration is not required to use Roman script when another script or convention better serves the selected instruction language.
 - Changing the instruction language does not change canonical Telugu content, objectives, evidence, or completion state.
-- The pupil responds during every major phase; no phase consists only of passive reading.
+- No Lesson Card consists only of passive reading.
 - Help controls are initially hidden where the chapter specifies and can be revealed independently.
 - The tutor records the highest help level used for an objective.
 - After two unsuccessful attempts, the Card models the configured answer, marks **Revisit**, and allows the pupil to retry later or leave.

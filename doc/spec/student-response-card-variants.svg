@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1260" viewBox="0 0 1760 1260" role="img" aria-labelledby="title desc">
+  <title id="title">Learner response panel variants</title>
+  <desc id="desc">Editable Penpot-ready variants for blank writing, submitted artifact, and tutor feedback panels inside one logical lesson Card.</desc>
+  <defs>
+    <style>
+      .canvas{fill:#eef2ef}.board{fill:#fffdf8;stroke:#263b36;stroke-width:2}.panel{fill:#fff;stroke:#90a39c;stroke-width:2}.soft{fill:#f0f5f2;stroke:#b8c5c0;stroke-width:2}.primary{fill:#176b5b}.primaryText{fill:#fff}.success{fill:#e8f4ed;stroke:#6b9d80;stroke-width:2}.label{font:600 20px Inter,Arial,sans-serif;fill:#17332d}.body{font:400 18px Inter,Arial,sans-serif;fill:#17332d}.small{font:400 15px Inter,Arial,sans-serif;fill:#5e706b}.button{font:600 17px Inter,Arial,sans-serif}.title{font:700 34px Inter,Arial,sans-serif;fill:#17332d}.note{font:400 17px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#29453e}.telugu{font:700 42px "Noto Sans Telugu","Nirmala UI",sans-serif;fill:#17332d}
+    </style>
+  </defs>
+  <rect class="canvas" width="1760" height="1260"/>
+  <text class="title" x="40" y="54">Learner response panels · states and responsive behavior</text>
+  <text class="small" x="40" y="84">Each panel is a sibling section inside the same logical lesson Card.</text>
+
+  <g id="blank-writing-panel" transform="translate(40 130)" data-semantic="section" aria-label="Blank direct-writing response">
+    <text class="label" x="0" y="0">1 · Blank writing surface</text>
+    <rect class="board" y="24" width="800" height="430" rx="20"/>
+    <text class="label" x="28" y="72">Write నమస్కారం</text><text class="small" x="28" y="102">Use a stylus, finger, or mouse.</text>
+    <rect x="28" y="126" width="744" height="200" rx="12" fill="#fff" stroke="#90a39c" stroke-width="2" stroke-dasharray="8 8"/>
+    <path d="M60 275c70-80 120 40 190-25s125 42 210-12 120 38 250-50" fill="none" stroke="#d7dfdc" stroke-width="4"/>
+    <g data-semantic="button"><rect class="soft" x="28" y="350" width="120" height="50" rx="10"/><text class="button" x="88" y="381" text-anchor="middle">Undo</text><rect class="soft" x="164" y="350" width="120" height="50" rx="10"/><text class="button" x="224" y="381" text-anchor="middle">Clear</text><rect class="primary" x="572" y="350" width="200" height="50" rx="10"/><text class="button primaryText" x="672" y="381" text-anchor="middle">Preview</text></g>
+  </g>
+
+  <g id="submitted-artifact-panel" transform="translate(880 130)" data-semantic="section" aria-label="Submitted learner artifact">
+    <text class="label" x="0" y="0">2 · Submitted artifact</text>
+    <rect class="board" y="24" width="800" height="430" rx="20"/>
+    <text class="label" x="28" y="72">Your submission</text><text class="small" x="665" y="72">Image · just now</text>
+    <rect class="soft" x="28" y="98" width="744" height="216" rx="12"/>
+    <path d="M58 120h684v172H58z" fill="#fffdf8" stroke="#ccd6d2"/>
+    <text class="telugu" x="400" y="226" text-anchor="middle" transform="rotate(-2 400 226)">నమస్కారం</text>
+    <g data-semantic="button"><rect class="soft" x="28" y="340" width="145" height="50" rx="10"/><text class="button" x="100" y="371" text-anchor="middle">Replace</text><rect class="soft" x="190" y="340" width="145" height="50" rx="10"/><text class="button" x="262" y="371" text-anchor="middle">Delete</text><rect class="primary" x="572" y="340" width="200" height="50" rx="10"/><text class="button primaryText" x="672" y="371" text-anchor="middle">Submit</text></g>
+  </g>
+
+  <g id="feedback-panel" transform="translate(40 640)" data-semantic="section" aria-label="Tutor feedback on learner artifact">
+    <text class="label" x="0" y="0">3 · Feedback attached to the submission</text>
+    <rect class="board" y="24" width="1120" height="360" rx="20"/>
+    <text class="label" x="28" y="72">Your submission</text>
+    <rect class="soft" x="28" y="98" width="450" height="220" rx="12"/><text class="telugu" x="253" y="220" text-anchor="middle">నమస్కారం</text>
+    <g transform="translate(510 98)"><rect class="success" width="582" height="220" rx="12"/><text class="label" x="24" y="48">Recognisable writing</text><text class="body" x="24" y="86">The word is complete and easy to identify.</text><text class="body" x="24" y="124">One improvement: leave a little more space</text><text class="body" x="24" y="151">above the long ā sign.</text><rect class="primary" x="24" y="170" width="210" height="42" rx="9"/><text class="button primaryText" x="129" y="197" text-anchor="middle">Try one correction</text><text class="button" x="330" y="197">Continue</text></g>
+  </g>
+
+  <g id="mobile-response-example" transform="translate(1210 640)" data-semantic="section" aria-label="Mobile response panel">
+    <text class="label" x="0" y="0">Mobile · 390 px</text>
+    <rect class="board" y="24" width="390" height="510" rx="22"/>
+    <text class="label" x="18" y="70">Your submission</text>
+    <rect class="soft" x="18" y="92" width="354" height="174" rx="12"/><text class="telugu" x="195" y="192" text-anchor="middle">నమస్కారం</text>
+    <rect class="success" x="18" y="286" width="354" height="142" rx="12"/><text class="label" x="36" y="322">Recognisable writing</text><text class="small" x="36" y="352">One useful correction appears here.</text><rect class="primary" x="18" y="446" width="354" height="50" rx="10"/><text class="button primaryText" x="195" y="477" text-anchor="middle">Continue</text>
+  </g>
+
+  <g transform="translate(40 1160)">
+    <text class="label" x="0" y="0">Semantic implementation map</text>
+    <text class="note" x="0" y="32">Within the lesson &lt;article&gt;: one &lt;section aria-labelledby="response-heading"&gt; changes state; use &lt;form&gt;, &lt;fieldset&gt;, &lt;canvas&gt;, &lt;figure&gt;, and real &lt;button&gt; controls as appropriate.</text>
+    <text class="note" x="0" y="62">The saved Submission/Evaluation relationship belongs to application data. Visual cards and panels do not imply nested domain Cards.</text>
+  </g>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2860" height="1510" viewBox="0 0 2860 1510" role="img" aria-labelledby="title desc">
+  <title id="title">Responsive student preferences wireframe</title>
+  <desc id="desc">Editable desktop, tablet, and mobile preferences-page wireframes for Telugu Tutor, based on the handwritten sketch.</desc>
+  <defs>
+    <style>
+      .canvas{fill:#eef2ef}.frame{fill:#fffdf8;stroke:#263b36;stroke-width:2}.line{stroke:#b8c5c0;stroke-width:2}.soft{fill:#f0f5f2;stroke:#b8c5c0;stroke-width:2}.panel{fill:#fff;stroke:#90a39c;stroke-width:2}.primary{fill:#176b5b}.primaryText{fill:#fff}.accent{fill:#f3b642}.label{font:600 18px Inter,Arial,sans-serif;fill:#17332d}.body{font:400 22px Inter,Arial,sans-serif;fill:#17332d}.small{font:400 16px Inter,Arial,sans-serif;fill:#5e706b}.button{font:600 20px Inter,Arial,sans-serif;fill:#17332d}.button.primaryText{fill:#fff}.title{font:700 36px Inter,Arial,sans-serif;fill:#17332d}.pageTitle{font:700 46px Inter,Arial,sans-serif;fill:#17332d}.frameName{font:700 22px Inter,Arial,sans-serif;fill:#17332d}.note{font:400 18px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#29453e}
+    </style>
+  </defs>
+  <rect class="canvas" width="2860" height="1510"/>
+  <text class="title" x="40" y="52">Student preferences · responsive wireframe</text>
+  <text class="small" x="40" y="82">Penpot-ready SVG · matches the landing and lesson theme</text>
+
+  <text class="frameName" x="40" y="118">Desktop · 1440 × 1024</text>
+  <g id="preferences-desktop" transform="translate(40 140)" data-semantic="body">
+    <rect class="frame" width="1440" height="1024" rx="12"/>
+    <g data-semantic="header">
+      <path class="primary" d="M42 28h32v32H42z"/><path d="M50 53V35h16v18M50 43h16" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="label" x="90" y="54">Telugu Tutor</text>
+      <g data-semantic="nav" aria-label="Page navigation"><text class="label" x="1260" y="54">Close</text></g>
+      <line class="line" x1="0" y1="88" x2="1440" y2="88"/>
+    </g>
+    <g data-semantic="main" transform="translate(260 150)">
+      <text class="pageTitle" x="0" y="54">Preferences</text>
+      <text class="body" x="0" y="94">Change how Telugu Tutor explains and displays your lessons.</text>
+      <g data-semantic="section" aria-label="Learning identity" transform="translate(0 140)">
+        <rect class="panel" width="920" height="170" rx="20"/>
+        <circle class="accent" cx="72" cy="76" r="34"/>
+        <path d="M58 77c0-17 28-17 28 0M52 101c7-15 33-15 40 0" fill="none" stroke="#17332d" stroke-width="4" stroke-linecap="round"/>
+        <text class="small" x="128" y="58">Signed in as</text><text class="title" x="128" y="101">Gagan</text>
+        <text class="label" x="785" y="88">Sign out</text>
+      </g>
+      <g data-semantic="form" aria-label="Preference settings" transform="translate(0 350)">
+        <rect class="panel" width="920" height="300" rx="20"/>
+        <text class="title" x="36" y="62">Instruction language</text>
+        <text class="body" x="36" y="102">Used for instructions, meanings, feedback, and transliteration.</text>
+        <g data-semantic="label" transform="translate(36 144)"><text class="label" x="0" y="0">Language</text><rect class="soft" x="0" y="22" width="848" height="64" rx="12"/><text class="button" x="22" y="62">English</text><path d="M812 48l10 10 10-10" fill="none" stroke="#17332d" stroke-width="3" stroke-linecap="round"/></g>
+        <text class="small" x="36" y="264">Telugu lesson content and saved progress do not change when this preference changes.</text>
+      </g>
+      <g data-semantic="button" transform="translate(0 690)"><rect class="primary" width="280" height="60" rx="12"/><text class="button primaryText" x="140" y="38" text-anchor="middle">Save preferences</text></g>
+      <text class="label" x="320" y="728">Cancel</text>
+    </g>
+  </g>
+
+  <text class="frameName" x="1530" y="118">Tablet · 834 × 1194</text>
+  <g id="preferences-tablet" transform="translate(1530 140)" data-semantic="body">
+    <rect class="frame" width="834" height="1194" rx="12"/>
+    <g data-semantic="header"><path class="primary" d="M28 28h32v32H28z"/><text class="label" x="75" y="53">Telugu Tutor</text><text class="label" x="720" y="53">Close</text><line class="line" x1="0" y1="88" x2="834" y2="88"/></g>
+    <g data-semantic="main" transform="translate(67 144)">
+      <text class="pageTitle" x="0" y="52">Preferences</text><text class="body" x="0" y="92">Change how lessons are presented.</text>
+      <g data-semantic="section" transform="translate(0 140)"><rect class="panel" width="700" height="190" rx="20"/><circle class="accent" cx="66" cy="78" r="32"/><text class="small" x="118" y="62">Signed in as</text><text class="title" x="118" y="103">Gagan</text><text class="label" x="568" y="92">Sign out</text></g>
+      <g data-semantic="form" transform="translate(0 370)"><rect class="panel" width="700" height="338" rx="20"/><text class="title" x="32" y="62">Instruction language</text><text class="body" x="32" y="102">Instructions, meanings, feedback,</text><text class="body" x="32" y="134">and transliteration use this language.</text><text class="label" x="32" y="186">Language</text><rect class="soft" x="32" y="208" width="636" height="64" rx="12"/><text class="button" x="54" y="248">English</text><path d="M626 234l10 10 10-10" fill="none" stroke="#17332d" stroke-width="3"/><text class="small" x="32" y="310">Telugu content and progress remain unchanged.</text></g>
+      <g data-semantic="button" transform="translate(0 752)"><rect class="primary" width="700" height="60" rx="12"/><text class="button primaryText" x="350" y="38" text-anchor="middle">Save preferences</text></g>
+      <text class="label" x="350" y="858" text-anchor="middle">Cancel</text>
+    </g>
+  </g>
+
+  <text class="frameName" x="2415" y="118">Mobile · 390 × 844</text>
+  <g id="preferences-mobile" transform="translate(2415 140)" data-semantic="body">
+    <rect class="frame" width="390" height="844" rx="22"/>
+    <g data-semantic="header"><path class="primary" d="M20 22h28v28H20z"/><text class="label" x="60" y="44">Telugu Tutor</text><text class="small" x="333" y="43">Close</text><line class="line" x1="0" y1="70" x2="390" y2="70"/></g>
+    <g data-semantic="main" transform="translate(18 98)">
+      <text class="title" x="0" y="40">Preferences</text>
+      <g data-semantic="section" transform="translate(0 76)"><rect class="panel" width="354" height="132" rx="16"/><circle class="accent" cx="48" cy="52" r="26"/><text class="small" x="88" y="44">Signed in as</text><text class="label" x="88" y="74">Gagan</text><text class="small" x="268" y="67">Sign out</text></g>
+      <g data-semantic="form" transform="translate(0 232)"><rect class="panel" width="354" height="294" rx="16"/><text class="label" x="20" y="42">Instruction language</text><text class="small" x="20" y="74">Instructions, meanings, feedback,</text><text class="small" x="20" y="98">and transliteration.</text><text class="label" x="20" y="144">Language</text><rect class="soft" x="20" y="164" width="314" height="60" rx="10"/><text class="button" x="38" y="202">English</text><path d="M300 188l9 9 9-9" fill="none" stroke="#17332d" stroke-width="3"/><text class="small" x="20" y="258">Telugu content and progress stay the same.</text></g>
+      <g data-semantic="button" transform="translate(0 552)"><rect class="primary" width="354" height="56" rx="12"/><text class="button primaryText" x="177" y="36" text-anchor="middle">Save preferences</text></g>
+      <text class="label" x="177" y="650" text-anchor="middle">Cancel</text>
+    </g>
+  </g>
+
+  <g transform="translate(40 1375)">
+    <text class="label" x="0" y="0">Semantic implementation map</text>
+    <text class="note" x="0" y="34">&lt;header&gt; + &lt;nav&gt; · &lt;main&gt; &lt;h1&gt; · identity &lt;section&gt; · preferences &lt;form&gt; with associated &lt;label&gt; and native &lt;select&gt; · real save/sign-out controls</text>
+    <text class="note" x="0" y="66">Responsive rule: preserve the same fields and account state; stack controls without converting labels into placeholders.</text>
+  </g>
+</svg>

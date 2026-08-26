@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2860" height="1510" viewBox="0 0 2860 1510" role="img" aria-labelledby="title desc">
+  <title id="title">Responsive student landing wireframe</title>
+  <desc id="desc">Editable desktop, tablet, and mobile landing-page wireframes for Telugu Tutor, with semantic HTML implementation notes.</desc>
+  <defs>
+    <style>
+      .canvas{fill:#eef2ef}.frame{fill:#fffdf8;stroke:#263b36;stroke-width:2}.ink{fill:#17332d}.muted{fill:#5e706b}.line{stroke:#b8c5c0;stroke-width:2}.soft{fill:#f0f5f2;stroke:#b8c5c0;stroke-width:2}.primary{fill:#176b5b}.primaryText{fill:#fff}.accent{fill:#f3b642}.label{font:600 18px Inter,Arial,sans-serif;fill:#17332d}.body{font:400 22px Inter,Arial,sans-serif;fill:#17332d}.small{font:400 16px Inter,Arial,sans-serif;fill:#5e706b}.button{font:600 20px Inter,Arial,sans-serif}.telugu{font:700 64px "Noto Sans Telugu","Nirmala UI",sans-serif;fill:#17332d}.teluguM{font:700 50px "Noto Sans Telugu","Nirmala UI",sans-serif;fill:#17332d}.teluguS{font:700 42px "Noto Sans Telugu","Nirmala UI",sans-serif;fill:#17332d}.title{font:700 36px Inter,Arial,sans-serif;fill:#17332d}.frameName{font:700 22px Inter,Arial,sans-serif;fill:#17332d}.note{font:400 18px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#29453e}
+    </style>
+  </defs>
+  <rect class="canvas" width="2860" height="1510"/>
+  <text class="title" x="40" y="52">Student landing · responsive wireframe</text>
+  <text class="small" x="40" y="82">Penpot-ready SVG · all text and shapes remain editable</text>
+
+  <text class="frameName" x="40" y="118">Desktop · 1440 × 1024</text>
+  <g id="landing-desktop" transform="translate(40 140)" data-semantic="body">
+    <rect class="frame" width="1440" height="1024" rx="12"/>
+    <g id="desktop-header" data-semantic="header">
+      <rect x="0" y="0" width="1440" height="88" rx="12" fill="#fffdf8"/>
+      <path class="primary" d="M42 28h32v32H42z"/><path d="M50 53V35h16v18M50 43h16" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="label" x="90" y="54">Telugu Tutor</text>
+      <g data-semantic="nav" aria-label="Account and language" transform="translate(1035 22)">
+        <rect class="soft" width="165" height="44" rx="10"/><text class="small" x="18" y="28">English ▾</text>
+        <text class="label" x="198" y="29">Sign in</text>
+      </g>
+      <line class="line" x1="0" y1="88" x2="1440" y2="88"/>
+    </g>
+    <g id="desktop-main" data-semantic="main" transform="translate(180 148)">
+      <g data-semantic="section" aria-label="Welcome">
+        <text class="telugu" x="540" y="90" text-anchor="middle">స్వాగతం</text>
+        <text class="body" x="540" y="132" text-anchor="middle">Svāgataṁ · Welcome</text>
+        <text class="title" x="540" y="212" text-anchor="middle">Learn practical Telugu, one conversation at a time.</text>
+        <text class="body" x="540" y="254" text-anchor="middle">Hear it, speak it, understand it, and write it—with help when you need it.</text>
+      </g>
+      <g data-semantic="section" aria-label="First-time setup" transform="translate(190 330)">
+        <rect class="soft" width="700" height="300" rx="22"/>
+        <circle class="accent" cx="72" cy="72" r="34"/>
+        <path d="M58 74c0-17 28-17 28 0M52 98c7-15 33-15 40 0" fill="none" stroke="#17332d" stroke-width="4" stroke-linecap="round"/>
+        <text class="title" x="126" y="70">Set up your learning profile</text>
+        <text class="body" x="126" y="108">Choose your instruction language and learning preferences.</text>
+        <g data-semantic="button" transform="translate(126 150)">
+          <rect class="primary" width="300" height="58" rx="12"/><text class="button primaryText" x="150" y="37" text-anchor="middle">Start setup</text>
+        </g>
+        <text class="small" x="126" y="246">Already have a profile?</text>
+        <text class="label" x="302" y="246">Sign in</text>
+      </g>
+      <text class="small" x="540" y="705" text-anchor="middle">After setup, this panel becomes “Continue to Chapter 01” or the configured destination.</text>
+    </g>
+  </g>
+
+  <text class="frameName" x="1530" y="118">Tablet · 834 × 1194</text>
+  <g id="landing-tablet" transform="translate(1530 140)" data-semantic="body">
+    <rect class="frame" width="834" height="1194" rx="12"/>
+    <g data-semantic="header">
+      <path class="primary" d="M28 28h32v32H28z"/><text class="label" x="75" y="53">Telugu Tutor</text>
+      <rect class="soft" x="608" y="22" width="150" height="44" rx="10"/><text class="small" x="625" y="50">English ▾</text>
+      <line class="line" x1="0" y1="88" x2="834" y2="88"/>
+    </g>
+    <g data-semantic="main" transform="translate(67 160)">
+      <text class="teluguM" x="350" y="64" text-anchor="middle">స్వాగతం</text>
+      <text class="body" x="350" y="105" text-anchor="middle">Svāgataṁ · Welcome</text>
+      <text class="title" x="350" y="184" text-anchor="middle">Learn practical Telugu</text>
+      <text class="body" x="350" y="225" text-anchor="middle">one conversation at a time.</text>
+      <g data-semantic="section" transform="translate(0 310)">
+        <rect class="soft" width="700" height="350" rx="22"/>
+        <circle class="accent" cx="350" cy="76" r="34"/>
+        <text class="title" x="350" y="146" text-anchor="middle">Set up your learning profile</text>
+        <text class="body" x="350" y="190" text-anchor="middle">Choose language and preferences.</text>
+        <g data-semantic="button" transform="translate(200 230)"><rect class="primary" width="300" height="58" rx="12"/><text class="button primaryText" x="150" y="37" text-anchor="middle">Start setup</text></g>
+        <text class="small" x="350" y="326" text-anchor="middle">Already have a profile?  <tspan class="label">Sign in</tspan></text>
+      </g>
+      <text class="small" x="350" y="730" text-anchor="middle">Returning students see their configured destination here.</text>
+    </g>
+  </g>
+
+  <text class="frameName" x="2415" y="118">Mobile · 390 × 844</text>
+  <g id="landing-mobile" transform="translate(2415 140)" data-semantic="body">
+    <rect class="frame" width="390" height="844" rx="22"/>
+    <g data-semantic="header">
+      <path class="primary" d="M20 22h28v28H20z"/><text class="label" x="60" y="44">Telugu Tutor</text>
+      <circle class="soft" cx="352" cy="36" r="20"/><text class="small" x="352" y="42" text-anchor="middle">EN</text>
+      <line class="line" x1="0" y1="70" x2="390" y2="70"/>
+    </g>
+    <g data-semantic="main" transform="translate(20 104)">
+      <text class="teluguS" x="175" y="52" text-anchor="middle">స్వాగతం</text>
+      <text class="small" x="175" y="82" text-anchor="middle">Svāgataṁ · Welcome</text>
+      <text class="label" x="175" y="139" text-anchor="middle">Learn practical Telugu,</text>
+      <text class="label" x="175" y="166" text-anchor="middle">one conversation at a time.</text>
+      <g data-semantic="section" transform="translate(0 220)">
+        <rect class="soft" width="350" height="342" rx="18"/>
+        <circle class="accent" cx="175" cy="58" r="28"/>
+        <text class="label" x="175" y="116" text-anchor="middle">Set up your learning profile</text>
+        <text class="small" x="175" y="151" text-anchor="middle">Choose your instruction language</text>
+        <text class="small" x="175" y="175" text-anchor="middle">and learning preferences.</text>
+        <g data-semantic="button" transform="translate(20 214)"><rect class="primary" width="310" height="56" rx="12"/><text class="button primaryText" x="155" y="36" text-anchor="middle">Start setup</text></g>
+        <text class="small" x="175" y="312" text-anchor="middle">Already have a profile?  <tspan class="label">Sign in</tspan></text>
+      </g>
+      <text class="small" x="175" y="610" text-anchor="middle">After setup: continue to the selected destination.</text>
+    </g>
+  </g>
+
+  <g id="landing-notes" transform="translate(40 1375)">
+    <text class="label" x="0" y="0">Semantic implementation map</text>
+    <text class="note" x="0" y="34">&lt;header&gt; brand + account/language · &lt;main&gt; &lt;section aria-labelledby="welcome"&gt; · setup &lt;section&gt; · real &lt;button&gt;/&lt;a&gt; controls</text>
+    <text class="note" x="0" y="66">Responsive rule: reflow the same content; do not remove language, sign-in, setup, or destination access at smaller widths.</text>
+  </g>
+</svg>

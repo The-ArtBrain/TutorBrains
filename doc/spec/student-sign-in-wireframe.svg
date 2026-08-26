@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2860" height="1510" viewBox="0 0 2860 1510" role="img" aria-labelledby="title desc">
+  <title id="title">Responsive student sign-in wireframe</title>
+  <desc id="desc">Editable desktop, tablet, and mobile sign-in-page wireframes for Telugu Tutor, with Google, Apple, Facebook, and guest choices from the sketch and onboarding specification.</desc>
+  <defs>
+    <style>
+      .canvas{fill:#eef2ef}.frame{fill:#fffdf8;stroke:#263b36;stroke-width:2}.line{stroke:#b8c5c0;stroke-width:2}.soft{fill:#f0f5f2;stroke:#b8c5c0;stroke-width:2}.panel{fill:#fff;stroke:#90a39c;stroke-width:2}.primary{fill:#176b5b}.primaryText{fill:#fff}.accent{fill:#f3b642}.label{font:600 18px Inter,Arial,sans-serif;fill:#17332d}.body{font:400 22px Inter,Arial,sans-serif;fill:#17332d}.small{font:400 16px Inter,Arial,sans-serif;fill:#5e706b}.button{font:600 20px Inter,Arial,sans-serif;fill:#17332d}.button.primaryText{fill:#fff}.title{font:700 36px Inter,Arial,sans-serif;fill:#17332d}.pageTitle{font:700 46px Inter,Arial,sans-serif;fill:#17332d}.frameName{font:700 22px Inter,Arial,sans-serif;fill:#17332d}.note{font:400 18px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#29453e}.providerMark{font:700 22px Inter,Arial,sans-serif;fill:#17332d}
+    </style>
+  </defs>
+  <rect class="canvas" width="2860" height="1510"/>
+  <text class="title" x="40" y="52">Student sign in · responsive wireframe</text>
+  <text class="small" x="40" y="82">Penpot-ready SVG · provider choices remain configurable</text>
+
+  <text class="frameName" x="40" y="118">Desktop · 1440 × 1024</text>
+  <g id="sign-in-desktop" transform="translate(40 140)" data-semantic="body">
+    <rect class="frame" width="1440" height="1024" rx="12"/>
+    <g data-semantic="header"><path class="primary" d="M42 28h32v32H42z"/><path d="M50 53V35h16v18M50 43h16" fill="none" stroke="#fff" stroke-width="3"/><text class="label" x="90" y="54">Telugu Tutor</text><text class="label" x="1260" y="54">Back</text><line class="line" x1="0" y1="88" x2="1440" y2="88"/></g>
+    <g data-semantic="main" transform="translate(420 142)">
+      <g data-semantic="section" aria-label="Sign in choices"><rect class="panel" width="600" height="720" rx="24"/><circle class="accent" cx="300" cy="76" r="34"/><path d="M286 78c0-17 28-17 28 0M280 102c7-15 33-15 40 0" fill="none" stroke="#17332d" stroke-width="4" stroke-linecap="round"/><text class="pageTitle" x="300" y="162" text-anchor="middle">Sign in</text><text class="body" x="300" y="202" text-anchor="middle">Continue your Telugu learning.</text>
+        <g data-semantic="button" transform="translate(70 256)"><rect class="soft" width="460" height="64" rx="12"/><circle cx="38" cy="32" r="18" fill="#fff" stroke="#90a39c"/><text class="providerMark" x="38" y="40" text-anchor="middle">G</text><text class="button" x="230" y="40" text-anchor="middle">Continue with Google</text></g>
+        <g data-semantic="button" transform="translate(70 340)"><rect class="soft" width="460" height="64" rx="12"/><circle cx="38" cy="32" r="18" fill="#fff" stroke="#90a39c"/><text class="providerMark" x="38" y="40" text-anchor="middle">A</text><text class="button" x="230" y="40" text-anchor="middle">Continue with Apple</text></g>
+        <g data-semantic="button" transform="translate(70 424)"><rect class="soft" width="460" height="64" rx="12"/><circle cx="38" cy="32" r="18" fill="#fff" stroke="#90a39c"/><text class="providerMark" x="38" y="40" text-anchor="middle">f</text><text class="button" x="230" y="40" text-anchor="middle">Continue with Facebook</text></g>
+        <line class="line" x1="70" y1="540" x2="250" y2="540"/><text class="small" x="300" y="546" text-anchor="middle">or</text><line class="line" x1="350" y1="540" x2="530" y2="540"/>
+        <text class="label" x="300" y="600" text-anchor="middle">Continue as guest</text>
+        <text class="small" x="300" y="650" text-anchor="middle">Your provider shares only the account details</text><text class="small" x="300" y="675" text-anchor="middle">needed to sign in. Lesson evidence remains separate.</text>
+      </g>
+    </g>
+  </g>
+
+  <text class="frameName" x="1530" y="118">Tablet · 834 × 1194</text>
+  <g id="sign-in-tablet" transform="translate(1530 140)" data-semantic="body">
+    <rect class="frame" width="834" height="1194" rx="12"/>
+    <g data-semantic="header"><path class="primary" d="M28 28h32v32H28z"/><text class="label" x="75" y="53">Telugu Tutor</text><text class="label" x="720" y="53">Back</text><line class="line" x1="0" y1="88" x2="834" y2="88"/></g>
+    <g data-semantic="main" transform="translate(97 150)"><g data-semantic="section"><rect class="panel" width="640" height="790" rx="24"/><circle class="accent" cx="320" cy="82" r="34"/><text class="pageTitle" x="320" y="168" text-anchor="middle">Sign in</text><text class="body" x="320" y="210" text-anchor="middle">Continue your Telugu learning.</text>
+      <g transform="translate(60 270)"><rect class="soft" width="520" height="66" rx="12"/><text class="providerMark" x="42" y="42" text-anchor="middle">G</text><text class="button" x="270" y="42" text-anchor="middle">Continue with Google</text></g>
+      <g transform="translate(60 358)"><rect class="soft" width="520" height="66" rx="12"/><text class="providerMark" x="42" y="42" text-anchor="middle">A</text><text class="button" x="270" y="42" text-anchor="middle">Continue with Apple</text></g>
+      <g transform="translate(60 446)"><rect class="soft" width="520" height="66" rx="12"/><text class="providerMark" x="42" y="42" text-anchor="middle">f</text><text class="button" x="270" y="42" text-anchor="middle">Continue with Facebook</text></g>
+      <line class="line" x1="60" y1="572" x2="265" y2="572"/><text class="small" x="320" y="578" text-anchor="middle">or</text><line class="line" x1="375" y1="572" x2="580" y2="572"/><text class="label" x="320" y="638" text-anchor="middle">Continue as guest</text><text class="small" x="320" y="700" text-anchor="middle">Sign-in details and learning evidence remain separate.</text>
+    </g></g>
+  </g>
+
+  <text class="frameName" x="2415" y="118">Mobile · 390 × 844</text>
+  <g id="sign-in-mobile" transform="translate(2415 140)" data-semantic="body">
+    <rect class="frame" width="390" height="844" rx="22"/>
+    <g data-semantic="header"><path class="primary" d="M20 22h28v28H20z"/><text class="label" x="60" y="44">Telugu Tutor</text><text class="small" x="340" y="43">Back</text><line class="line" x1="0" y1="70" x2="390" y2="70"/></g>
+    <g data-semantic="main" transform="translate(18 102)"><g data-semantic="section"><circle class="accent" cx="177" cy="38" r="30"/><text class="title" x="177" y="112" text-anchor="middle">Sign in</text><text class="small" x="177" y="142" text-anchor="middle">Continue your Telugu learning.</text>
+      <g transform="translate(0 184)"><rect class="soft" width="354" height="60" rx="12"/><text class="providerMark" x="38" y="38" text-anchor="middle">G</text><text class="button" x="190" y="38" text-anchor="middle">Continue with Google</text></g>
+      <g transform="translate(0 264)"><rect class="soft" width="354" height="60" rx="12"/><text class="providerMark" x="38" y="38" text-anchor="middle">A</text><text class="button" x="190" y="38" text-anchor="middle">Continue with Apple</text></g>
+      <g transform="translate(0 344)"><rect class="soft" width="354" height="60" rx="12"/><text class="providerMark" x="38" y="38" text-anchor="middle">f</text><text class="button" x="190" y="38" text-anchor="middle">Continue with Facebook</text></g>
+      <line class="line" x1="0" y1="454" x2="130" y2="454"/><text class="small" x="177" y="460" text-anchor="middle">or</text><line class="line" x1="224" y1="454" x2="354" y2="454"/><text class="label" x="177" y="520" text-anchor="middle">Continue as guest</text><text class="small" x="177" y="580" text-anchor="middle">Sign-in details and learning evidence</text><text class="small" x="177" y="604" text-anchor="middle">remain separate.</text>
+    </g></g>
+  </g>
+
+  <g transform="translate(40 1375)">
+    <text class="label" x="0" y="0">Semantic implementation map</text>
+    <text class="note" x="0" y="34">&lt;header&gt; + back &lt;nav&gt; · &lt;main&gt; &lt;h1&gt; · provider choices in a labelled &lt;section&gt; or &lt;form&gt; · each provider and guest choice is a full-text &lt;button&gt;/&lt;a&gt;</text>
+    <text class="note" x="0" y="66">Provider names are wireframe configuration, not an architecture commitment. Announce authentication errors near the selected control and move focus to the message.</text>
+  </g>
+</svg>

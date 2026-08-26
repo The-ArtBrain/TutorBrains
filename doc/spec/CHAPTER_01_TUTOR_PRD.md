@@ -108,22 +108,23 @@ In addition to the common tutor contract, the Chapter 01 tutor must:
 
 ## 8. Experience structure
 
-| Phase | Target time | Tutor action | Pupil action | Evidence captured |
+Chapter 01 Lesson 1 implements the common five-Card Lesson contract. The rows below are five flat, directly navigable Cards, not sequential phases or Cards nested inside another Card.
+
+| Card | Target time | Included Chapter 01 activities | Pupil action | Evidence captured |
 |---|---:|---|---|---|
-| Welcome and setup | 1 min | States the mission and checks audio | Chooses full or fallback session | Session choice, audio readiness |
-| Hear the exchange | 2 min | Plays the dialogue twice | Infers situation, repetition, and question | Comprehension responses |
-| Learn four expressions | 5 min | Models meaning, use, and rhythm | Listens and repeats | Help used, attempt status |
-| See how script works | 5 min | Gives a map, then focuses the scope | Explores without being tested on the full chart | Script comfort signal |
-| Build the words | 7 min | Reveals word construction gradually | Matches sounds, forms, and expressions | Recognition and construction results |
-| Guided conversation | 6 min | Plays the other speaker and changes roles | Completes and performs the dialogue | Prompt level per line |
-| Independent performance | 3 min | Sets the scene and listens | Records one complete greeting | Baseline recording, intelligibility status |
-| Exit check | 1 min | Runs four quick checks and summarises | Recalls, identifies, and reflects | Independent, Prompted, or Revisit |
+| **Listen** | 3 min | Welcome and setup; hear the complete exchange | Chooses the full or fallback route, checks audio, and infers situation, repetition, and question | Session choice, audio readiness, comprehension responses |
+| **Learn** | 5 min | Understand and imitate the four expressions | Listens, notices meaning and respectful usage, repeats, and requests help when needed | Help used, attempt status |
+| **Build** | 12 min | Script orientation; construct the greeting words; submit handwriting | Matches sounds and forms, assembles expressions, recognises active characters, and writes the required sample | Script comfort, recognition, construction, and writing results |
+| **Talk** | 9 min | Guided conversation; independent performance | Completes both dialogue roles and performs one complete greeting | Prompt level per line, baseline recording, intelligibility status |
+| **Check** | 1 min | Exit check and reflection | Recalls, identifies, performs, and reflects | Independent, Prompted, Revisit, or Not assessed |
 
 The prototype may vary timings based on pupil responses, but should normally finish between 25 and 35 minutes.
 
+The learner may open or revisit any accessible Lesson Card. The order above remains pedagogical guidance, not Lesson-controlled orchestration. The **Check** Card assesses this Lesson only; it is not the future Chapter test.
+
 ## 9. Detailed tutor flow
 
-### 9.1 Welcome and setup
+### 9.1 Welcome and setup — Listen Card
 
 The first screen says what the pupil will be able to do, not what content they will consume:
 
@@ -136,7 +137,7 @@ Required actions:
 
 Before the first recording, request microphone access in context and provide **Continue without recording**. Include a short audio check with replay.
 
-### 9.2 Hear the greeting first
+### 9.2 Hear the greeting first — Listen Card
 
 Play the full exchange once without text. Then ask the three lesson questions one at a time:
 
@@ -146,7 +147,7 @@ Play the full exchange once without text. Then ask the three lesson questions on
 
 After the pupil responds, replay the exchange with Telugu script. Meaning and instruction-language-appropriate transliteration remain hidden until requested or until the first failed comprehension attempt.
 
-### 9.3 Understand and imitate
+### 9.3 Understand and imitate — Learn Card
 
 Teach one expression at a time:
 
@@ -168,7 +169,7 @@ For each expression:
 
 The pupil can tap **Meaning**, **Say it slowly**, or **Show transliteration**. These controls are recorded as scaffolding use, never as errors.
 
-### 9.4 Script orientation
+### 9.4 Script orientation — Build Card
 
 Show the complete Telugu character map as an optional, scrollable reference so the writing system has visible structure. Clearly label it:
 
@@ -176,7 +177,7 @@ Show the complete Telugu character map as an optional, scrollable reference so t
 
 The guided path focuses only on **న, మ, స, క, ర, బ, గ** and the forms **ా, ీ, ు, ్, ం, న్న**. Do not require the pupil to scroll through or memorise the full map before continuing.
 
-### 9.5 Build the greeting words
+### 9.5 Build the greeting words — Build Card
 
 Use interactive construction rather than a static explanation:
 
@@ -207,7 +208,7 @@ The handwriting interaction must:
 
 The tutor must describe uncertainty honestly. If it cannot confidently read the sample, it says that the writing could not be assessed and offers a retry or another input mechanism. If no written-input mechanism is available or accessible, **Continue without writing assessment** remains a technical-failure and accessibility escape hatch; the handwriting objective is marked **Not assessed**, not complete.
 
-### 9.6 Guided conversation
+### 9.6 Guided conversation — Talk Card
 
 The screen becomes a conversation scene. The tutor represents one speaker and plays or displays one turn at a time.
 
@@ -220,7 +221,7 @@ Rounds:
 
 The pupil should always know whose turn it is. While recording, the interface displays a calm listening state and does not animate grades or transcription.
 
-### 9.7 Independent performance
+### 9.7 Independent performance — Talk Card
 
 Set a concrete scene:
 
@@ -228,7 +229,7 @@ Set a concrete scene:
 
 Remove transliteration and instruction-language meaning. Permit the pupil to reveal the Telugu lines, but record that the performance was prompted. Save the first completed recording as the Chapter 1 baseline. Offer at most one optional re-recording.
 
-### 9.8 Exit check and reflection
+### 9.8 Exit check and reflection — Check Card
 
 Ask the four existing exit checks without showing the source material. Mark each as:
 
@@ -259,20 +260,20 @@ Use the common help ladder and response rules in `common_spec.md`.
 
 ## 11. Five-minute fallback flow
 
-The fallback is a legitimate continuity mode, not a completed full lesson.
+The fallback is a legitimate continuity mode, not a completed full lesson. It preserves access to the same five Lesson Cards with reduced content:
 
-1. Play the core dialogue once.
-2. Practise **నమస్కారం**, **బాగున్నారా?**, and **బాగున్నాను**.
-3. Show and trace **న, మ, బ, గ, ర**.
-4. Submit the tracing by image upload, camera, or direct on-screen writing and receive a quick visibility and character-presence check.
-5. Record or self-perform one greeting attempt.
-6. Save a checkpoint and invite the pupil to resume the full lesson later.
+1. **Listen:** play the core dialogue once.
+2. **Learn:** practise **నమస్కారం**, **బాగున్నారా?**, and **బాగున్నాను**.
+3. **Build:** show and trace **న, మ, బ, గ, ర**.
+4. **Build:** submit the tracing by image upload, camera, or direct on-screen writing and receive a quick visibility and character-presence check.
+5. **Talk:** record or self-perform one greeting attempt.
+6. **Check:** save a lesson checkpoint, summarise the available evidence without claiming full completion, and invite the pupil to resume the full lesson later.
 
 The chapter remains **In progress**, with completed fallback work preserved.
 
 ## 12. Interface requirements
 
-Use the common lesson layout, interaction states, and accessibility requirements in `common_spec.md`. For Chapter 01, name the progress phases **Listen**, **Learn**, **Build**, **Talk**, and **Check**.
+Use the common lesson layout, interaction states, accessibility requirements, and five-Card Lesson navigation in `common_spec.md`. Identify the current **Listen**, **Learn**, **Build**, **Talk**, or **Check** Card and allow direct navigation to every other accessible Lesson Card.
 
 ### Required components
 
@@ -366,7 +367,7 @@ These are pilot thresholds, not final product benchmarks. Revise them after obse
 
 - A new pupil can start either the full or fallback session from the welcome screen.
 - The tutor plays the dialogue before revealing its meaning in the selected instruction language.
-- The pupil is asked to respond during every major phase; no phase is only passive reading.
+- The pupil is asked to respond in every **Listen**, **Learn**, **Build**, **Talk**, and **Check** Card; no Lesson Card is only passive reading.
 - The full route includes all four target expressions, the active script set, guided dialogue, independent performance, and exit check.
 
 ### Instruction language
@@ -442,6 +443,7 @@ After the session, ask:
 
 ## 20. Open decisions to resolve through the prototype
 
+- Whether Chapter 01 needs a separate Chapter test, what it assesses beyond the Lesson **Check** Card, and how it is represented without turning the Chapter into a forced workflow.
 - Can browser speech recognition assess these four Telugu expressions reliably enough to support broad intelligibility feedback?
 - Should natural and slow recordings use one voice or two speakers?
 - Does the complete character map belong inside the guided path or only in the reference drawer?

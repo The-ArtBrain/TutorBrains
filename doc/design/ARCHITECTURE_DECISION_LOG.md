@@ -1,7 +1,7 @@
 # Architecture Decision Record Log
 
 **Status:** Active discussion log  
-**Last reviewed:** 2026-08-19  
+**Last reviewed:** 2026-08-27  
 **Scope:** Current product-platform and app-skeleton architecture decisions  
 **Authority:** Product decisions remain authoritative in the [platform specification](../spec/platform_spec.md); this log summarizes them alongside implementation decisions.
 
@@ -142,6 +142,14 @@ This file is the Architecture Decision Record (ADR) index for the current design
 - **Rationale:** Learning behavior and authorization must not depend on a payment provider or assume that purchase is the only source of access. Complimentary, assigned, sponsored, purchased, subscribed, and restored access use the same authorization contract.
 - **Consequence:** Cards never receive commerce or transaction state. A refund or expiry removes only abilities derived from that source and preserves unrelated abilities, progress, Accomplishments, and permitted Submission history.
 - **Source:** [Platform specification, fixed decisions](../spec/platform_spec.md#2-fixed-platform-decisions)
+
+## ADR-018 — Subject-neutral platform with build-time specializations
+
+- **Status:** Accepted
+- **Decision:** Name the repository and shared platform TutorBrains and keep them subject-neutral. A declarative product manifest selects the subjects, instruction languages, trusted subject, script, and target-language specializations, content packages, compatible models, and branding compiled or packaged into a focused or multi-subject application. Instruction-language support remains a data overlay unless a measured script, input, rendering, accessibility, or intelligence requirement needs trusted executable specialization code. Downloaded course packages remain reviewed, signed, data-only artifacts and cannot introduce executable code.
+- **Rationale:** Telugu Tutor must remain the first focused product without embedding Telugu, language-learning, or any future subject into the shared application shell. Build-time selection preserves stable Card and service-handle contracts while allowing subject-, script-, and language-specific behavior where generic browser or platform facilities are insufficient.
+- **Consequence:** Telugu Tutor becomes a product assembly within TutorBrains. Executable specializations use declared extension points, compatibility metadata, permissions, tests, and conflict detection; they cannot override Card meaning, authorization, evidence policy, or another specialization silently. Core platform, subject, script, and target-language resolution is deterministic. Canonical learning content and instruction-language overlays remain separately versioned data. Repository and content migration occurs through reviewable changes without changing stable Card, unit, capability, or existing ADR identifiers merely because paths change.
+- **Source:** [Project structure, build-time specialization rationale](project_structure.md#8-build-time-specialization-rationale)
 
 ## Open evidence and review triggers
 

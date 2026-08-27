@@ -1,6 +1,6 @@
-# TeluguTutorbrain
+# TutorBrains
 
-A Telugu teacher.
+A subject-neutral learning platform. Telugu Tutor is its first focused product.
 
 ## Product specifications
 
@@ -14,6 +14,7 @@ A Telugu teacher.
 ## Technical designs
 
 - [Architecture Decision Record log](doc/design/ARCHITECTURE_DECISION_LOG.md) — current fixed, accepted, proposed, and deferred architecture decisions.
+- [Proposed project structure](doc/design/project_structure.md) — subject-neutral repository organization and build-time specialization boundaries.
 - [App skeleton technical design](doc/design/APP_SKELETON_TECH_DESIGN.md) — shared semantic HTML and standard JavaScript architecture, platform-service contracts, and comparison of three potential schemes.
 - [Progressive Web App platform design](doc/design/PWA_PLATFORM_DESIGN.md) — browser-installed candidate and its required-platform proof burden.
 - [Tauri platform design](doc/design/TAURI_PLATFORM_DESIGN.md) — Tauri 2.0 candidate with a Rust client boundary.

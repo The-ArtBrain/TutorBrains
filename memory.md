@@ -3,7 +3,7 @@
 ## Directory Structure
 
 ```text
-TeluguTutorbrain/
+TutorBrains/
 ├── README.md
 ├── memory.md
 └── doc/
@@ -13,7 +13,8 @@ TeluguTutorbrain/
     │   ├── CAPACITOR_ELECTRON_PLATFORM_DESIGN.md
     │   ├── PLATFORM_OPTIONS_FAQ.md
     │   ├── PWA_PLATFORM_DESIGN.md
-    │   └── TAURI_PLATFORM_DESIGN.md
+    │   ├── TAURI_PLATFORM_DESIGN.md
+    │   └── project_structure.md
     └── spec/
         ├── CHAPTER_01_TUTOR_PRD.md
         ├── capability_matrix.md
@@ -35,6 +36,7 @@ TeluguTutorbrain/
 - `APP_SKELETON_TECH_DESIGN.md` defines the shared semantic Hypertext Markup Language (HTML) and standard JavaScript application skeleton and compares the shortlisted schemes.
 - `PWA_PLATFORM_DESIGN.md`, `TAURI_PLATFORM_DESIGN.md`, and `CAPACITOR_ELECTRON_PLATFORM_DESIGN.md` define the three candidate platform schemes.
 - `PLATFORM_OPTIONS_FAQ.md` records shortlist criteria, rejected alternatives, and reconsideration triggers.
+- `project_structure.md` proposes the subject-neutral TutorBrains repository organization, product manifests, and trusted build-time specialization boundaries.
 - `characters_spec.md` defines the chapter-neutral model for independently accessible Telugu script units; chapters own the lesson links.
 - `common_spec.md` defines tutor behaviour and product requirements inherited by every chapter.
 - `grammar_spec.md` defines the chapter-neutral model for independently accessible grammar and usage units; chapters own the lesson links.
@@ -58,6 +60,7 @@ The product decisions in `doc/spec/platform_spec.md` remain authoritative. `doc/
 - Canonical Telugu, instruction language, interface locale, transliteration, and accessibility preferences are independent. English is the disclosed instruction-language default when no selection exists.
 - Authorization grants explicit abilities over resources and constraints rather than roles or personas.
 - Commerce remains outside the learning applications and Telugu Tutor platform. A separate commerce application or service owns offers, payments, subscriptions, refunds, taxes, and transaction reconciliation and communicates only explicit, scoped, and optionally time-bounded ability changes. Paid and non-paid access use the same authorization contract; Cards never receive commerce state.
+- TutorBrains is the subject-neutral repository and shared platform. Telugu Tutor is its first focused product. Declarative product manifests select trusted build-time subject, script, and target-language specializations; instruction-language support remains data-first, and downloaded course packages remain data-only.
 
 ### Accepted implementation direction
 

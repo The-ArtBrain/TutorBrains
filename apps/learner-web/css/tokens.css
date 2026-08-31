@@ -1,0 +1,30 @@
+:root {
+  color-scheme: light;
+  --color-canvas: #f4f1e8;
+  --color-surface: #fffdf8;
+  --color-surface-strong: #ffffff;
+  --color-ink: #17332d;
+  --color-muted: #60716c;
+  --color-line: #cad4cf;
+  --color-brand: #176b5b;
+  --color-brand-dark: #0f5145;
+  --color-brand-soft: #dcece5;
+  --color-accent: #f2bb4b;
+  --color-accent-soft: #fff1c9;
+  --color-info: #315f89;
+  --color-info-soft: #e5eff8;
+  --color-danger: #9d3b35;
+  --color-danger-soft: #fbe9e5;
+  --shadow-soft: 0 1rem 2.5rem rgb(23 51 45 / 10%);
+  --radius-small: 0.55rem;
+  --radius-medium: 0.9rem;
+  --radius-large: 1.4rem;
+  --space-1: 0.35rem;
+  --space-2: 0.65rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --content-width: 72rem;
+  --reading-width: 46rem;
+}

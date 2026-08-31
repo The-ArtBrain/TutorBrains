@@ -1,0 +1,418 @@
+.site-header {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  border-bottom: 1px solid var(--color-line);
+  background: rgb(255 253 248 / 92%);
+  backdrop-filter: blur(0.75rem);
+}
+
+.site-header__inner,
+.page-shell,
+.site-footer__inner {
+  width: min(var(--content-width), calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header__inner {
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-ink);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.brand__mark {
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: 0 0 auto;
+}
+
+.header-actions,
+.action-row,
+.chip-list,
+.card-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header-actions a:not(.button),
+.site-header nav > a:not(.button) {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-small);
+  font-weight: 700;
+}
+
+.header-actions a[aria-current="page"] {
+  color: var(--color-ink);
+  background: var(--color-brand-soft);
+  text-decoration: none;
+}
+
+.page-shell {
+  padding-block: clamp(2rem, 6vw, 5rem);
+}
+
+.page-shell:not(.hero) > * + * {
+  margin-top: var(--space-5);
+}
+
+.page-shell--narrow {
+  max-width: var(--reading-width);
+}
+
+.eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--color-brand-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lede {
+  max-width: 42rem;
+  color: var(--color-muted);
+  font-size: clamp(1.08rem, 2vw, 1.28rem);
+}
+
+.hero {
+  display: grid;
+  min-height: calc(100vh - 12rem);
+  align-content: center;
+  gap: var(--space-5);
+}
+
+.hero__content {
+  max-width: 52rem;
+}
+
+.telugu-display {
+  margin-bottom: var(--space-1);
+  font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
+  font-size: clamp(3rem, 11vw, 7rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.transliteration {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.panel,
+.hierarchy-card,
+.lesson-card,
+.card-shell,
+.form-card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.panel,
+.form-card,
+.hierarchy-card,
+.lesson-card {
+  padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.panel--accent {
+  border-color: #e1c36f;
+  background: var(--color-accent-soft);
+}
+
+.panel--info {
+  border-color: #aac5dd;
+  background: var(--color-info-soft);
+}
+
+.prototype-note {
+  padding: var(--space-3);
+  border-inline-start: 0.3rem solid var(--color-accent);
+  color: var(--color-muted);
+  background: var(--color-surface);
+}
+
+.prototype-note strong {
+  color: var(--color-ink);
+}
+
+.grid,
+.hierarchy-grid,
+.lesson-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.hierarchy-card__meta,
+.lesson-card__meta {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.hierarchy-card__link,
+.lesson-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  font-weight: 800;
+}
+
+.hierarchy-card__link::after,
+.lesson-card__link::after {
+  width: 1rem;
+  height: 1rem;
+  background: url("../assets/icons/arrow-right.svg") center / contain no-repeat;
+  content: "";
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  color: var(--color-muted);
+  list-style: none;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-inline-start: var(--space-2);
+  background: url("../assets/icons/chevron-right.svg") center / contain no-repeat;
+  content: "";
+  vertical-align: -0.18em;
+}
+
+.breadcrumbs [aria-current="page"] {
+  color: var(--color-ink);
+  font-weight: 750;
+}
+
+.chapter-list,
+.lesson-list {
+  padding-inline-start: 1.3rem;
+}
+
+.chapter-list li,
+.lesson-list li {
+  margin-block: var(--space-2);
+  padding-inline-start: var(--space-1);
+}
+
+.status-pill,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  color: var(--color-brand-dark);
+  background: var(--color-brand-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.status-pill--muted {
+  color: var(--color-muted);
+  background: #edf0ee;
+}
+
+.form-stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.field-help {
+  margin: var(--space-1) 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.identity-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.identity-state p {
+  margin-bottom: 0;
+}
+
+.provider-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.provider-list button,
+.provider-list .button {
+  width: 100%;
+}
+
+.card-nav {
+  margin-block: var(--space-4);
+}
+
+.card-nav a {
+  display: inline-flex;
+  min-height: 2.45rem;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-surface-strong);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.card-nav a[aria-current="page"] {
+  border-color: var(--color-brand);
+  color: #ffffff;
+  background: var(--color-brand);
+}
+
+.card-shell {
+  overflow: hidden;
+}
+
+.card-shell__header,
+.card-shell__section,
+.card-shell__footer {
+  padding: clamp(1.1rem, 4vw, 2.5rem);
+}
+
+.card-shell__header {
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.card-shell__body {
+  display: grid;
+}
+
+.card-shell__section + .card-shell__section {
+  border-top: 1px solid var(--color-line);
+}
+
+.card-shell > .card-shell__section {
+  border-top: 1px solid var(--color-line);
+}
+
+.card-shell__footer {
+  border-top: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.target-expression {
+  margin-block: var(--space-4);
+  font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
+  font-size: clamp(3.2rem, 12vw, 7rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.target-expression + p {
+  text-align: center;
+}
+
+.response-placeholder {
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+  padding: var(--space-4);
+  border: 2px dashed var(--color-line);
+  border-radius: var(--radius-medium);
+  color: var(--color-muted);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-line);
+  color: var(--color-muted);
+  background: var(--color-surface);
+}
+
+.site-footer__inner {
+  padding-block: var(--space-4);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+@media (min-width: 44rem) {
+  .hierarchy-grid,
+  .lesson-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-shell__body {
+    grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  }
+
+  .card-shell__section + .card-shell__section {
+    border-top: 0;
+    border-inline-start: 1px solid var(--color-line);
+  }
+}
+
+@media (max-width: 36rem) {
+  .site-header__inner {
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .header-actions {
+    align-items: center;
+  }
+
+  .action-row > * {
+    flex: 1 1 100%;
+  }
+}
+
+@media (min-width: 64rem) {
+  .hierarchy-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lesson-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

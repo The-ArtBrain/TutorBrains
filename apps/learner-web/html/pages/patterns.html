@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Inert semantic HTML template experiments for TutorBrains learner Cards">
+    <title>HTML template review · Telugu Tutor</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/components.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="index.html" aria-label="Telugu Tutor home">
+          <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
+          <span>Telugu Tutor</span>
+        </a>
+        <nav aria-label="Pattern navigation"><a href="lesson-01.html">Lesson example</a></nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell page-shell--narrow">
+      <p class="eyebrow">Markup investigation</p>
+      <h1>HTML template patterns</h1>
+      <p class="lede">These examples are intentionally inert. They test whether reusable interface structure remains understandable without defining a Course or Card data contract.</p>
+
+      <section class="panel" aria-labelledby="card-template-title">
+        <h2 id="card-template-title">Card shell template</h2>
+        <p>The source below contains one flat Card article with sibling task, help, and response sections. Placeholder IDs must become unique if a future implementation clones the template.</p>
+        <p><span class="status-pill">Suitable for a focused spike</span></p>
+      </section>
+
+      <section class="panel" aria-labelledby="nested-template-title">
+        <h2 id="nested-template-title">Nested template</h2>
+        <p>An HTML <code>template</code> can contain another <code>template</code>. Here the nested fragment represents an optional help control—not a child Card. Instantiating the outer template would leave the inner template inert until separately handled.</p>
+        <p><span class="status-pill status-pill--muted">Possible, but adds activation complexity</span></p>
+      </section>
+
+      <aside class="prototype-note" aria-label="Template conclusion">
+        <strong>Current conclusion:</strong> ordinary complete semantic HTML is clearer for this static phase. Keep templates as reviewed interface experiments until a real repetition problem justifies activation code.
+      </aside>
+
+      <!--
+        Inert review fixture only. This is not a binding data contract.
+        A future cloner must replace every placeholder ID and matching reference.
+      -->
+      <template id="card-shell-template">
+        <article class="card-shell" aria-labelledby="card-title-placeholder">
+          <header class="card-shell__header">
+            <h2 id="card-title-placeholder">Card title placeholder</h2>
+          </header>
+          <section class="card-shell__section" aria-labelledby="task-title-placeholder">
+            <h3 id="task-title-placeholder">Task placeholder</h3>
+          </section>
+          <section class="card-shell__section" aria-labelledby="help-title-placeholder">
+            <h3 id="help-title-placeholder">Help placeholder</h3>
+            <ul>
+              <!-- A nested template is syntactically valid and remains inert. -->
+              <template id="help-control-template">
+                <li><button type="button">Help action placeholder</button></li>
+              </template>
+            </ul>
+          </section>
+          <section class="card-shell__section" aria-labelledby="response-title-placeholder">
+            <h3 id="response-title-placeholder">Response placeholder</h3>
+          </section>
+        </article>
+      </template>
+    </main>
+  </body>
+</html>

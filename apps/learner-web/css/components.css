@@ -105,6 +105,54 @@
   max-width: 52rem;
 }
 
+.lesson-context {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.lesson-context__text {
+  display: grid;
+}
+
+.lesson-context__text small {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.learning-progress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  list-style: none;
+}
+
+.learning-progress li::after {
+  display: block;
+  height: 0.35rem;
+  margin-top: var(--space-1);
+  border-radius: 999px;
+  background: var(--color-line);
+  content: "";
+}
+
+.learning-progress .is-complete,
+.learning-progress [aria-current="step"] {
+  color: var(--color-ink);
+  font-weight: 800;
+}
+
+.learning-progress .is-complete::after,
+.learning-progress [aria-current="step"]::after {
+  background: var(--color-brand);
+}
+
 .telugu-display {
   margin-bottom: var(--space-1);
   font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
@@ -137,12 +185,12 @@
 }
 
 .panel--accent {
-  border-color: #e1c36f;
-  background: var(--color-accent-soft);
+  border-color: var(--color-info);
+  background: var(--color-brand-soft);
 }
 
 .panel--info {
-  border-color: #aac5dd;
+  border-color: var(--color-line);
   background: var(--color-info-soft);
 }
 
@@ -187,31 +235,6 @@
   content: "";
 }
 
-.breadcrumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin: 0 0 var(--space-5);
-  padding: 0;
-  color: var(--color-muted);
-  list-style: none;
-}
-
-.breadcrumbs li:not(:last-child)::after {
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin-inline-start: var(--space-2);
-  background: url("../assets/icons/chevron-right.svg") center / contain no-repeat;
-  content: "";
-  vertical-align: -0.18em;
-}
-
-.breadcrumbs [aria-current="page"] {
-  color: var(--color-ink);
-  font-weight: 750;
-}
-
 .chapter-list,
 .lesson-list {
   padding-inline-start: 1.3rem;
@@ -237,7 +260,7 @@
 
 .status-pill--muted {
   color: var(--color-muted);
-  background: #edf0ee;
+  background: var(--color-control-disabled);
 }
 
 .form-stack {
@@ -342,6 +365,136 @@
   text-align: center;
 }
 
+.card-content {
+  text-align: center;
+}
+
+.card-content .action-row {
+  justify-content: center;
+}
+
+.content-help {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  text-align: start;
+}
+
+.content-help > button {
+  width: 100%;
+}
+
+.content-help .button__icon {
+  margin-inline-end: var(--space-1);
+}
+
+.content-disclosure {
+  min-width: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: var(--color-surface-strong);
+}
+
+.content-disclosure summary {
+  min-height: 2.8rem;
+  padding: 0.65rem 0.75rem;
+  color: var(--color-brand-dark);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.content-disclosure > p {
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+  color: var(--color-muted);
+}
+
+.content-disclosure--transliteration summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.summary-preview {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary-action {
+  margin-inline-start: auto;
+  color: var(--color-brand-dark);
+  font-size: 0.88rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+}
+
+.when-open {
+  display: none;
+}
+
+.content-disclosure[open] .when-closed {
+  display: none;
+}
+
+.content-disclosure[open] .when-open {
+  display: inline;
+}
+
+.reference-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.reference-item {
+  min-width: 0;
+}
+
+.reference-item .content-disclosure {
+  height: 100%;
+}
+
+.reference-item ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+  list-style: none;
+}
+
+.character-links [lang="te"] {
+  font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.ability-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.ability-grid button {
+  width: 100%;
+  gap: var(--space-2);
+}
+
+.button__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+}
+
+.lesson-main {
+  min-width: 0;
+}
+
+.lesson-main > * + * {
+  margin-top: var(--space-5);
+}
+
 .response-placeholder {
   display: grid;
   min-height: 10rem;
@@ -382,6 +535,24 @@
     border-top: 0;
     border-inline-start: 1px solid var(--color-line);
   }
+
+  .card-shell > .card-shell__section + .card-shell__section {
+    border-top: 1px solid var(--color-line);
+    border-inline-start: 0;
+  }
+
+  .ability-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .content-help {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reference-group {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
 }
 
 @media (max-width: 36rem) {
@@ -396,6 +567,11 @@
 
   .action-row > * {
     flex: 1 1 100%;
+  }
+
+  .learning-progress {
+    gap: 0.35rem;
+    font-size: 0.72rem;
   }
 }
 

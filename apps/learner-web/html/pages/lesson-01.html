@@ -3,90 +3,128 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Static Lesson 1 interface showing five flat Telugu Tutor Cards">
-    <title>Lesson 1 · Telugu Tutor</title>
+    <meta name="description" content="Static Lesson 1 interface showing one Telugu Tutor Card and its available abilities">
+    <title>Lesson 1 · Greeting exchange · Telugu Tutor</title>
+    <link rel="alternate" hreflang="en" href="lesson-01.html">
+    <link rel="alternate" hreflang="hi" href="lesson-01-hi.html">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#card-greeting">Skip to the current Card</a>
 
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="index.html" aria-label="Telugu Tutor home">
+        <a class="lesson-context" href="chapter-01.html" aria-label="Chapter 01, Lesson 1: Greet someone">
           <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
-          <span>Telugu Tutor</span>
+          <span class="lesson-context__text">
+            <strong>Chapter 01</strong>
+            <small>Lesson 1 · Greet someone</small>
+          </span>
         </a>
-        <nav aria-label="Page actions">
+        <nav aria-label="Lesson controls">
           <ul class="header-actions">
-            <li><a href="chapter-01.html">Chapter outline</a></li>
-            <li><a href="course.html">Exit lesson</a></li>
+            <li><a href="lesson-01-hi.html" hreflang="hi" lang="hi">हिन्दी</a></li>
+            <li><a href="chapter-01.html">Exit</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main id="main-content" class="page-shell">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="course.html">Practical Telugu</a></li>
-          <li><a href="chapter-01.html">Chapter 01</a></li>
-          <li><span aria-current="page">Lesson 1</span></li>
-        </ol>
-      </nav>
+    <main class="page-shell page-shell--narrow">
+      <div class="lesson-main">
+      <!--
+        Staff review context only; not learner-facing and not a data contract.
+        Card state: Current Card
+        Card name: Greeting exchange
+        Review note: One Card presents the learning content and available response abilities. Service-dependent controls remain unavailable in this static review.
+      -->
+      <article id="card-greeting" class="card-shell">
 
-      <header>
-        <p class="eyebrow">Lesson 1 · Greet someone</p>
-        <h1>Learn the greeting exchange</h1>
-        <p class="lede">Choose any accessible Card. The recommended order supports the learning journey, but it is not a forced workflow.</p>
-      </header>
+        <section class="card-shell__section card-content" aria-labelledby="content-title">
+          <h3 id="content-title" class="visually-hidden">Card content</h3>
+          <p>Listen, then greet an elder or teacher.</p>
+          <p class="target-expression" lang="te">నమస్కారం</p>
+          <div class="content-help" aria-label="Content help">
+            <details class="content-disclosure content-disclosure--transliteration">
+              <summary>
+                <span class="summary-preview" lang="te-Latn">Namaskāraṁ</span>
+                <span class="summary-action">
+                  <span class="when-closed">Show all</span>
+                  <span class="when-open">Hide</span>
+                </span>
+              </summary>
+              <p lang="te-Latn">Namaskāraṁ</p>
+            </details>
+            <button class="button--primary" type="button" disabled>
+              <img class="button__icon" src="../../assets/icons/play.svg" alt="">
+              Play audio
+            </button>
+            <button type="button" disabled>Say it slowly</button>
+          </div>
+        </section>
 
-      <section class="lesson-grid" aria-labelledby="cards-title">
-        <h2 id="cards-title" class="visually-hidden">Lesson Cards</h2>
+        <section class="card-shell__section" aria-labelledby="abilities-title">
+          <h3 id="abilities-title">Available response abilities</h3>
+          <p class="field-help">The Card requests abilities; the learner chooses an available response method.</p>
+          <fieldset>
+            <legend class="visually-hidden">Response method</legend>
+            <div class="ability-grid">
+              <button type="button" disabled>
+                <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
+                Speak
+              </button>
+              <button type="button" disabled>
+                <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
+                Write
+              </button>
+              <button type="button" disabled>
+                <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
+                Type
+              </button>
+              <button type="button" disabled>
+                <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
+                Upload image
+              </button>
+            </div>
+          </fieldset>
+        </section>
 
-        <article class="lesson-card" aria-labelledby="listen-title">
-          <p class="lesson-card__meta">About 3 minutes</p>
-          <h2 id="listen-title">Listen</h2>
-          <p>Hear the full exchange first and notice what is happening.</p>
-          <a class="lesson-card__link" href="card-listen.html">Open Listen Card</a>
-        </article>
+        <section class="card-shell__section" aria-labelledby="response-title">
+          <h3 id="response-title">Your response</h3>
+          <div class="response-placeholder">
+            <p>No response added yet.<br>The selected response surface will appear here.</p>
+          </div>
+        </section>
 
-        <article class="lesson-card" aria-labelledby="learn-title">
-          <p class="lesson-card__meta">About 5 minutes</p>
-          <h2 id="learn-title">Learn</h2>
-          <p>Understand respectful usage, meaning, rhythm, and pronunciation.</p>
-          <span class="status-pill status-pill--muted">Interface placeholder</span>
-        </article>
+        <div class="card-shell__section reference-group">
+          <article id="meaning-reference" class="reference-item" aria-labelledby="meaning-summary">
+            <details class="content-disclosure">
+              <summary id="meaning-summary">Meaning</summary>
+              <p>A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</p>
+            </details>
+          </article>
+          <article id="character-references" class="reference-item" aria-labelledby="characters-summary">
+            <details class="content-disclosure">
+              <summary id="characters-summary">Characters in this lesson</summary>
+              <ul class="character-links">
+                <li><span lang="te">మ</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
+                <li><span lang="te">న</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
+              </ul>
+            </details>
+          </article>
+          <article id="grammar-references" class="reference-item" aria-labelledby="grammar-summary">
+            <details class="content-disclosure">
+              <summary id="grammar-summary">Grammar in this lesson</summary>
+              <ul class="related-links">
+                <li><a href="#card-greeting">Respectful greeting pattern · Greeting exchange Card</a></li>
+              </ul>
+            </details>
+          </article>
+        </div>
 
-        <article class="lesson-card" aria-labelledby="build-title">
-          <p class="lesson-card__meta">About 12 minutes</p>
-          <h2 id="build-title">Build</h2>
-          <p>Recognise and construct the written greeting forms.</p>
-          <span class="status-pill status-pill--muted">Interface placeholder</span>
-        </article>
-
-        <article class="lesson-card" aria-labelledby="talk-title">
-          <p class="lesson-card__meta">About 9 minutes</p>
-          <h2 id="talk-title">Talk</h2>
-          <p>Practise both roles, then complete the greeting independently.</p>
-          <span class="status-pill status-pill--muted">Interface placeholder</span>
-        </article>
-
-        <article class="lesson-card" aria-labelledby="check-title">
-          <p class="lesson-card__meta">About 1 minute</p>
-          <h2 id="check-title">Check</h2>
-          <p>Reflect on what you demonstrated and what to revisit.</p>
-          <span class="status-pill status-pill--muted">Interface placeholder</span>
-        </article>
-      </section>
-
-      <aside class="prototype-note" aria-label="Card model note">
-        <strong>Five sibling Cards:</strong> Listen, Learn, Build, Talk, and Check are separate navigation targets. They are not nested inside a parent Card.
-      </aside>
+      </article>
+      </div>
     </main>
-
-    <footer class="site-footer">
-      <div class="site-footer__inner"><p>Chapter 01 · Lesson 1 · five flat Cards</p></div>
-    </footer>
   </body>
 </html>

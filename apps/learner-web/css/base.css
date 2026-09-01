@@ -109,7 +109,7 @@ button[disabled] {
   cursor: not-allowed;
   border-color: var(--color-line);
   color: var(--color-muted);
-  background: #edf0ee;
+  background: var(--color-control-disabled);
   opacity: 0.72;
 }
 

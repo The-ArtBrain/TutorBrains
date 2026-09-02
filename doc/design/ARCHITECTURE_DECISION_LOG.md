@@ -65,10 +65,10 @@ This file is the Architecture Decision Record (ADR) index for the current design
 
 ## ADR-008 — Flat reusable Cards
 
-- **Status:** Accepted; fixed product decision
+- **Status:** Accepted; fixed product decision; lesson-composition consequence superseded by ADR-020
 - **Decision:** Maintain one flat Card contract with no child Cards and no Card inheritance.
 - **Rationale:** Cards are reusable presentation and activity definitions; curriculum composition and durable learner history are separate concerns.
-- **Consequence:** Lessons, chapters, courses, and tables of contents are external ordered Card collections. Submissions, Evaluations, Accomplishments, and retained evidence are separate durable records.
+- **Original consequence, superseded for Lessons by ADR-020:** Lessons, chapters, courses, and tables of contents were treated as external ordered Card collections. Submissions, Evaluations, Accomplishments, and retained evidence remain separate durable records.
 - **Source:** [Platform specification, Card as a flat presentation entity](../spec/platform_spec.md#card-as-a-flat-presentation-entity)
 
 ## ADR-009 — Stable platform and intelligence service handles
@@ -160,6 +160,15 @@ This file is the Architecture Decision Record (ADR) index for the current design
 - **Exception governance:** Any proposed exception or discovered violation requires its own numbered ADR. That ADR must identify the exact scope, evidence that localized HTML and CSS are insufficient, accessibility and privacy effects, offline and caching effects, security implications, fallback behavior, tests, owner, and removal or review trigger. The exception ADR must be accepted before the violating implementation is merged or released. An implementation without an accepted exception ADR is a defect and blocks release; an ADR must not be added afterward merely to legitimize an avoidable violation.
 - **Relationship:** This decision narrows ADR-006, ADR-014, and ADR-018 for instruction-language behavior. Their allowance for application-owned JavaScript or trusted executable specializations does not permit JavaScript-driven localization.
 - **Source:** [Platform specification, internationalization](../spec/platform_spec.md#internationalization-multilingual-presentation-and-preferences)
+
+## ADR-020 — Named teaching phases are optional; Card boundary remains open
+
+- **Status:** Accepted for named-phase optionality; Card definition remains under design
+- **Decision:** Names such as **Listen**, **Learn**, **Build**, **Talk**, and **Check** are optional curriculum or tutoring labels, not required Card identities, a mandatory sequence, or student-interface elements. A Card is a domain concept with a presentation and may represent a Lesson or an activity. The criteria for that choice are not finalized and must evolve through curriculum and interface evidence.
+- **Rationale:** A fixed five-part structure makes an internal teaching heuristic authoritative over the lesson objective and exposes an order that many lessons do not follow. Declaring every Lesson to be exactly one Card would be another premature constraint before the Card concept itself is sufficiently understood.
+- **Consequence:** Lessons use only the activities they need and may arrange them appropriately. Student interfaces do not display named teaching phases merely because internal authoring notes use them. The current Chapter 01 HTML may present its Lesson as one Card without establishing a universal domain rule or final data contract.
+- **Relationship:** This decision supersedes the Lesson-as-mandatory-Card-collection portion of ADR-008 and narrows any earlier use of **Listen**, **Learn**, **Build**, **Talk**, or **Check** as mandatory Lesson Cards or navigation. ADR-008 still prohibits child Cards and Card inheritance unless separately reconsidered.
+- **Source:** [Platform specification, logical presentation and composition model](../spec/platform_spec.md#5-logical-presentation-and-composition-model)
 
 ## Open evidence and review triggers
 

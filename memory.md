@@ -54,7 +54,7 @@ The product decisions in `doc/spec/platform_spec.md` remain authoritative. `doc/
 ### Fixed and accepted product direction
 
 - Android, iOS, Windows, and macOS are required production platforms; Web remains optional.
-- Cards use one flat, reusable contract with no child Cards or Card inheritance. Lessons, chapters, courses, and tables of contents are external ordered collections.
+- Cards currently use one flat, reusable contract with no child Cards or Card inheritance. A Card is a domain concept with a corresponding interface and may represent a Lesson or an activity; the exact boundary is not finalized. Listen, Learn, Build, Talk, and Check are optional authoring labels, not required Card identities, student-interface phases, or a prescribed order.
 - Cards request narrow capability-oriented platform and intelligence service handles. They do not depend on providers, models, native plug-ins, storage paths, or network endpoints.
 - Product functions and required intelligence run in the client wherever technically feasible. Missing or unreliable intelligence produces an alternative or **Not assessed**, never silent upload or fabricated feedback.
 - Canonical Telugu, instruction language, interface locale, transliteration, and accessibility preferences are independent. English is the disclosed instruction-language default when no selection exists.

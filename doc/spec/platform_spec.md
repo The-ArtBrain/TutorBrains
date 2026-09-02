@@ -105,11 +105,13 @@ These components describe responsibilities, not necessarily separate processes, 
 | Media and asset resolver     | Resolves reviewed audio, stock or authored images, illustrations, animations, and accessibility alternatives without exposing storage details to a lesson. |
 | Content validator            | Detects missing references, unsupported blocks, missing accessibility information, and incompatible content versions before publication or use.            |
 
-### Card-owned activity model
+### Working Card concept and activity model
 
 There is no Session coordinator, Lesson orchestrator, general Tutor decision engine, Presentation composer, shared Response collector, Feedback composer, or Recovery manager in the logical model.
 
-The Card is the activity. Each Card owns or references:
+> **Working definition — not finalized:** A Card is a domain concept with a corresponding presentation boundary; it is not merely a visual component. A Card may represent a whole Lesson or a smaller learning activity. The exact semantic boundary, composition rules, and criteria for choosing Lesson-level versus activity-level Cards must evolve through curriculum and interface evidence before they become a fixed contract.
+
+Under the current working model, each Card owns or references:
 
 - its instructional content and learning-unit references;
 - the technical abilities it may request;
@@ -122,7 +124,7 @@ The Card is the activity. Each Card owns or references:
 
 The Card does not own a model runtime, evaluator implementation, feedback generator, speech generator, or Intelligence controller. It calls the service handles bound to its Card instance.
 
-A Lesson is a directly navigable collection of Cards. It may publish a recommended order, but it does not run a workflow or choose the student's current Card. The student may open any accessible Card, leave it, complete another Card, and return later.
+A Lesson may be represented by one Card or by independently meaningful activity Cards, depending on what the lesson needs. That choice is not finalized. Internal authoring may use names such as **Listen**, **Learn**, **Build**, **Talk**, or **Check** when useful; those labels alone do not create Card identities, prescribe an order, or require student-interface presentation.
 
 ### Registered service and Intelligence components
 
@@ -213,7 +215,7 @@ A single registered service may satisfy several handles, and one Intelligence co
 | Logical component | Responsibility |
 |---|---|
 | Card definition | Defines one reusable learning or navigation activity through properties, unit references, technical abilities, accepted student content, service-handle requirements, request inputs, and accomplishment rules. |
-| Card collection | Groups directly addressable Card references for a Lesson, Chapter, Course, table of contents, review view, or another presentation and may supply a recommended order. |
+| Card collection | Groups directly addressable Card references for a Chapter, Course, table of contents, review view, or another presentation and may supply a recommended order. A Lesson Card may link to a collection or peer Card but does not contain it. |
 | Card instance | Combines a Card definition with the current learner's Card-map entry, language, available device abilities, bound service handles, current submission, and returned results. |
 | Evaluation | Records the result returned through an evaluation handle, including outcome, reliability, supported correction, score where valid, and unavailable-assessment state. |
 | Accomplishment | Records what the learner accomplished for a Card or referenced unit and identifies the Evaluation, self-check, view, or submission that supports it. |
@@ -246,7 +248,7 @@ A single registered service may satisfy several handles, and one Intelligence co
 |---|---|
 | Local content cache | Makes the required lesson package and approved local-intelligence resources available without repeated downloads. |
 | Learner-preference store | Keeps explicit instruction-language, regional-variant, interface-locale, transliteration, presentation, and accessibility preferences distinct from Card content and learning progress. |
-| Student Card map | Maps each learner and Card identity to last access, current or saved student content, help used, Evaluation references, Submission references, and Accomplishment references. This is the direct relationship between Lesson Cards and learner state. |
+| Student Card map | Maps each learner and Card identity to last access, current or saved student content, help used, Evaluation references, Submission references, and Accomplishment references. This is the direct relationship between a Lesson Card or another Card and learner state. |
 | Evaluation repository | Preserves each Card-scoped Evaluation with the Card request version, bound service handle, provider and version, outcome, reliability, supported correction, score where valid, and **Not assessed** reason where applicable. |
 | Accomplishment repository | Preserves Card- and unit-scoped Accomplishment records, including what was accomplished, the supporting Evaluation or self-check, help used, time, and curriculum context. Lesson or Chapter summaries are derived from these records. |
 | Learner-submission repository | Preserves authorized submission history as distinct Submission records linked to the learner, Card and Card version, referenced units, Course, Chapter, Lesson, time, Evaluation, score where valid, and raw-evidence reference where retained. |
@@ -263,26 +265,23 @@ Cross-device progress recovery is not required. The initial last-accessed Card a
 
 Composition is the common rule at every level:
 
-1. A **course** composes course-level cards and chapters.
-2. A **chapter** composes directly navigable chapter-level cards and lessons and may recommend a presentation order.
-3. A **lesson** composes directly navigable cards and may recommend a presentation order.
-4. A **card** has properties, learning-unit references, content blocks, and explicitly granted technical abilities.
+1. A **course** composes course-level Cards and chapters; this domain structure does not require an independent learner-facing Course page.
+2. A **chapter** composes directly navigable Cards and may recommend a presentation order.
+3. A **lesson** is a curriculum concept that may map to one Lesson-level Card or to independently meaningful activity Cards; this mapping remains under design.
+4. A **card** is a domain concept with a presentation and may have properties, learning-unit references, content blocks, and explicitly granted technical abilities.
 5. A **learning unit** may itself be atomic or composite and is presented through a Card that references it.
 6. **Presentation state** and **presentation events** connect the open Card to its device abilities, Evaluation, and Student Card-map entry.
 
-Composition between cards belongs to Course, Chapter, Lesson, and Card-collection entities, not to Card itself. A Card never contains or inherits from another Card. Collections use stable Card references rather than copied definitions. A collection may recommend an order for teaching or display, but that order does not make the collection a workflow or prevent direct access to another Card.
+Under the current flat-Card constraint, composition between Cards belongs outside a Card definition. A Card never contains or inherits from another Card. Collections use stable Card references rather than copied definitions. How Lesson concepts relate to Lesson-level or activity-level Cards remains open and must not be inferred from this preliminary collection model.
 
 ```mermaid
 flowchart TD
     A["Course"] --> B["Course-level cards"]
     A --> C["Chapters"]
-    C --> D["Chapter-level cards"]
-    C --> E["Lessons"]
-    E --> F["Directly navigable Card collection"]
-    F --> G["Cards"]
-    G --> H["Properties and learning-unit references"]
-    G --> I["Granted technical abilities"]
-    G --> J["Content blocks and interactions"]
+    C --> D["Cards representing lessons, activities, or other domain concepts"]
+    D --> H["Properties and learning-unit references"]
+    D --> I["Granted technical abilities"]
+    D --> J["Content blocks and interactions"]
     A -. "derives" .-> K["Table-of-contents Card collection"]
 ```
 
@@ -291,25 +290,25 @@ flowchart TD
 | Entity | Composition rule |
 |---|---|
 | Course | Contains directly addressable course-level Card and Chapter references. It may recommend an overall sequence and derives summaries from Accomplishments. |
-| Chapter | Is a content-neutral navigable collection whose entries may be direct Card or Lesson references. It may contain only Cards, only Lessons, or both and may recommend an order. |
-| Lesson | Is a directly navigable Card collection. It owns learning objectives and rules for deriving Lesson accomplishment from Card Accomplishments, but it does not own activity transitions or choose the current Card. |
+| Chapter | Is a content-neutral navigable collection whose entries are Card references, including Cards whose purpose is a Lesson. It may recommend an order. |
+| Lesson | Is a curriculum concept that may correspond to one Card or be expressed through independently meaningful activity Cards. The selection rule remains open; optional teaching labels alone do not determine Card boundaries, a mandatory sequence, or student-interface elements. |
 | Table of contents (TOC) | Is a resolved Card collection derived from the accessible course, chapter, lesson, and optional direct-card hierarchy. Its cards navigate to stable targets and may include progress or access state. |
 
 The table of contents (TOC) is therefore a collection of navigation Cards. It may use the curriculum's recommended display order, but every accessible target remains directly reachable. It is a presentation of the canonical hierarchy, not a separately authored duplicate of that hierarchy.
 
 An **Alphabet** or **Telugu script** chapter may therefore be a collection of Cards that reference Character units. A **Grammar** chapter may be a collection of Cards that reference Grammar units and related Sentence or Vocabulary units. Vocabulary, sentences, pronunciation, conversation, or another curricular grouping may use the same Chapter contract. A Chapter does not require Lessons when direct Cards are the clearer curriculum structure.
 
-### Card as a flat presentation entity
+### Card as a flat domain and presentation entity
 
-A Card is the smallest independently addressable and renderable presentation entity. All Cards use the same logical contract:
+A Card represents a concept in the learning domain and has a corresponding independently addressable, renderable presentation. It may represent a Lesson, an activity, a reference, navigation, feedback, or another concept justified by the domain. This is a working definition rather than a finalized ontology or data contract. The current constraints are:
 
 - Cards do not contain other Cards.
 - Cards do not inherit from other Cards.
 - A Card has properties rather than a subtype hierarchy.
 - A Card receives each technical ability explicitly; no ability is implied by its purpose or referenced unit.
-- Course, Chapter, Lesson, and Card collection entities arrange Cards outside the Card definition.
+- Course, Chapter, and Card collection entities arrange Cards outside the Card definition.
 
-A Card may serve one tutor turn, a reference item, a navigation item, a unit presentation, feedback, or a summary. These purposes are property values, not Card classes. A Lesson remains a collection of Cards rather than one oversized Card, and the active tutor turn normally resolves one Card so the common **one turn, one task** rule remains intact.
+A Card may serve a Lesson, one tutor turn or activity, a reference item, a navigation item, a unit presentation, feedback, or a summary. These are candidate domain purposes, not settled Card classes. The definition must be refined before deciding whether purpose is represented by properties, relationships, or another contract. An open Card keeps no more than one required learner action in focus at a time so the common **one turn, one task** rule remains intact.
 
 Cards may reference one or more units from `characters_spec.md`, `grammar_spec.md`, `vocabulary_spec.md`, and `sentence_spec.md`. The unit is the canonical learning object; the Card owns the properties and explicitly granted technical abilities used to present or interact with that unit. Unit identity, Card identity, and runtime Card-instance identity remain distinct.
 
@@ -519,10 +518,10 @@ Model and rule resources needed locally must be versioned, integrity-checked, re
 - The service registry records implementation provenance, and each model-produced Evaluation retains or references the provenance needed to interpret or audit its result.
 - An implementation change triggers learner disclosure or renewed consent only when it materially changes privacy, data routing, consent, cost, availability, or learner-facing behaviour.
 - Character, Grammar, Vocabulary, and Sentence units are independently presentable through Cards that reference them without combining unit and Card identity.
-- A Lesson is a directly navigable Card collection with an optional recommended order; a content-neutral Chapter may contain direct Cards, Lessons, or both; and a Course composes Cards and Chapters.
+- A Card is a domain concept with a presentation boundary and may represent a Lesson or an activity; the exact Card boundary remains an open design decision. A content-neutral Chapter may contain Cards, and a Course composes Cards and Chapters without requiring a learner-facing Course page.
 - Alphabet or script, Grammar, Vocabulary, Sentence, pronunciation, and conversation collections can each be represented as Chapters when that matches the curriculum.
 - The course table of contents is rendered as a directly navigable Card collection derived from the canonical course hierarchy rather than maintained as duplicate content.
-- No Card contains or inherits from another Card; Card-to-Card composition occurs only in external Card collections.
+- No Lesson Card or other Card contains or inherits from another Card; Card-to-Card composition occurs only in external Card collections.
 - A Card's properties and explicitly granted technical abilities determine what it may present, collect, assess, score, retain, or navigate to.
 - Each activity Card declares the service handles it needs and supplies expected content, accepted variants, rubric or options, feedback intent, retry behaviour, and Accomplishment rule without selecting or owning a provider.
 - The Card initialization system binds compatible registered evaluation, speech, transcription, feedback, storage, or other service handles to the open Card instance.

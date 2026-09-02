@@ -30,7 +30,7 @@ The first skeleton should prove the boundaries for:
 - optional connected services; and
 - local-intelligence integration.
 
-This is not the design of the full tutor, a production backend, a content-authoring system, or a particular Artificial Intelligence (AI) model. It does not turn a Lesson into a workflow. A Lesson remains a directly navigable collection of Cards.
+This is not the design of the full tutor, a production backend, a content-authoring system, or a particular Artificial Intelligence (AI) model. It does not finalize whether a Lesson is represented by one Card or by independently meaningful activity Cards. A Card is a domain concept with a presentation, and its exact boundary remains under design.
 
 ## 2. Product constraints carried into this design
 

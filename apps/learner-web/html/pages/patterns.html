@@ -24,22 +24,22 @@
     <main id="main-content" class="page-shell page-shell--narrow">
       <p class="eyebrow">Markup investigation</p>
       <h1>HTML template patterns</h1>
-      <p class="lede">These examples are intentionally inert. They test whether reusable interface structure remains understandable without defining a learning-journey or Card data contract.</p>
+      <p class="lede">These examples are intentionally inert in the product. Isolated browser tests evaluate their cloning behavior without defining a learning-journey or Card data contract.</p>
 
       <section class="panel" aria-labelledby="card-template-title">
         <h2 id="card-template-title">Card shell template</h2>
         <p>The source below contains one flat Card article with sibling task, help, and response sections. Placeholder IDs must become unique if a future implementation clones the template.</p>
-        <p><span class="status-pill">Suitable for a focused spike</span></p>
+        <p><span class="status-pill">Evaluated as an isolated browser fixture</span></p>
       </section>
 
       <section class="panel" aria-labelledby="nested-template-title">
         <h2 id="nested-template-title">Nested template</h2>
-        <p>An HTML <code>template</code> can contain another <code>template</code>. Here the nested fragment represents an optional help control—not a child Card. Instantiating the outer template would leave the inner template inert until separately handled.</p>
-        <p><span class="status-pill status-pill--muted">Possible, but adds activation complexity</span></p>
+        <p>An HTML <code>template</code> can contain another <code>template</code>. Here the nested fragment represents an optional help control—not a child Card. The tests confirm that cloning the outer template preserves the nested template but does not render its contents; the inner content must be cloned separately.</p>
+        <p><span class="status-pill status-pill--muted">Works, but adds explicit activation and ID management</span></p>
       </section>
 
       <aside class="prototype-note" aria-label="Template conclusion">
-        <strong>Current conclusion:</strong> ordinary complete semantic HTML is clearer for this static phase. Keep templates as reviewed interface experiments until a real repetition problem justifies activation code.
+        <strong>Current conclusion:</strong> ordinary complete semantic HTML is clearer for this static phase. The fixture demonstrates browser mechanics only; it does not justify product activation code or settle a future data contract.
       </aside>
 
       <!--

@@ -122,37 +122,6 @@
   font-weight: 500;
 }
 
-.learning-progress {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--space-2);
-  margin: 0;
-  padding: 0;
-  color: var(--color-muted);
-  font-size: 0.82rem;
-  list-style: none;
-}
-
-.learning-progress li::after {
-  display: block;
-  height: 0.35rem;
-  margin-top: var(--space-1);
-  border-radius: 999px;
-  background: var(--color-line);
-  content: "";
-}
-
-.learning-progress .is-complete,
-.learning-progress [aria-current="step"] {
-  color: var(--color-ink);
-  font-weight: 800;
-}
-
-.learning-progress .is-complete::after,
-.learning-progress [aria-current="step"]::after {
-  background: var(--color-brand);
-}
-
 .telugu-display {
   margin-bottom: var(--space-1);
   font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
@@ -168,7 +137,6 @@
 
 .panel,
 .hierarchy-card,
-.lesson-card,
 .card-shell,
 .form-card {
   border: 1px solid var(--color-line);
@@ -179,8 +147,7 @@
 
 .panel,
 .form-card,
-.hierarchy-card,
-.lesson-card {
+.hierarchy-card {
   padding: clamp(1.1rem, 3vw, 2rem);
 }
 
@@ -206,20 +173,17 @@
 }
 
 .grid,
-.hierarchy-grid,
-.lesson-grid {
+.hierarchy-grid {
   display: grid;
   gap: var(--space-4);
 }
 
-.hierarchy-card__meta,
-.lesson-card__meta {
+.hierarchy-card__meta {
   color: var(--color-muted);
   font-size: 0.92rem;
 }
 
-.hierarchy-card__link,
-.lesson-card__link {
+.hierarchy-card__link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
@@ -227,16 +191,14 @@
   font-weight: 800;
 }
 
-.hierarchy-card__link::after,
-.lesson-card__link::after {
+.hierarchy-card__link::after {
   width: 1rem;
   height: 1rem;
   background: url("../assets/icons/arrow-right.svg") center / contain no-repeat;
   content: "";
 }
 
-.chapter-list,
-.lesson-list {
+.chapter-list {
   padding-inline-start: 1.3rem;
 }
 
@@ -522,8 +484,7 @@
 }
 
 @media (min-width: 44rem) {
-  .hierarchy-grid,
-  .lesson-grid {
+  .hierarchy-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -569,10 +530,6 @@
     flex: 1 1 100%;
   }
 
-  .learning-progress {
-    gap: 0.35rem;
-    font-size: 0.72rem;
-  }
 }
 
 @media (min-width: 64rem) {
@@ -580,9 +537,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .lesson-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -50,7 +50,7 @@ Every activity begins with a clear spoken instruction or model. As the pupil suc
 
 ### One turn, one task
 
-The open Card presents no more than one required question or action at a time. Supporting material may be revealed on demand. The Lesson may recommend a next Card, but the pupil may open any accessible Card, leave it, and return later.
+The open Card presents no more than one required question or action at a time. Supporting material may be revealed on demand. A Card may represent a Lesson or an activity; that boundary is still evolving and does not require a universal activity sequence. The pupil may leave an open Card and return later.
 
 ### Audio comes first
 
@@ -128,9 +128,11 @@ Stop revealing help as soon as the pupil can complete the current Card. Do not f
 
 ## 6. Common experience and interface requirements
 
-Every Lesson contains five flat, directly navigable Cards in this recommended order:
+A Card is a domain concept with a corresponding interface, not merely a visual container. It may represent a whole Lesson or an independently meaningful activity. The exact selection rule is not finalized. Cards remain flat under the current contract and may reference peer Cards through normal navigation rather than containing child Cards.
 
-| Card       | Lesson responsibility                                                                                                                                                                           |
+Curriculum authors may use the following labels as optional planning lenses:
+
+| Optional label | Possible lesson activity                                                                                                                                                                      |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Listen** | Present the target Telugu audio or other primary input first and invite the pupil to notice, distinguish, or predict before explanation.                                                        |
 | **Learn**  | Teach meaning, usage, form, rhythm, or pronunciation with progressive help and an active pupil response.                                                                                        |
@@ -138,17 +140,17 @@ Every Lesson contains five flat, directly navigable Cards in this recommended or
 | **Talk**   | Move from guided production to an understandable spoken or otherwise accessible communicative performance.                                                                                      |
 | **Check**  | Run a short lesson-scoped check, record supported evidence, and summarise what the pupil demonstrated without blocking access to other Cards.                                                   |
 
-These are Card identities and navigation targets, not child Cards, phases inside a parent Card, or a workflow controlled by the Lesson. The Lesson may recommend the order above, but the pupil can open, leave, revisit, or complete any accessible Card. A future Chapter test is separate from the Lesson's **Check** Card and requires its own specification.
+These labels are not required Card identities, required phases, a prescribed order, or student-interface elements. A Lesson may use some, all, or none of them and may arrange its activities differently. If an activity needs independent addressing or reuse, it may become a separate peer Card based on that lesson's needs, not merely because it resembles one of these labels. A future Chapter test remains separate from the Lesson Card and requires its own specification.
 
 Each open Card uses one stable layout:
 
-- top: chapter mission and Lesson Card navigation with the current Card identified;
+- top: chapter and Lesson context with the current Lesson Card identified;
 - centre: the current Telugu expression, scene, or task;
 - below: contextual support such as meaning or word construction;
 - bottom: one primary action and a small set of help controls; and
 - persistent: pause, exit, and audio controls.
 
-Lesson navigation names **Listen**, **Learn**, **Build**, **Talk**, and **Check** rather than showing a countdown that pressures the pupil. The current Card and available destinations must be understandable without relying on colour alone. Use links or other navigation semantics when selecting a Card opens a distinct resource; do not expose these controls as tabs merely because they are arranged in one row.
+Do not expose **Listen**, **Learn**, **Build**, **Talk**, or **Check** merely to reveal internal lesson planning. When a Lesson links to another independent Card or destination, that navigation must be understandable without relying on colour alone. Use links or other navigation semantics when selecting a distinct resource; do not expose controls as tabs merely because they are arranged in one row.
 
 Every speaking activity defines these visible states:
 
@@ -208,7 +210,7 @@ Every chapter supports these states:
 - **Lesson completed**
 - **Ready to revisit**
 
-Lesson and Chapter states are derived from their configured Card- and unit-scoped Accomplishments. An exit-check Card may contribute an Accomplishment when required, but it does not gate access to other Cards. Completion does not require every objective to be independent unless the relevant curriculum specification explicitly requires it.
+Lesson and Chapter states are derived from their configured Card- and unit-scoped Accomplishments. A Lesson Card may include an exit check when required, but that activity does not imply a separate Card or gate access to other Cards. Completion does not require every objective to be independent unless the relevant curriculum specification explicitly requires it.
 
 Per-objective evidence uses **Independent**, **Prompted**, **Revisit**, or **Not assessed**. Each chapter defines the objectives to which those statuses apply.
 
@@ -235,15 +237,15 @@ Do not use time spent as the main success measure. Do not store raw audio, photo
 
 ## 9. Common acceptance criteria
 
-- Every Lesson provides directly navigable **Listen**, **Learn**, **Build**, **Talk**, and **Check** Cards.
-- Each of the five Lesson Cards requires an active pupil response appropriate to its responsibility.
-- Leaving or revisiting one Lesson Card does not force a sequence, change another Card's identity, or erase recorded work.
+- Every Card represents a stated domain concept and has a corresponding presentation; whether a Lesson uses one Lesson-level Card or independently meaningful activity Cards remains an open design decision.
+- A Lesson uses only the activities needed for its objective; **Listen**, **Learn**, **Build**, **Talk**, and **Check** are optional internal labels rather than required steps or student-interface elements.
+- Leaving or revisiting a Lesson Card does not force a universal sequence or erase recorded work.
 - The tutor presents no more than one required task at a time.
 - English is the default instruction language, and another supported language can be selected or changed without losing progress.
 - Instructions, meanings, explanations, prompts, feedback, interface text, and transliteration use the selected instruction-language variant.
 - Transliteration is not required to use Roman script when another script or convention better serves the selected instruction language.
 - Changing the instruction language does not change canonical Telugu content, objectives, evidence, or completion state.
-- No Lesson Card consists only of passive reading.
+- No Lesson Card consists only of passive reading when its objective requires an active learner response.
 - Help controls are initially hidden where the chapter specifies and can be revealed independently.
 - The tutor records the highest help level used for an objective.
 - After two unsuccessful attempts, the Card models the configured answer, marks **Revisit**, and allows the pupil to retry later or leave.

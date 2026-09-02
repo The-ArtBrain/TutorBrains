@@ -17,14 +17,10 @@
       <rect width="1440" height="82" rx="12" fill="#fffdf8"/>
       <circle class="soft" cx="46" cy="41" r="22"/><path d="M37 43c0-12 18-12 18 0M33 57c5-11 22-11 27 0" fill="none" stroke="#17332d" stroke-width="2.5"/>
       <text class="label" x="82" y="36">Chapter 01</text><text class="small" x="82" y="59">Lesson 1 · Greet someone</text>
-      <g data-semantic="nav" aria-label="Lesson controls"><text class="label" x="1170" y="48">Outline</text><text class="label" x="1280" y="48">Exit</text></g>
+      <g data-semantic="nav" aria-label="Lesson controls"><text class="label" x="1280" y="48">Exit</text></g>
       <line class="line" x1="0" y1="82" x2="1440" y2="82"/>
     </g>
-    <g aria-label="Learning phase progress" transform="translate(180 104)">
-      <text class="tiny" x="0" y="16">Listen</text><text class="tiny" x="215" y="16">Learn</text><text class="tiny" x="430" y="16">Build</text><text class="tiny" x="645" y="16">Talk</text><text class="tiny" x="860" y="16">Check</text>
-      <rect class="active" x="0" y="28" width="198" height="6" rx="3"/><rect class="active" x="215" y="28" width="198" height="6" rx="3"/><rect class="inactive" x="430" y="28" width="198" height="6" rx="3"/><rect class="inactive" x="645" y="28" width="198" height="6" rx="3"/><rect class="inactive" x="860" y="28" width="198" height="6" rx="3"/>
-    </g>
-    <g data-semantic="main" transform="translate(180 164)">
+    <g data-semantic="main" transform="translate(180 112)">
       <g id="desktop-logical-card" data-semantic="article" aria-label="Lesson Card">
         <g data-semantic="section" aria-label="Current task">
           <rect class="panel" width="1080" height="360" rx="20"/>
@@ -56,9 +52,8 @@
   <text class="frameName" x="1530" y="118">Tablet · 834 × 1194</text>
   <g id="lesson-tablet" transform="translate(1530 140)" data-semantic="body">
     <rect class="frame" width="834" height="1194" rx="12"/>
-    <g data-semantic="header"><circle class="soft" cx="38" cy="40" r="20"/><text class="label" x="72" y="35">Chapter 01</text><text class="small" x="72" y="58">Lesson 1</text><text class="label" x="696" y="48">Outline</text><line class="line" x1="0" y1="80" x2="834" y2="80"/></g>
-    <g aria-label="Learning phase progress" transform="translate(40 102)"><text class="tiny" x="0" y="14">Listen</text><text class="tiny" x="145" y="14">Learn</text><text class="tiny" x="290" y="14">Build</text><text class="tiny" x="435" y="14">Talk</text><text class="tiny" x="580" y="14">Check</text><rect class="active" x="0" y="26" width="128" height="6" rx="3"/><rect class="active" x="145" y="26" width="128" height="6" rx="3"/><rect class="inactive" x="290" y="26" width="128" height="6" rx="3"/><rect class="inactive" x="435" y="26" width="128" height="6" rx="3"/><rect class="inactive" x="580" y="26" width="128" height="6" rx="3"/></g>
-    <g data-semantic="main" transform="translate(40 160)">
+    <g data-semantic="header"><circle class="soft" cx="38" cy="40" r="20"/><text class="label" x="72" y="35">Chapter 01</text><text class="small" x="72" y="58">Lesson 1</text><text class="label" x="746" y="48">Exit</text><line class="line" x1="0" y1="80" x2="834" y2="80"/></g>
+    <g data-semantic="main" transform="translate(40 108)">
       <g data-semantic="article">
         <g data-semantic="section"><rect class="panel" width="754" height="400" rx="20"/><text class="small" x="28" y="42">Listen, then greet an elder or teacher.</text><text class="teluguM" x="377" y="148" text-anchor="middle">నమస్కారం</text><text class="body" x="377" y="194" text-anchor="middle">Namaskāraṁ</text><g transform="translate(267 228)"><rect class="primary" width="220" height="56" rx="28"/><text class="button primaryText" x="110" y="36" text-anchor="middle">▶  Play audio</text></g><rect class="soft" x="58" y="320" width="180" height="48" rx="12"/><text class="label" x="148" y="350" text-anchor="middle">Meaning</text><rect class="soft" x="287" y="320" width="180" height="48" rx="12"/><text class="label" x="377" y="350" text-anchor="middle">Slow audio</text><rect class="soft" x="516" y="320" width="180" height="48" rx="12"/><text class="label" x="606" y="350" text-anchor="middle">Transliteration</text></g>
         <g data-semantic="form" transform="translate(0 428)"><text class="label" x="0" y="24">Choose a response method</text><rect class="soft" x="0" y="48" width="173" height="62" rx="12"/><text class="button" x="86" y="87" text-anchor="middle">Speak</text><rect class="soft" x="194" y="48" width="173" height="62" rx="12"/><text class="button" x="280" y="87" text-anchor="middle">Write</text><rect class="soft" x="388" y="48" width="173" height="62" rx="12"/><text class="button" x="474" y="87" text-anchor="middle">Type</text><rect class="soft" x="582" y="48" width="172" height="62" rx="12"/><text class="button" x="668" y="87" text-anchor="middle">Upload</text></g>
@@ -71,8 +66,7 @@
   <g id="lesson-mobile" transform="translate(2415 140)" data-semantic="body">
     <rect class="frame" width="390" height="844" rx="22"/>
     <g data-semantic="header"><text class="label" x="18" y="32">Chapter 01 · Lesson 1</text><text class="small" x="325" y="32">Exit</text><line class="line" x1="0" y1="52" x2="390" y2="52"/></g>
-    <g aria-label="Learning phase progress" transform="translate(18 70)"><rect class="active" width="65" height="6" rx="3"/><rect class="active" x="74" width="65" height="6" rx="3"/><rect class="inactive" x="148" width="65" height="6" rx="3"/><rect class="inactive" x="222" width="65" height="6" rx="3"/><rect class="inactive" x="296" width="65" height="6" rx="3"/><text class="tiny" x="0" y="27">Learn</text></g>
-    <g data-semantic="main" transform="translate(16 112)">
+    <g data-semantic="main" transform="translate(16 70)">
       <g data-semantic="article">
         <g data-semantic="section"><rect class="panel" width="358" height="332" rx="18"/><text class="small" x="18" y="34">Listen, then greet politely.</text><text class="teluguS" x="179" y="110" text-anchor="middle">నమస్కారం</text><text class="small" x="179" y="142" text-anchor="middle">Namaskāraṁ</text><g transform="translate(69 170)"><rect class="primary" width="220" height="52" rx="26"/><text class="button primaryText" x="110" y="33" text-anchor="middle">▶  Play audio</text></g><rect class="soft" x="18" y="250" width="98" height="48" rx="10"/><text class="small" x="67" y="280" text-anchor="middle">Meaning</text><rect class="soft" x="130" y="250" width="98" height="48" rx="10"/><text class="small" x="179" y="280" text-anchor="middle">Slow</text><rect class="soft" x="242" y="250" width="98" height="48" rx="10"/><text class="small" x="291" y="280" text-anchor="middle">Text help</text></g>
         <g data-semantic="form" transform="translate(0 352)"><text class="label" x="0" y="22">Respond</text><rect class="soft" x="0" y="40" width="80" height="54" rx="12"/><text class="small" x="40" y="73" text-anchor="middle">Speak</text><rect class="soft" x="92" y="40" width="80" height="54" rx="12"/><text class="small" x="132" y="73" text-anchor="middle">Write</text><rect class="soft" x="184" y="40" width="80" height="54" rx="12"/><text class="small" x="224" y="73" text-anchor="middle">Type</text><rect class="soft" x="276" y="40" width="82" height="54" rx="12"/><text class="small" x="317" y="73" text-anchor="middle">Upload</text></g>

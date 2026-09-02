@@ -91,7 +91,7 @@ This will need detailed functional thinking - for each character, grammar, word 
 | cap-LES-0002 | Start full lesson | Begin the normal guided route. | Chapter 01 targets approximately thirty minutes while adapting to responses. | Student, System Tutor | Dynamic |
 | cap-LES-0003 | Start fallback lesson | Begin a legitimate short continuity route. | It preserves essential contact without claiming full completion. | Student, System Tutor | Dynamic |
 | cap-LES-0004 | Present one task at a time | Keep a single required action in focus. | Help may remain available without forcing navigation decisions. | Student, System Tutor | Hybrid |
-| cap-LES-0005 | Move through learning phases | Guide progress through named phases. | Chapter 01 uses Listen, Learn, Build, Talk, and Check. | Student, System Tutor | Hybrid |
+| cap-LES-0005 | Move through lesson activities | Guide the pupil among activities needed for the Lesson objective. | Names such as Listen, Learn, Build, Talk, and Check may be useful to authors, but they are not required phases, a required order, or student-interface labels. | Student, System Tutor | Hybrid |
 | cap-LES-0006 | Adjust lesson timing | Vary activity duration using learner evidence. | The practical outcome remains more important than fixed timing. | System Tutor | Dynamic |
 | cap-LES-0007 | Preserve essentials when time is short | Retain the most valuable listening, speech, script, and performance work. | Can trigger or shape the fallback route. | Student, System Tutor | Dynamic |
 | cap-LES-0008 | Run exit check | Conduct concise evidence checks at the end. | Completion does not require every objective to be independent. | Student, System Tutor | Dynamic |

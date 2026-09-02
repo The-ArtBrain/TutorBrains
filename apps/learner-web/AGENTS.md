@@ -9,7 +9,7 @@ The current learner-web slice is a static semantic Hypertext Markup Language (HT
 - Use native elements according to meaning before adding generic containers or custom behavior.
 - Start the reviewed learner path at Chapter 01. Do not introduce a Course Card or make a Course overview the required entry point.
 - Represent the open Card as one flat `article`. Content, help abilities, response abilities, learner response, and feedback are sibling sections within that Card, not child Cards.
-- Treat Listen, Learn, Build, Talk, and Check as phase progress, not as separate Cards.
+- In this review fixture, present Lesson 1 through one Card without treating that choice as the finalized Card definition. Listen, Learn, Build, Talk, and Check are optional authoring labels, not required student-interface phases, navigation, or order.
 - Meaning, character references, and grammar references move together below the learner-response section but remain three independent semantic `article` disclosures. Keep the layout container unlabeled and without a heading so the learner is not presented with a named group; identify each article through its own `id`, `aria-labelledby`, and closed native `details`/`summary`.
 - Preserve semantic source order at every viewport width. Do not duplicate learner content for desktop and mobile.
 - Associate every form control with a visible `label`. Use buttons for actions and links for navigation.

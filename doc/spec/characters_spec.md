@@ -108,17 +108,17 @@ Character Cards are arranged by external ordered Card collections; a Card never 
 
 - An **Alphabet** or **Telugu script** Chapter may consist directly of an ordered collection of Cards referencing Character units.
 - A Chapter may group Cards for vowels, consonants, vowel signs, marks, combined forms, recognition, pronunciation, or writing without introducing a Card subtype for any group.
-- A Chapter may contain only Character-related Cards, may mix them with Vocabulary or Sentence-related Cards, or may organize them into Lessons.
-- A Lesson selects and orders the Cards needed for its objective. The same Card may be reused in several Lessons or Chapters without copying its definition.
+- A Chapter may contain only Character-related Cards, may mix them with Vocabulary or Sentence-related Cards, and may include Lesson Cards.
+- A Lesson Card references the Character units needed for its objective. The same unit may be reused by several Lesson Cards or other Cards without copying its definition.
 - A composite Character unit references its component Character units. A Card presenting that composite may reference the component units for display or explanation, but it does not contain component Cards.
 - The collection owns order, grouping, navigation, and curriculum placement. Each Card retains its own properties and explicit technical abilities.
 
 ## 7. Referencing requirements
 
-- A chapter or lesson references a unit by stable identifier.
+- A Chapter Card or Lesson Card references a unit by stable identifier.
 - A Card presenting a character references its character unit rather than copying the unit definition.
-- The referring lesson owns the relationship to that unit, such as orientation, introduction, practice, reinforcement, or assessment.
-- The referring Card owns its contextual examples, interaction, service-handle requirements, expected evaluation inputs, feedback intent, prompt level, retry behaviour, and Accomplishment rule. Registered services provide evaluation, speech, or feedback through handles bound during Card initialization. The Lesson owns its objectives and rules for deriving Lesson accomplishment from Card Accomplishments.
+- The referring Lesson Card owns the relationship to that unit, such as orientation, introduction, practice, reinforcement, or assessment.
+- The referring Card owns its objectives, contextual examples, interaction, service-handle requirements, expected evaluation inputs, feedback intent, prompt level, retry behaviour, and Accomplishment rule. Registered services provide evaluation, speech, or feedback through handles bound during Card initialization.
 - A unit must not contain backlinks or progression state for a particular chapter.
 - Multiple lessons may reference the same unit independently.
 - Composite units reference their components by stable identifier rather than duplicating the component definitions.

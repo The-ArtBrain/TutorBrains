@@ -9,9 +9,9 @@ Start with [`html/pages/index.html`](html/pages/index.html). The pages use ordin
 - HTML expresses document structure, navigation, language, forms, and learner-facing content.
 - CSS provides a small responsive presentation layer.
 - Navigation links work; controls that require application services are visibly disabled rather than appearing active.
-- Listen, Learn, Build, Talk, and Check describe Lesson phase progress. They are not separate Cards.
+- This fixture presents Lesson 1 through one Card but does not finalize the domain rule: a Card may represent a Lesson or an activity. Listen, Learn, Build, Talk, and Check may be useful authoring labels, but this interface does not expose them as phases, navigation, or an imposed order.
 - There is no JavaScript, server, authentication integration, persistence, course schema, or final data contract.
 - Firebase, Supabase, or another future identity service must bind behind the provider-neutral sign-in interface.
 - Chapter 01 values are illustrative fixtures, not a proposed serialization format.
 
-The inert [`patterns.html`](html/pages/patterns.html) page records the `<template>` investigation. Templates are interface fragments only; they do not define the educational hierarchy.
+The inert [`patterns.html`](html/pages/patterns.html) page is an isolated `<template>` fixture. Its browser behavior is evaluated by the Playwright tests; templates remain interface fragments only and do not define the educational hierarchy.

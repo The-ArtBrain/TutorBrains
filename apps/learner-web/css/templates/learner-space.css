@@ -1,0 +1,11 @@
+.learner-space__output {
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+  padding: var(--space-4);
+  border: 2px dashed var(--color-line);
+  border-radius: var(--radius-medium);
+  color: var(--color-muted);
+  background: var(--color-surface);
+  text-align: center;
+}

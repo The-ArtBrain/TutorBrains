@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Human and machine brain</title>
+  <desc id="desc">A single brain-shaped icon with organic folds on the left and electronic circuits on the right.</desc>
+  <defs>
+    <path id="brain-shape" d="M256 91C237 58 199 48 168 66C139 54 104 72 94 104C58 111 40 145 50 179C24 203 27 245 54 266C42 302 59 339 92 352C90 389 122 418 160 414C180 449 226 455 256 428C286 455 332 449 352 414C390 418 422 389 420 352C453 339 470 302 458 266C485 245 488 203 462 179C472 145 454 111 418 104C408 72 373 54 344 66C313 48 275 58 256 91Z"/>
+    <clipPath id="brain-left"><rect x="20" y="36" width="236" height="430"/></clipPath>
+    <clipPath id="brain-right"><rect x="256" y="36" width="236" height="430"/></clipPath>
+    <style>
+      .outline{fill:none;stroke:#17332d;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+      .fold{fill:none;stroke:#176b5b;stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
+      .circuit{fill:none;stroke:#176b5b;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+      .node{fill:#f3b642;stroke:#17332d;stroke-width:7}
+    </style>
+  </defs>
+
+  <use href="#brain-shape" fill="#f0f5f2" clip-path="url(#brain-left)"/>
+  <use href="#brain-shape" fill="#dcece8" clip-path="url(#brain-right)"/>
+  <use href="#brain-shape" class="outline"/>
+
+  <g id="organic-half" clip-path="url(#brain-left)" aria-label="Organic brain half">
+    <path class="fold" d="M246 113C219 96 183 104 171 132C158 163 177 181 202 187C226 193 239 210 237 236"/>
+    <path class="fold" d="M109 111C128 124 134 145 126 164C116 188 88 190 62 180"/>
+    <path class="fold" d="M79 265C105 249 134 256 145 281C155 303 144 328 119 342"/>
+    <path class="fold" d="M67 213C95 201 125 212 135 237"/>
+    <path class="fold" d="M147 181C128 208 136 239 164 252C190 264 219 252 230 229"/>
+    <path class="fold" d="M154 279C181 268 210 280 218 306C227 333 208 354 180 360"/>
+    <path class="fold" d="M104 353C129 346 151 359 158 382C164 401 177 415 198 423"/>
+    <path class="fold" d="M239 261C218 274 211 299 224 319C237 338 241 367 227 392"/>
+  </g>
+
+  <g id="machine-half" clip-path="url(#brain-right)" aria-label="Machine brain half">
+    <path class="circuit" d="M270 111V171H315"/>
+    <path class="circuit" d="M270 401V337H314"/>
+    <path class="circuit" d="M281 196H309"/>
+    <path class="circuit" d="M281 310H309"/>
+    <path class="circuit" d="M389 142H354V197"/>
+    <path class="circuit" d="M431 203H394V230"/>
+    <path class="circuit" d="M438 278H394V267"/>
+    <path class="circuit" d="M398 365H354V310"/>
+    <rect x="310" y="198" width="84" height="112" rx="15" fill="#fffdf8" stroke="#17332d" stroke-width="10"/>
+    <path class="circuit" d="M327 198V178M352 198V170M377 198V178M327 330V310M352 338V310M377 330V310"/>
+    <path class="circuit" d="M310 220H290M310 254H282M310 288H290M414 220H394M422 254H394M414 288H394"/>
+    <rect x="337" y="238" width="30" height="32" rx="6" class="node"/>
+    <circle cx="389" cy="142" r="11" class="node"/>
+    <circle cx="431" cy="203" r="11" class="node"/>
+    <circle cx="438" cy="278" r="11" class="node"/>
+    <circle cx="398" cy="365" r="11" class="node"/>
+  </g>
+
+  <path d="M256 91V428" fill="none" stroke="#f3b642" stroke-width="10" stroke-linecap="round"/>
+</svg>

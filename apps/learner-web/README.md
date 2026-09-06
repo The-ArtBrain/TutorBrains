@@ -14,4 +14,4 @@ Start with [`html/pages/index.html`](html/pages/index.html). The pages use ordin
 - Firebase, Supabase, or another future identity service must bind behind the provider-neutral sign-in interface.
 - Chapter 01 values are illustrative fixtures, not a proposed serialization format.
 
-The inert [`patterns.html`](html/pages/patterns.html) page is an isolated `<template>` fixture. Its browser behavior is evaluated by the Playwright tests; templates remain interface fragments only and do not define the educational hierarchy.
+The inert [`patterns.html`](html/pages/patterns.html) catalogue contains four structural templates—Card, learner space, user action, and learning group—with matching component stylesheet names. It also contains expanded English and Hindi specimens whose visible `<data>` values keep stable meaning separate from localized wording. Playwright evaluates the catalogue structure; the templates remain interface fragments and do not define the educational hierarchy or a final data contract.

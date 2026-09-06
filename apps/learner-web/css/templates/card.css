@@ -1,0 +1,115 @@
+.catalogue-introduction {
+  max-width: 52rem;
+}
+
+.catalogue-conventions {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.catalogue-conventions div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.catalogue-conventions dt {
+  font-weight: 800;
+}
+
+.catalogue-conventions dd {
+  margin: 0;
+}
+
+.catalogue-specimens {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.catalogue-specimen > h3 {
+  margin-bottom: var(--space-3);
+}
+
+.card {
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-strong);
+}
+
+.card h2,
+.card h3,
+.card h4 {
+  margin-top: 0;
+  line-height: 1.15;
+}
+
+.card h4 {
+  font-size: 1.05rem;
+}
+
+.card__header,
+.card__region {
+  padding: clamp(1.1rem, 4vw, 2.5rem);
+}
+
+.card__header {
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.card__header > :last-child,
+.card__region > :last-child {
+  margin-bottom: 0;
+}
+
+.card__region + .card__region {
+  border-top: 1px solid var(--color-line);
+}
+
+.card__content {
+  text-align: center;
+}
+
+.card__target {
+  margin-block: var(--space-4);
+  font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
+  font-size: clamp(3.2rem, 12vw, 7rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.card__transliteration {
+  max-width: 20rem;
+  margin-inline: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  text-align: start;
+}
+
+.card__transliteration summary {
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-brand-dark);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.card__transliteration p {
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+@media (min-width: 64rem) {
+  .catalogue-specimens {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+@media (max-width: 36rem) {
+  .catalogue-conventions div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}

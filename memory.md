@@ -1,31 +1,6 @@
 # Project Memory
 
-## Directory Structure
-
-```text
-TutorBrains/
-├── README.md
-├── memory.md
-└── doc/
-    ├── design/
-    │   ├── APP_SKELETON_TECH_DESIGN.md
-    │   ├── ARCHITECTURE_DECISION_LOG.md
-    │   ├── CAPACITOR_ELECTRON_PLATFORM_DESIGN.md
-    │   ├── PLATFORM_OPTIONS_FAQ.md
-    │   ├── PWA_PLATFORM_DESIGN.md
-    │   ├── TAURI_PLATFORM_DESIGN.md
-    │   └── project_structure.md
-    └── spec/
-        ├── CHAPTER_01_TUTOR_PRD.md
-        ├── capability_matrix.md
-        ├── characters_spec.md
-        ├── common_spec.md
-        ├── grammar_spec.md
-        ├── platform_spec.md
-        ├── sentence_spec.md
-        ├── student_onboarding_guide.md
-        └── vocabulary_spec.md
-```
+Review directory structure as existing and as desired in doc/design/project_structure.md.
 
 ## Directory Purpose
 

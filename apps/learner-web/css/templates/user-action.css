@@ -1,6 +1,5 @@
 .user-actions {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
   margin: 0;
   padding: 0;
@@ -9,14 +8,17 @@
 
 .user-action__control {
   width: 100%;
+  height: 100%;  
   gap: var(--space-2);
 }
 
 @media (min-width: 44rem) {
   .user-actions {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch; 
   }
-    .user-action__control {
+  .user-action__control {
     white-space: nowrap;
   }
+
 }

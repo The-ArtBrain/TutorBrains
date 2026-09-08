@@ -10,68 +10,53 @@ test.beforeEach(async ({ page }) => {
   await page.goto(patternsUrl);
 });
 
-test("TC-25 keeps exactly four structural templates inert", async ({ page }) => {
+test("TC-25 keeps Card specimens as ordinary flat HTML", async ({ page }) => {
   const result = await page.evaluate(() => {
-    const templates = Array.from(document.querySelectorAll("template"));
     const activeIds = Array.from(document.querySelectorAll("[id]"), ({ id }) => id);
-    const referencesResolve = (root, getById) =>
-      Array.from(root.querySelectorAll("[aria-labelledby]")).every((element) =>
-        element
-          .getAttribute("aria-labelledby")
-          .split(/\s+/)
-          .every((id) => getById(id)),
-      );
+    const referencesResolve = Array.from(document.querySelectorAll("[aria-labelledby]")).every((element) =>
+      element
+        .getAttribute("aria-labelledby")
+        .split(/\s+/)
+        .every((id) => document.getElementById(id)),
+    );
 
     return {
-      templateIds: templates.map(({ id }) => id),
+      templates: document.querySelectorAll("template").length,
       renderedCatalogueCards: document.querySelectorAll(".catalogue-specimen article.card").length,
-      cardTemplateArticles: document.querySelector("#template-card").content.querySelectorAll("article.card").length,
-      childCards: document.querySelector("#template-card").content.querySelectorAll("article.card article.card").length,
+      childCards: document.querySelectorAll("article.card article.card").length,
       activeIdsAreUnique: new Set(activeIds).size === activeIds.length,
-      activeReferencesResolve: referencesResolve(document, (id) => document.getElementById(id)),
-      templateReferencesResolve: templates.every((template) =>
-        referencesResolve(template.content, (id) => template.content.getElementById(id)),
-      ),
+      activeReferencesResolve: referencesResolve,
     };
   });
 
   expect(result).toEqual({
-    templateIds: [
-      "template-card",
-      "template-learner-space",
-      "template-user-action",
-      "template-learning-group",
-    ],
+    templates: 0,
     renderedCatalogueCards: 2,
-    cardTemplateArticles: 1,
     childCards: 0,
     activeIdsAreUnique: true,
     activeReferencesResolve: true,
-    templateReferencesResolve: true,
   });
 });
 
-test("TC-26 keeps template naming aligned with root classes and stylesheets", async ({ page }) => {
+test("TC-26 keeps component class and stylesheet names aligned", async ({ page }) => {
   const result = await page.evaluate(() => {
     const expectedComponents = ["card", "learner-space", "user-action", "learning-group"];
     const stylesheetNames = Array.from(document.styleSheets, ({ href }) => href && new URL(href).pathname.split("/").pop());
 
     return expectedComponents.map((component) => {
-      const template = document.querySelector(`#template-${component}`);
       return {
         component,
-        hasTemplate: Boolean(template),
-        hasRootClass: Boolean(template && template.content.querySelector(`.${component}`)),
+        hasRootClass: Boolean(document.querySelector(`.catalogue-specimen .${component}`)),
         hasStylesheet: stylesheetNames.includes(`${component}.css`),
       };
     });
   });
 
   expect(result).toEqual([
-    { component: "card", hasTemplate: true, hasRootClass: true, hasStylesheet: true },
-    { component: "learner-space", hasTemplate: true, hasRootClass: true, hasStylesheet: true },
-    { component: "user-action", hasTemplate: true, hasRootClass: true, hasStylesheet: true },
-    { component: "learning-group", hasTemplate: true, hasRootClass: true, hasStylesheet: true },
+    { component: "card", hasRootClass: true, hasStylesheet: true },
+    { component: "learner-space", hasRootClass: true, hasStylesheet: true },
+    { component: "user-action", hasRootClass: true, hasStylesheet: true },
+    { component: "learning-group", hasRootClass: true, hasStylesheet: true },
   ]);
 });
 

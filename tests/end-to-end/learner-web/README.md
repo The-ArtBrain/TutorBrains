@@ -1,6 +1,6 @@
 # Learner Web end-to-end tests
 
-These Playwright tests cover lesson-page test cases TC-08, TC-15, TC-16, TC-17, and TC-18, plus the HTML template-catalogue evaluations TC-25 through TC-28. They use an installed Google Chrome browser and do not require a learner-web server.
+These Playwright tests cover lesson-page test cases TC-08, TC-15, TC-16, TC-17, and TC-18, plus the HTML Card-pattern evaluations TC-25 through TC-28. They use an installed Google Chrome browser and do not require a learner-web server.
 
 ## Latest verification
 
@@ -34,8 +34,8 @@ The complete suite was run in Google Chrome after the stylesheet consolidation: 
 | TC-22 | Compare English and Hindi lessons | Structure, control order, disabled state, disclosures, and responsive layout correspond. | No |
 | TC-23 | Inspect language metadata | Telugu uses `lang="te"`, transliteration uses `lang="te-Latn"`, and language links declare their language. | No |
 | TC-24 | Inspect page source | No JavaScript, inline event handler, server binding, or functional behavior is introduced. | No |
-| TC-25 | Inspect the template catalogue | Exactly four structural templates exist; each remains inert and the Card template contains no child Card. | Yes |
-| TC-26 | Compare template, class, and stylesheet names | Card, learner-space, user-action, and learning-group use the same component name across all three layers. | Yes |
+| TC-25 | Inspect the Card catalogue | The specimens are ordinary active HTML, contain no templates, use unique references, and keep Cards flat. | Yes |
+| TC-26 | Compare class and stylesheet names | Card, learner-space, user-action, and learning-group use the same component name in HTML and CSS. | Yes |
 | TC-27 | Compare English and Hindi specimens | Both instruction-language specimens use parallel stable values and preserve the same canonical Telugu. | Yes |
 | TC-28 | Compare catalogue component layout | Catalogue specimens use the component-defined action and learning-group columns without a catalogue-specific override. | Yes |
 

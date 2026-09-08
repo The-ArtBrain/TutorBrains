@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Inert semantic HTML template catalogue for TutorBrains learner Cards">
-    <title>Card template catalogue ·  TutorBrains</title>
+    <meta name="description" content="Semantic HTML Card patterns for TutorBrains learners">
+    <title>Card pattern catalogue · TutorBrains</title>
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
-    <link rel="stylesheet" href="../../css/templates/card.css">
-    <link rel="stylesheet" href="../../css/templates/learner-space.css">
-    <link rel="stylesheet" href="../../css/templates/user-action.css">
-    <link rel="stylesheet" href="../../css/templates/learning-group.css">
-    <link rel="stylesheet" href="../../css/template-catalogue.css">
+    <link rel="stylesheet" href="../../css/components/card.css">
+    <link rel="stylesheet" href="../../css/components/learner-space.css">
+    <link rel="stylesheet" href="../../css/components/user-action.css">
+    <link rel="stylesheet" href="../../css/components/learning-group.css">
+    <link rel="stylesheet" href="../../css/pattern-catalogue.css">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -29,100 +29,38 @@
     <main id="main-content" class="page-shell">
       <header class="catalogue-introduction">
         <p class="eyebrow">Markup investigation</p>
-        <h1>Card template catalogue</h1>
-        <p class="lede">Four inert templates describe the reusable Card structure. The expanded English and Hindi specimens show the expected HTML without using JavaScript or defining a final content schema.</p>
+        <h1>Card pattern catalogue</h1>
+        <p class="lede">English and Hindi specimens document the current Card structure as ordinary semantic HTML. They are examples for review, not templates to initialize or clone.</p>
       </header>
 
       <section class="surface panel" aria-labelledby="convention-title">
         <h2 id="convention-title">Naming and data convention</h2>
-        <p>Each template, root class, and stylesheet shares one component name. Visible <code>data</code> elements keep a stable value separate from localized wording.</p>
+        <p>Each component root class and stylesheet shares one name. Visible <code>data</code> elements keep a stable value separate from localized wording.</p>
         <dl class="catalogue-conventions">
           <div>
             <dt>Card</dt>
-            <dd><code>template-card</code>, <code>card</code>, <code>card.css</code></dd>
+            <dd><code>card</code>, <code>card.css</code></dd>
           </div>
           <div>
             <dt>Learner space</dt>
-            <dd><code>template-learner-space</code>, <code>learner-space</code>, <code>learner-space.css</code></dd>
+            <dd><code>learner-space</code>, <code>learner-space.css</code></dd>
           </div>
           <div>
             <dt>User action</dt>
-            <dd><code>template-user-action</code>, <code>user-action</code>, <code>user-action.css</code></dd>
+            <dd><code>user-action</code>, <code>user-action.css</code></dd>
           </div>
           <div>
             <dt>Learning group</dt>
-            <dd><code>template-learning-group</code>, <code>learning-group</code>, <code>learning-group.css</code></dd>
+            <dd><code>learning-group</code>, <code>learning-group.css</code></dd>
           </div>
         </dl>
         <p class="field-help">A capability value declares what the Card may request. It does not declare device availability, permission, consent, or authorization.</p>
       </section>
 
-      <section aria-labelledby="templates-title">
-        <p class="eyebrow">Reusable structure</p>
-        <h2 id="templates-title">Inert templates</h2>
-        <p>The templates remain in the document for inspection and automated tests. Their placeholder IDs must become unique when an instance is produced.</p>
-
-        <!--
-          Catalogue templates are inert and do not define a serialization contract.
-          A future composer must replace placeholder IDs and matching references.
-        -->
-        <template id="template-card">
-          <article class="surface card" aria-labelledby="card-title-placeholder">
-            <header class="card__header">
-              <h2 id="card-title-placeholder"><data value="card:placeholder">Card title</data></h2>
-            </header>
-            <section class="card__region card__content" aria-labelledby="card-content-title-placeholder">
-              <h3 id="card-content-title-placeholder">Learning content</h3>
-              <p><data value="instruction:placeholder">Localized instruction</data></p>
-              <p class="card__target"><data value="content:placeholder" lang="te">తెలుగు</data></p>
-            </section>
-            <section class="card__region card__actions" aria-labelledby="card-actions-title-placeholder">
-              <h3 id="card-actions-title-placeholder">Available actions</h3>
-              <ul class="user-actions"></ul>
-            </section>
-            <section class="card__region card__learner" aria-labelledby="learner-space-title-placeholder">
-              <h3 id="learner-space-title-placeholder">Learner space</h3>
-            </section>
-            <div class="card__region card__learning-groups"></div>
-          </article>
-        </template>
-
-        <template id="template-learner-space">
-          <section class="learner-space" aria-labelledby="learner-space-heading-placeholder">
-            <h3 id="learner-space-heading-placeholder"><data value="learner-space:response">Your response</data></h3>
-            <output class="learner-space__output">
-              <data value="learner-space:empty">No response added yet.</data>
-            </output>
-          </section>
-        </template>
-
-        <template id="template-user-action">
-          <li class="user-action">
-            <button class="user-action__control" type="button" disabled>
-              <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
-              <data class="user-action__label" value="capability:placeholder">Action</data>
-            </button>
-          </li>
-        </template>
-
-        <template id="template-learning-group">
-          <article class="learning-group" aria-labelledby="learning-group-summary-placeholder">
-            <details class="disclosure learning-group__disclosure">
-              <summary id="learning-group-summary-placeholder">
-                <data value="learning-group:placeholder">Additional learning</data>
-              </summary>
-              <div class="learning-group__content">
-                <p><data value="learning-group-content:placeholder">Supporting content</data></p>
-              </div>
-            </details>
-          </article>
-        </template>
-      </section>
-
       <section aria-labelledby="specimens-title">
-        <p class="eyebrow">Expected instances</p>
-        <h2 id="specimens-title">Expanded specimens</h2>
-        <p>These Cards are written out as ordinary semantic HTML so their layout and language metadata can be reviewed without an initializer.</p>
+        <p class="eyebrow">Current structure</p>
+        <h2 id="specimens-title">Card specimens</h2>
+        <p>These Cards are written as ordinary semantic HTML so their structure, layout, data values, and language metadata can be reviewed directly.</p>
 
         <div class="catalogue-specimens">
           <section class="catalogue-specimen" lang="en-IN" aria-labelledby="english-specimen-title">
@@ -297,8 +235,8 @@
         </div>
       </section>
 
-      <aside class="prototype-note" aria-label="Template conclusion">
-        <strong>Current conclusion:</strong> the catalogue describes reusable structure and localized values, but performs no initialization. A later composition decision must preserve complete localized HTML and unique active-document IDs.
+      <aside class="prototype-note" aria-label="Pattern conclusion">
+        <strong>Current conclusion:</strong> the lesson uses one Card, so no Card template or cloning mechanism is needed. Shared class names and component styles provide the useful reuse boundary.
       </aside>
     </main>
   </body>

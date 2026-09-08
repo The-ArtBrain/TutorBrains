@@ -19,16 +19,15 @@ The current learner-web slice is a static semantic Hypertext Markup Language (HT
 
 ## CSS constraints
 
-- Keep design values in `tokens.css`, element defaults in `base.css`, shared interface rules in `components.css`, template-component layout in a matching file under `css/templates/`, and catalogue-only presentation in `template-catalogue.css`.
+- Keep design values in `tokens.css`, element defaults in `base.css`, shared interface rules in `components.css`, named component layout in a matching file under `css/components/`, and catalogue-only presentation in `pattern-catalogue.css`.
 - Prefer class selectors. Do not style by generated identifiers or encode Course, Chapter, Lesson, Card, ability, or progress meaning in CSS.
 - Use responsive reflow, not device-specific copies of content.
 - Do not place learner-facing words in `content` declarations.
 
-## Template constraints
+## Pattern constraints
 
-- HTML `template` elements are inert interface examples, not the authoritative Course/Card model.
-- Nested templates are allowed only when their relationship is understandable from the source and does not imply nested domain Cards.
-- Keep IDs inside inert examples documented as placeholders because cloning would require a future implementation to make them unique.
+- Write the current Lesson Card as ordinary semantic HTML. Do not introduce an HTML `template`, cloning mechanism, or initializer without a demonstrated repetition need.
+- Treat the Card catalogue as reviewable specimens, not as the authoritative Course/Card model or a promise of runtime composition.
 
 ## Review checks
 

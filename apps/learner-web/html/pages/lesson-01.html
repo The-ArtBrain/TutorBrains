@@ -9,6 +9,10 @@
     <link rel="alternate" hreflang="hi" href="lesson-01-hi.html">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/templates/card.css">
+    <link rel="stylesheet" href="../../css/templates/learner-space.css">
+    <link rel="stylesheet" href="../../css/templates/user-action.css">
+    <link rel="stylesheet" href="../../css/templates/learning-group.css">
   </head>
   <body>
     <a class="skip-link" href="#card-greeting">Skip to the current Card</a>
@@ -39,19 +43,19 @@
         Card name: Greeting exchange
         Review note: One Card presents the learning content and available response abilities. Service-dependent controls remain unavailable in this static review.
       -->
-      <article id="card-greeting" class="card-shell">
+      <article id="card-greeting" class="surface card">
 
-        <section class="card-shell__section card-content" aria-labelledby="content-title">
+        <section class="card__region card__content" aria-labelledby="content-title">
           <h3 id="content-title" class="visually-hidden">Card content</h3>
           <p>Listen, then greet an elder or teacher.</p>
-          <p class="target-expression" lang="te">నమస్కారం</p>
-          <div class="content-help" aria-label="Content help">
-            <details class="content-disclosure content-disclosure--transliteration">
+          <p class="card__target" lang="te">నమస్కారం</p>
+          <div class="card__content-actions" aria-label="Content help">
+            <details class="disclosure card__transliteration">
               <summary>
-                <span class="summary-preview" lang="te-Latn">Namaskāraṁ</span>
-                <span class="summary-action">
-                  <span class="when-closed">Show all</span>
-                  <span class="when-open">Hide</span>
+                <span class="card__summary-preview" lang="te-Latn">Namaskāraṁ</span>
+                <span class="card__summary-action">
+                  <span class="card__when-closed">Show all</span>
+                  <span class="card__when-open">Hide</span>
                 </span>
               </summary>
               <p lang="te-Latn">Namaskāraṁ</p>
@@ -64,61 +68,67 @@
           </div>
         </section>
 
-        <section class="card-shell__section" aria-labelledby="abilities-title">
+        <section class="card__region card__actions" aria-labelledby="abilities-title">
           <h3 id="abilities-title">Available response abilities</h3>
           <p class="field-help">The Card requests abilities; the learner chooses an available response method.</p>
           <fieldset>
             <legend class="visually-hidden">Response method</legend>
-            <div class="ability-grid">
-              <button type="button" disabled>
+            <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
                 Speak
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
                 Write
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
                 Type
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
                 Upload image
               </button>
-            </div>
           </fieldset>
         </section>
 
-        <section class="card-shell__section" aria-labelledby="response-title">
-          <h3 id="response-title">Your response</h3>
-          <div class="response-placeholder">
-            <p>No response added yet.<br>The selected response surface will appear here.</p>
+        <section class="card__region card__learner" aria-labelledby="response-title">
+          <div class="learner-space">
+            <h3 id="response-title">Your response</h3>
+            <output class="learner-space__output">
+              No response added yet.<br>The selected response surface will appear here.
+            </output>
           </div>
         </section>
 
-        <div class="card-shell__section reference-group">
-          <article id="meaning-reference" class="reference-item" aria-labelledby="meaning-summary">
-            <details class="content-disclosure">
+        <div class="card__region card__learning-groups">
+          <article id="meaning-reference" class="learning-group" aria-labelledby="meaning-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="meaning-summary">Meaning</summary>
-              <p>A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</p>
+              <div class="learning-group__content">
+                <p>A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</p>
+              </div>
             </details>
           </article>
-          <article id="character-references" class="reference-item" aria-labelledby="characters-summary">
-            <details class="content-disclosure">
+          <article id="character-references" class="learning-group" aria-labelledby="characters-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="characters-summary">Characters in this lesson</summary>
-              <ul class="character-links">
-                <li><span lang="te">మ</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
-                <li><span lang="te">న</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
-              </ul>
+              <div class="learning-group__content">
+                <ul>
+                  <li><span lang="te">మ</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
+                  <li><span lang="te">న</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
+                </ul>
+              </div>
             </details>
           </article>
-          <article id="grammar-references" class="reference-item" aria-labelledby="grammar-summary">
-            <details class="content-disclosure">
+          <article id="grammar-references" class="learning-group" aria-labelledby="grammar-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="grammar-summary">Grammar in this lesson</summary>
-              <ul class="related-links">
-                <li><a href="#card-greeting">Respectful greeting pattern · Greeting exchange Card</a></li>
-              </ul>
+              <div class="learning-group__content">
+                <ul>
+                  <li><a href="#card-greeting">Respectful greeting pattern · Greeting exchange Card</a></li>
+                </ul>
+              </div>
             </details>
           </article>
         </div>

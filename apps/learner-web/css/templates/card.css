@@ -1,41 +1,5 @@
-.catalogue-introduction {
-  max-width: 52rem;
-}
-
-.catalogue-conventions {
-  display: grid;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.catalogue-conventions div {
-  display: grid;
-  grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1fr);
-  gap: var(--space-3);
-}
-
-.catalogue-conventions dt {
-  font-weight: 800;
-}
-
-.catalogue-conventions dd {
-  margin: 0;
-}
-
-.catalogue-specimens {
-  display: grid;
-  gap: var(--space-5);
-}
-
-.catalogue-specimen > h3 {
-  margin-bottom: var(--space-3);
-}
-
 .card {
   overflow: hidden;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-large);
-  background: var(--color-surface-strong);
 }
 
 .card h2,
@@ -72,6 +36,26 @@
   text-align: center;
 }
 
+.card__content-actions {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  text-align: start;
+}
+
+.card__content-actions > button {
+  width: 100%;
+}
+
+.card__content-actions .button__icon {
+  margin-inline-end: var(--space-1);
+}
+
+.card__learning-groups {
+  display: grid;
+  gap: var(--space-2);
+}
+
 .card__target {
   margin-block: var(--space-4);
   font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
@@ -83,16 +67,13 @@
 .card__transliteration {
   max-width: 20rem;
   margin-inline: auto;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-small);
   text-align: start;
 }
 
 .card__transliteration summary {
-  padding: var(--space-2) var(--space-3);
-  color: var(--color-brand-dark);
-  font-weight: 750;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .card__transliteration p {
@@ -100,16 +81,40 @@
   padding: 0 var(--space-3) var(--space-3);
 }
 
-@media (min-width: 64rem) {
-  .catalogue-specimens {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-  }
+.card__summary-preview {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-@media (max-width: 36rem) {
-  .catalogue-conventions div {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
+.card__summary-action {
+  margin-inline-start: auto;
+  color: var(--color-brand-dark);
+  font-size: 0.88rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+}
+
+.card__when-open {
+  display: none;
+}
+
+.card__transliteration[open] .card__when-closed {
+  display: none;
+}
+
+.card__transliteration[open] .card__when-open {
+  display: inline;
+}
+
+@media (min-width: 44rem) {
+  .card__content-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card__learning-groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

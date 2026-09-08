@@ -19,7 +19,7 @@ The current learner-web slice is a static semantic Hypertext Markup Language (HT
 
 ## CSS constraints
 
-- Keep design values in `tokens.css`, element defaults in `base.css`, and reusable interface rules in `components.css`.
+- Keep design values in `tokens.css`, element defaults in `base.css`, shared interface rules in `components.css`, template-component layout in a matching file under `css/templates/`, and catalogue-only presentation in `template-catalogue.css`.
 - Prefer class selectors. Do not style by generated identifiers or encode Course, Chapter, Lesson, Card, ability, or progress meaning in CSS.
 - Use responsive reflow, not device-specific copies of content.
 - Do not place learner-facing words in `content` declarations.

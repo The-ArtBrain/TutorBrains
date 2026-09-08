@@ -101,3 +101,22 @@ test("TC-27 keeps English and Hindi values parallel in one document", async ({ p
   expect(result[0].capabilityValues).toEqual(result[1].capabilityValues);
   expect(result[0].teluguLanguageValues).toEqual(result[1].teluguLanguageValues);
 });
+
+test("TC-28 keeps component layouts unchanged inside the catalogue", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1000 });
+
+  const result = await page.locator(".catalogue-specimen").first().evaluate((specimen) => {
+    const columnCount = (selector) =>
+      getComputedStyle(specimen.querySelector(selector)).gridTemplateColumns.split(" ").length;
+
+    return {
+      userActionColumns: columnCount(".user-actions"),
+      learningGroupColumns: columnCount(".card__learning-groups"),
+    };
+  });
+
+  expect(result).toEqual({
+    userActionColumns: 4,
+    learningGroupColumns: 3,
+  });
+});

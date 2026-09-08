@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../css/templates/learner-space.css">
     <link rel="stylesheet" href="../../css/templates/user-action.css">
     <link rel="stylesheet" href="../../css/templates/learning-group.css">
+    <link rel="stylesheet" href="../../css/template-catalogue.css">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -32,7 +33,7 @@
         <p class="lede">Four inert templates describe the reusable Card structure. The expanded English and Hindi specimens show the expected HTML without using JavaScript or defining a final content schema.</p>
       </header>
 
-      <section class="panel" aria-labelledby="convention-title">
+      <section class="surface panel" aria-labelledby="convention-title">
         <h2 id="convention-title">Naming and data convention</h2>
         <p>Each template, root class, and stylesheet shares one component name. Visible <code>data</code> elements keep a stable value separate from localized wording.</p>
         <dl class="catalogue-conventions">
@@ -66,7 +67,7 @@
           A future composer must replace placeholder IDs and matching references.
         -->
         <template id="template-card">
-          <article class="card" aria-labelledby="card-title-placeholder">
+          <article class="surface card" aria-labelledby="card-title-placeholder">
             <header class="card__header">
               <h2 id="card-title-placeholder"><data value="card:placeholder">Card title</data></h2>
             </header>
@@ -77,7 +78,7 @@
             </section>
             <section class="card__region card__actions" aria-labelledby="card-actions-title-placeholder">
               <h3 id="card-actions-title-placeholder">Available actions</h3>
-              <ul class="user-action-list"></ul>
+              <ul class="user-actions"></ul>
             </section>
             <section class="card__region card__learner" aria-labelledby="learner-space-title-placeholder">
               <h3 id="learner-space-title-placeholder">Learner space</h3>
@@ -98,7 +99,7 @@
         <template id="template-user-action">
           <li class="user-action">
             <button class="user-action__control" type="button" disabled>
-              <img class="user-action__icon" src="../../assets/icons/microphone.svg" alt="">
+              <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
               <data class="user-action__label" value="capability:placeholder">Action</data>
             </button>
           </li>
@@ -106,7 +107,7 @@
 
         <template id="template-learning-group">
           <article class="learning-group" aria-labelledby="learning-group-summary-placeholder">
-            <details class="learning-group__disclosure">
+            <details class="disclosure learning-group__disclosure">
               <summary id="learning-group-summary-placeholder">
                 <data value="learning-group:placeholder">Additional learning</data>
               </summary>
@@ -126,7 +127,7 @@
         <div class="catalogue-specimens">
           <section class="catalogue-specimen" lang="en-IN" aria-labelledby="english-specimen-title">
             <h3 id="english-specimen-title">English instruction-language specimen</h3>
-            <article class="card" aria-labelledby="card-title-en">
+            <article class="surface card" aria-labelledby="card-title-en">
               <header class="card__header">
                 <h4 id="card-title-en"><data value="card:greeting-exchange">Greeting exchange</data></h4>
               </header>
@@ -135,7 +136,7 @@
                 <h4 id="card-content-title-en" class="visually-hidden">Learning content</h4>
                 <p><data value="instruction:greet-respectfully">Listen, then greet an elder or teacher.</data></p>
                 <p class="card__target"><data value="content:greeting-respectful" lang="te">నమస్కారం</data></p>
-                <details class="card__transliteration">
+                <details class="disclosure card__transliteration">
                   <summary><data value="action:show-transliteration">Show transliteration</data></summary>
                   <p><data value="transliteration:greeting-respectful" lang="te-Latn">Namaskāraṁ</data></p>
                 </details>
@@ -143,28 +144,28 @@
 
               <section class="card__region card__actions" aria-labelledby="card-actions-title-en">
                 <h4 id="card-actions-title-en"><data value="actions:available">Available response abilities</data></h4>
-                <ul class="user-action-list">
+                <ul class="user-actions">
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/microphone.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
                       <data class="user-action__label" value="capability:speak">Speak</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/pencil.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
                       <data class="user-action__label" value="capability:write">Write</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/keyboard.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
                       <data class="user-action__label" value="capability:type">Type</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/upload.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
                       <data class="user-action__label" value="capability:accept-learner-image">Upload image</data>
                     </button>
                   </li>
@@ -182,7 +183,7 @@
 
               <div class="card__region card__learning-groups">
                 <article class="learning-group" aria-labelledby="meaning-summary-en">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="meaning-summary-en"><data value="learning-group:meaning">Meaning</data></summary>
                     <div class="learning-group__content">
                       <p><data value="meaning:greeting-respectful">A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</data></p>
@@ -190,7 +191,7 @@
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="characters-summary-en">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="characters-summary-en"><data value="learning-group:characters">Characters in this lesson</data></summary>
                     <div class="learning-group__content">
                       <p><data value="characters:greeting-respectful" lang="te">మ · న</data></p>
@@ -198,7 +199,7 @@
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="grammar-summary-en">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="grammar-summary-en"><data value="learning-group:grammar">Grammar in this lesson</data></summary>
                     <div class="learning-group__content">
                       <p><data value="grammar:greeting-respectful">Respectful greeting pattern</data></p>
@@ -211,7 +212,7 @@
 
           <section class="catalogue-specimen" lang="hi-IN" aria-labelledby="hindi-specimen-title">
             <h3 id="hindi-specimen-title">हिन्दी निर्देश-भाषा नमूना</h3>
-            <article class="card" aria-labelledby="card-title-hi">
+            <article class="surface card" aria-labelledby="card-title-hi">
               <header class="card__header">
                 <h4 id="card-title-hi"><data value="card:greeting-exchange">अभिवादन संवाद</data></h4>
               </header>
@@ -220,7 +221,7 @@
                 <h4 id="card-content-title-hi" class="visually-hidden">सीखने की सामग्री</h4>
                 <p><data value="instruction:greet-respectfully">सुनें, फिर किसी बड़े या शिक्षक का अभिवादन करें।</data></p>
                 <p class="card__target"><data value="content:greeting-respectful" lang="te">నమస్కారం</data></p>
-                <details class="card__transliteration">
+                <details class="disclosure card__transliteration">
                   <summary><data value="action:show-transliteration">लिप्यंतरण देखें</data></summary>
                   <p><data value="transliteration:greeting-respectful" lang="te-Latn">Namaskāraṁ</data></p>
                 </details>
@@ -228,28 +229,28 @@
 
               <section class="card__region card__actions" aria-labelledby="card-actions-title-hi">
                 <h4 id="card-actions-title-hi"><data value="actions:available">उपलब्ध उत्तर क्षमताएँ</data></h4>
-                <ul class="user-action-list">
+                <ul class="user-actions">
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/microphone.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
                       <data class="user-action__label" value="capability:speak">बोलें</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/pencil.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
                       <data class="user-action__label" value="capability:write">लिखें</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/keyboard.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
                       <data class="user-action__label" value="capability:type">टाइप करें</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
-                      <img class="user-action__icon" src="../../assets/icons/upload.svg" alt="">
+                      <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
                       <data class="user-action__label" value="capability:accept-learner-image">चित्र अपलोड करें</data>
                     </button>
                   </li>
@@ -267,7 +268,7 @@
 
               <div class="card__region card__learning-groups">
                 <article class="learning-group" aria-labelledby="meaning-summary-hi">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="meaning-summary-hi"><data value="learning-group:meaning">अर्थ</data></summary>
                     <div class="learning-group__content">
                       <p><data value="meaning:greeting-respectful">किसी अपरिचित वयस्क, बड़े या शिक्षक के लिए उपयुक्त सम्मानपूर्ण अभिवादन।</data></p>
@@ -275,7 +276,7 @@
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="characters-summary-hi">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="characters-summary-hi"><data value="learning-group:characters">इस पाठ के अक्षर</data></summary>
                     <div class="learning-group__content">
                       <p><data value="characters:greeting-respectful" lang="te">మ · న</data></p>
@@ -283,7 +284,7 @@
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="grammar-summary-hi">
-                  <details class="learning-group__disclosure">
+                  <details class="disclosure learning-group__disclosure">
                     <summary id="grammar-summary-hi"><data value="learning-group:grammar">इस पाठ का व्याकरण</data></summary>
                     <div class="learning-group__content">
                       <p><data value="grammar:greeting-respectful">सम्मानपूर्ण अभिवादन पैटर्न</data></p>

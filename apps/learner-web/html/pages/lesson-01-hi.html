@@ -9,6 +9,10 @@
     <link rel="alternate" hreflang="hi" href="lesson-01-hi.html">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/templates/card.css">
+    <link rel="stylesheet" href="../../css/templates/learner-space.css">
+    <link rel="stylesheet" href="../../css/templates/user-action.css">
+    <link rel="stylesheet" href="../../css/templates/learning-group.css">
   </head>
   <body>
     <a class="skip-link" href="#card-greeting">वर्तमान कार्ड पर जाएँ</a>
@@ -39,19 +43,19 @@
         कार्ड नाम: अभिवादन संवाद
         समीक्षा टिप्पणी: एक कार्ड सीखने की सामग्री और उपलब्ध उत्तर क्षमताएँ प्रस्तुत करता है। इस स्थिर समीक्षा में सेवा-निर्भर नियंत्रण उपलब्ध नहीं हैं।
       -->
-      <article id="card-greeting" class="card-shell">
+      <article id="card-greeting" class="surface card">
 
-        <section class="card-shell__section card-content" aria-labelledby="content-title">
+        <section class="card__region card__content" aria-labelledby="content-title">
           <h3 id="content-title" class="visually-hidden">कार्ड सामग्री</h3>
           <p>सुनें, फिर किसी बड़े या शिक्षक का अभिवादन करें।</p>
-          <p class="target-expression" lang="te">నమస్కారం</p>
-          <div class="content-help" aria-label="सामग्री सहायता">
-            <details class="content-disclosure content-disclosure--transliteration">
+          <p class="card__target" lang="te">నమస్కారం</p>
+          <div class="card__content-actions" aria-label="सामग्री सहायता">
+            <details class="disclosure card__transliteration">
               <summary>
-                <span class="summary-preview" lang="te-Latn">Namaskāraṁ</span>
-                <span class="summary-action">
-                  <span class="when-closed">पूरा देखें</span>
-                  <span class="when-open">छिपाएँ</span>
+                <span class="card__summary-preview" lang="te-Latn">Namaskāraṁ</span>
+                <span class="card__summary-action">
+                  <span class="card__when-closed">पूरा देखें</span>
+                  <span class="card__when-open">छिपाएँ</span>
                 </span>
               </summary>
               <p lang="te-Latn">Namaskāraṁ</p>
@@ -64,25 +68,25 @@
           </div>
         </section>
 
-        <section class="card-shell__section" aria-labelledby="abilities-title">
+        <section class="card__region card__actions" aria-labelledby="abilities-title">
           <h3 id="abilities-title">उपलब्ध उत्तर क्षमताएँ</h3>
           <p class="field-help">कार्ड क्षमताओं का अनुरोध करता है; विद्यार्थी उपलब्ध उत्तर विधि चुनता है।</p>
           <fieldset>
             <legend class="visually-hidden">उत्तर विधि</legend>
-            <div class="ability-grid">
-              <button type="button" disabled>
+            <div class="user-actions" role="group" aria-label="उत्तर विधि">
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
                 बोलें
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
                 लिखें
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
                 टाइप करें
               </button>
-              <button type="button" disabled>
+              <button class="user-action__control" type="button" disabled>
                 <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
                 चित्र अपलोड करें
               </button>
@@ -90,35 +94,43 @@
           </fieldset>
         </section>
 
-        <section class="card-shell__section" aria-labelledby="response-title">
-          <h3 id="response-title">आपका उत्तर</h3>
-          <div class="response-placeholder">
-            <p>अभी कोई उत्तर नहीं जोड़ा गया है।<br>चुनी गई उत्तर सतह यहाँ दिखाई देगी।</p>
+        <section class="card__region card__learner" aria-labelledby="response-title">
+          <div class="learner-space">
+            <h3 id="response-title">आपका उत्तर</h3>
+            <output class="learner-space__output">
+              अभी कोई उत्तर नहीं जोड़ा गया है।<br>चुनी गई उत्तर सतह यहाँ दिखाई देगी।
+            </output>
           </div>
         </section>
 
-        <div class="card-shell__section reference-group">
-          <article id="meaning-reference" class="reference-item" aria-labelledby="meaning-summary">
-            <details class="content-disclosure">
+        <div class="card__region card__learning-groups">
+          <article id="meaning-reference" class="learning-group" aria-labelledby="meaning-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="meaning-summary">अर्थ</summary>
-              <p>किसी अपरिचित वयस्क, बड़े या शिक्षक के लिए उपयुक्त सम्मानपूर्ण अभिवादन।</p>
+              <div class="learning-group__content">
+                <p>किसी अपरिचित वयस्क, बड़े या शिक्षक के लिए उपयुक्त सम्मानपूर्ण अभिवादन।</p>
+              </div>
             </details>
           </article>
-          <article id="character-references" class="reference-item" aria-labelledby="characters-summary">
-            <details class="content-disclosure">
+          <article id="character-references" class="learning-group" aria-labelledby="characters-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="characters-summary">इस पाठ के अक्षर</summary>
-              <ul class="character-links">
-                <li><span lang="te">మ</span> · <a href="#card-greeting">अभिवादन संवाद कार्ड</a></li>
-                <li><span lang="te">న</span> · <a href="#card-greeting">अभिवादन संवाद कार्ड</a></li>
-              </ul>
+              <div class="learning-group__content">
+                <ul>
+                  <li><span lang="te">మ</span> · <a href="#card-greeting">अभिवादन संवाद कार्ड</a></li>
+                  <li><span lang="te">న</span> · <a href="#card-greeting">अभिवादन संवाद कार्ड</a></li>
+                </ul>
+              </div>
             </details>
           </article>
-          <article id="grammar-references" class="reference-item" aria-labelledby="grammar-summary">
-            <details class="content-disclosure">
+          <article id="grammar-references" class="learning-group" aria-labelledby="grammar-summary">
+            <details class="disclosure learning-group__disclosure">
               <summary id="grammar-summary">इस पाठ का व्याकरण</summary>
-              <ul class="related-links">
-                <li><a href="#card-greeting">सम्मानपूर्ण अभिवादन पैटर्न · अभिवादन संवाद कार्ड</a></li>
-              </ul>
+              <div class="learning-group__content">
+                <ul>
+                  <li><a href="#card-greeting">सम्मानपूर्ण अभिवादन पैटर्न · अभिवादन संवाद कार्ड</a></li>
+                </ul>
+              </div>
             </details>
           </article>
         </div>

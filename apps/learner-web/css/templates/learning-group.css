@@ -1,25 +1,9 @@
-.card__learning-groups {
-  display: grid;
-  gap: var(--space-2);
-}
-
 .learning-group {
   min-width: 0;
 }
 
 .learning-group__disclosure {
   height: 100%;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-small);
-  background: var(--color-surface-strong);
-}
-
-.learning-group__disclosure summary {
-  min-height: 2.8rem;
-  padding: 0.65rem 0.75rem;
-  color: var(--color-brand-dark);
-  font-weight: 750;
-  cursor: pointer;
 }
 
 .learning-group__content {
@@ -31,14 +15,16 @@
   margin-bottom: 0;
 }
 
-@media (min-width: 44rem) {
-  .card__learning-groups {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.learning-group__content ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media (min-width: 64rem) {
-  .catalogue-specimens .card__learning-groups {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.learning-group__content [lang="te"] {
+  font-family: "Noto Sans Telugu", "Nirmala UI", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
 }

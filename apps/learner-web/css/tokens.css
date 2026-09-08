@@ -10,12 +10,8 @@
   --color-brand-dark: #29453e;
   --color-brand-soft: #e8f4ed;
   --color-accent: #f3b642;
-  --color-accent-soft: #f0f5f2;
   --color-info: #6b9d80;
-  --color-info-soft: #f0f5f2;
   --color-control-disabled: #eef2ef;
-  --color-danger: #9d3b35;
-  --color-danger-soft: #fbe9e5;
   --shadow-soft: none;
   --radius-small: 0.55rem;
   --radius-medium: 0.9rem;
@@ -25,7 +21,6 @@
   --space-3: 1rem;
   --space-4: 1.5rem;
   --space-5: 2rem;
-  --space-6: 3rem;
   --content-width: 72rem;
   --reading-width: 46rem;
 }

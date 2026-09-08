@@ -1,0 +1,39 @@
+.catalogue-introduction {
+  max-width: 52rem;
+}
+
+.catalogue-conventions {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.catalogue-conventions div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.catalogue-conventions dt {
+  font-weight: 800;
+}
+
+.catalogue-conventions dd {
+  margin: 0;
+}
+
+.catalogue-specimens {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.catalogue-specimen > h3 {
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 36rem) {
+  .catalogue-conventions div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}

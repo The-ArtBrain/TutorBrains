@@ -14,7 +14,7 @@ async function openLesson(page, filename, viewport) {
 }
 
 async function disclosureMeasurements(page) {
-  return page.locator(".reference-item .content-disclosure").evaluateAll((disclosures) =>
+  return page.locator(".learning-group .learning-group__disclosure").evaluateAll((disclosures) =>
     disclosures.map((disclosure) => {
       const summary = disclosure.querySelector("summary");
       const range = document.createRange();
@@ -37,11 +37,11 @@ for (const filename of lessonPages) {
       await openLesson(page, filename, { width: 780, height: 996 });
 
       const isOrdered = await page.evaluate(() => {
-        const contentHelp = document.querySelector(".content-help");
+        const contentHelp = document.querySelector(".card__content-actions");
         const buttons = contentHelp.querySelectorAll(":scope > button");
         const nodes = [
-          document.querySelector(".target-expression"),
-          contentHelp.querySelector(".content-disclosure--transliteration"),
+          document.querySelector(".card__target"),
+          contentHelp.querySelector(".card__transliteration"),
           buttons[0],
           buttons[1],
         ];
@@ -60,8 +60,8 @@ for (const filename of lessonPages) {
     test("TC-15 keeps the reference group unnamed and its disclosures independent", async ({ page }) => {
       await openLesson(page, filename, { width: 780, height: 996 });
 
-      const referenceGroup = page.locator(".reference-group");
-      await expect(referenceGroup.locator("article.reference-item")).toHaveCount(3);
+      const referenceGroup = page.locator(".card__learning-groups");
+      await expect(referenceGroup.locator("article.learning-group")).toHaveCount(3);
       await expect(referenceGroup.locator("h1, h2, h3, h4, h5, h6")).toHaveCount(0);
       await expect(referenceGroup.locator("details:not([open])")).toHaveCount(3);
       await expect(page.locator("body")).not.toContainText("Related Learning");
@@ -99,7 +99,7 @@ for (const filename of lessonPages) {
     test("TC-18 stacks closed disclosures below 44rem and opens only the selected one", async ({ page }) => {
       await openLesson(page, filename, { width: 390, height: 844 });
 
-      const articles = page.locator(".reference-item");
+      const articles = page.locator(".learning-group");
       const boxes = await articles.evaluateAll((items) =>
         items.map((item) => {
           const rectangle = item.getBoundingClientRect();
@@ -117,8 +117,8 @@ for (const filename of lessonPages) {
       expect(Math.max(...boxes.map(({ width }) => width)) - Math.min(...boxes.map(({ width }) => width))).toBeLessThanOrEqual(1);
       expect(Math.max(...boxes.map(({ left }) => left)) - Math.min(...boxes.map(({ left }) => left))).toBeLessThanOrEqual(1);
 
-      const disclosures = page.locator(".reference-item details");
-      await expect(page.locator(".reference-item details[open]")).toHaveCount(0);
+      const disclosures = page.locator(".learning-group details");
+      await expect(page.locator(".learning-group details[open]")).toHaveCount(0);
       await disclosures.nth(1).locator("summary").click();
 
       const openStates = await disclosures.evaluateAll((items) => items.map((item) => item.open));

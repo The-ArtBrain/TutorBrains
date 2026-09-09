@@ -213,6 +213,20 @@
   font-size: 0.9rem;
 }
 
+.data-placeholder {
+  display: inline-block;
+  padding: 0 0.35em;
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-small);
+  color: var(--color-muted);
+  background: var(--color-canvas);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 .identity-state {
   display: flex;
   align-items: center;

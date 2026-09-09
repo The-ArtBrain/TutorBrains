@@ -17,15 +17,13 @@ async function disclosureMeasurements(page) {
   return page.locator(".learning-group .learning-group__disclosure").evaluateAll((disclosures) =>
     disclosures.map((disclosure) => {
       const summary = disclosure.querySelector("summary");
-      const range = document.createRange();
-      range.selectNodeContents(summary);
+      const measuredContent = summary.querySelector(".data-placeholder") || summary;
+      const contentStyle = getComputedStyle(measuredContent);
 
       return {
         disclosureHeight: disclosure.getBoundingClientRect().height,
         summaryHeight: summary.getBoundingClientRect().height,
-        summaryLines: Array.from(range.getClientRects()).filter(
-          (rectangle) => rectangle.width > 0 && rectangle.height > 0,
-        ).length,
+        summaryLines: Math.round(measuredContent.getBoundingClientRect().height / Number.parseFloat(contentStyle.lineHeight)),
       };
     }),
   );
@@ -33,6 +31,73 @@ async function disclosureMeasurements(page) {
 
 for (const filename of lessonPages) {
   test.describe(filename, () => {
+    test("TC-29 exposes lesson data sources and unresolved placeholders without JavaScript", async ({ page }) => {
+      await openLesson(page, filename, { width: 780, height: 996 });
+
+      const result = await page.evaluate(() => {
+        const banks = Array.from(
+          document.querySelectorAll(".site-header > .lesson-content-data, .site-header > .instruction-content-data"),
+        );
+        const placeholders = Array.from(document.querySelectorAll(".data-placeholder"));
+
+        return {
+          blockNames: banks.map(({ className }) => className),
+          blocksAreHidden: banks.every(({ hidden }) => hidden),
+          sourceCounts: banks.map((bank) => bank.querySelectorAll(":scope > data[id]").length),
+          placeholderCount: placeholders.length,
+          literalAriaLabels: document.querySelectorAll("[aria-label]").length,
+          referencesResolve: placeholders.every((placeholder) => {
+            const selector = placeholder.dataset.source;
+            return selector?.startsWith("#") && banks.some((bank) => bank.querySelector(selector)?.tagName === "DATA");
+          }),
+          ariaReferencesResolve: Array.from(document.querySelectorAll("[aria-labelledby]")).every((element) =>
+            element
+              .getAttribute("aria-labelledby")
+              .split(/\s+/)
+              .every((id) => document.getElementById(id)),
+          ),
+          placeholdersNameTheirSources: placeholders.every(
+            (placeholder) => placeholder.textContent.trim() === `[${placeholder.dataset.source}]`,
+          ),
+          scripts: document.querySelectorAll("script").length,
+        };
+      });
+
+      expect(result).toEqual({
+        blockNames: ["lesson-content-data", "instruction-content-data"],
+        blocksAreHidden: true,
+        sourceCounts: [9, 24],
+        placeholderCount: 34,
+        literalAriaLabels: 0,
+        referencesResolve: true,
+        ariaReferencesResolve: true,
+        placeholdersNameTheirSources: true,
+        scripts: 0,
+      });
+
+      const expectedNames = filename === "lesson-01.html"
+        ? {
+            skip: "Skip to the current Card",
+            context: "Chapter 01 Lesson 1 · Greet someone",
+            controls: "Lesson controls",
+            contentHelp: "Content help",
+            responseMethod: "Response method",
+          }
+        : {
+            skip: "वर्तमान कार्ड पर जाएँ",
+            context: "अध्याय 01 पाठ 1 · किसी का अभिवादन करें",
+            controls: "पाठ नियंत्रण",
+            contentHelp: "सामग्री सहायता",
+            responseMethod: "उत्तर विधि",
+          };
+
+      await expect(page.locator(".skip-link")).toHaveAccessibleName(expectedNames.skip);
+      await expect(page.locator(".lesson-context")).toHaveAccessibleName(expectedNames.context);
+      await expect(page.locator(".site-header nav")).toHaveAccessibleName(expectedNames.controls);
+      await expect(page.locator(".card__content-actions")).toHaveAccessibleName(expectedNames.contentHelp);
+      await expect(page.locator(".card__actions fieldset")).toHaveAccessibleName(expectedNames.responseMethod);
+    });
+
     test("TC-08 keeps the lesson content controls in semantic order", async ({ page }) => {
       await openLesson(page, filename, { width: 780, height: 996 });
 

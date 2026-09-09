@@ -14,9 +14,13 @@
 
 @media (min-width: 44rem) {
   .user-actions {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     align-items: stretch; 
   }
+  /*
+  need to block wrapping as button sizes increase. Do not add a large content on button label. That will
+  overflow
+   */
   .user-action__control {
     white-space: nowrap;
   }

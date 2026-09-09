@@ -64,6 +64,10 @@
   line-height: 1.2;
 }
 
+.card__target .data-placeholder {
+  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+}
+
 .card__transliteration {
   max-width: 20rem;
   margin-inline: auto;

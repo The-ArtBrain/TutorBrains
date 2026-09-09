@@ -15,21 +15,58 @@
     <link rel="stylesheet" href="../../css/components/learning-group.css">
   </head>
   <body>
-    <a class="skip-link" href="#card-greeting">Skip to the current Card</a>
+    <a class="skip-link" href="#card-greeting" aria-labelledby="lesson-skip-card-label"><span class="data-placeholder" data-source="#lesson-skip-card-label">[#lesson-skip-card-label]</span></a>
 
     <header class="site-header">
+      <section class="lesson-content-data" hidden>
+        <data id="lesson-chapter-label" value="chapter:01">Chapter 01</data>
+        <data id="lesson-title" value="lesson:01">Lesson 1 · Greet someone</data>
+        <data id="lesson-target-expression" value="content:greeting-respectful" lang="te">నమస్కారం</data>
+        <data id="lesson-transliteration" value="transliteration:greeting-respectful" lang="te-Latn">Namaskāraṁ</data>
+        <data id="lesson-meaning-description" value="meaning:greeting-respectful">A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</data>
+        <data id="lesson-character-ma" value="character:ma" lang="te">మ</data>
+        <data id="lesson-character-na" value="character:na" lang="te">న</data>
+        <data id="lesson-card-link-label" value="card:greeting-exchange">Greeting exchange Card</data>
+        <data id="lesson-grammar-pattern" value="grammar:greeting-respectful">Respectful greeting pattern</data>
+      </section>
+      <section class="instruction-content-data" hidden>
+        <data id="lesson-skip-card-label" value="navigation:skip-card">Skip to the current Card</data>
+        <data id="lesson-controls-label" value="navigation:lesson-controls">Lesson controls</data>
+        <data id="lesson-language-switch-label" value="navigation:instruction-language-hindi" lang="hi">हिन्दी</data>
+        <data id="lesson-exit-label" value="navigation:exit">Exit</data>
+        <data id="lesson-card-content-title" value="region:card-content">Card content</data>
+        <data id="lesson-content-help-label" value="region:content-help">Content help</data>
+        <data id="lesson-instruction" value="instruction:greet-respectfully">Listen, then greet an elder or teacher.</data>
+        <data id="lesson-show-all-label" value="action:show-all">Show all</data>
+        <data id="lesson-hide-label" value="action:hide">Hide</data>
+        <data id="lesson-play-audio-label" value="action:play-audio">Play audio</data>
+        <data id="lesson-say-slowly-label" value="action:say-slowly">Say it slowly</data>
+        <data id="lesson-abilities-title" value="abilities:available">Available response abilities</data>
+        <data id="lesson-abilities-help" value="abilities:help">The Card requests abilities; the learner chooses an available response method.</data>
+        <data id="lesson-response-method-label" value="response:method">Response method</data>
+        <data id="lesson-speak-label" value="capability:speak">Speak</data>
+        <data id="lesson-write-label" value="capability:write">Write</data>
+        <data id="lesson-type-label" value="capability:type">Type</data>
+        <data id="lesson-upload-image-label" value="capability:accept-learner-image">Upload image</data>
+        <data id="lesson-response-title" value="learner-space:response">Your response</data>
+        <data id="lesson-response-empty" value="learner-space:empty">No response added yet.</data>
+        <data id="lesson-response-surface" value="learner-space:future-surface">The selected response surface will appear here.</data>
+        <data id="lesson-meaning-title" value="learning-group:meaning">Meaning</data>
+        <data id="lesson-characters-title" value="learning-group:characters">Characters in this lesson</data>
+        <data id="lesson-grammar-title" value="learning-group:grammar">Grammar in this lesson</data>
+      </section>
       <div class="site-header__inner">
-        <a class="lesson-context" href="chapter-01.html" aria-label="Chapter 01, Lesson 1: Greet someone">
+        <a class="lesson-context" href="chapter-01.html" aria-labelledby="lesson-chapter-label lesson-title">
           <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
           <span class="lesson-context__text">
-            <strong>Chapter 01</strong>
-            <small>Lesson 1 · Greet someone</small>
+            <strong><span class="data-placeholder" data-source="#lesson-chapter-label">[#lesson-chapter-label]</span></strong>
+            <small><span class="data-placeholder" data-source="#lesson-title">[#lesson-title]</span></small>
           </span>
         </a>
-        <nav aria-label="Lesson controls">
+        <nav aria-labelledby="lesson-controls-label">
           <ul class="header-actions">
-            <li><a href="lesson-01-hi.html" hreflang="hi" lang="hi">हिन्दी</a></li>
-            <li><a href="chapter-01.html">Exit</a></li>
+            <li><a href="lesson-01-hi.html" hreflang="hi" lang="hi" aria-labelledby="lesson-language-switch-label"><span class="data-placeholder" data-source="#lesson-language-switch-label">[#lesson-language-switch-label]</span></a></li>
+            <li><a href="chapter-01.html" aria-labelledby="lesson-exit-label"><span class="data-placeholder" data-source="#lesson-exit-label">[#lesson-exit-label]</span></a></li>
           </ul>
         </nav>
       </div>
@@ -46,56 +83,56 @@
       <article id="card-greeting" class="surface card">
 
         <section class="card__region card__content" aria-labelledby="content-title">
-          <h3 id="content-title" class="visually-hidden">Card content</h3>
-          <p>Listen, then greet an elder or teacher.</p>
-          <p class="card__target" lang="te">నమస్కారం</p>
-          <div class="card__content-actions" aria-label="Content help">
+          <h3 id="content-title" class="visually-hidden" aria-labelledby="lesson-card-content-title"><span class="data-placeholder" data-source="#lesson-card-content-title">[#lesson-card-content-title]</span></h3>
+          <p><span class="data-placeholder" data-source="#lesson-instruction">[#lesson-instruction]</span></p>
+          <p class="card__target"><span class="data-placeholder" data-source="#lesson-target-expression">[#lesson-target-expression]</span></p>
+          <div class="card__content-actions" role="group" aria-labelledby="lesson-content-help-label">
             <details class="disclosure card__transliteration">
               <summary>
-                <span class="card__summary-preview" lang="te-Latn">Namaskāraṁ</span>
+                <span class="card__summary-preview data-placeholder" data-source="#lesson-transliteration">[#lesson-transliteration]</span>
                 <span class="card__summary-action">
-                  <span class="card__when-closed">Show all</span>
-                  <span class="card__when-open">Hide</span>
+                  <span class="card__when-closed data-placeholder" data-source="#lesson-show-all-label">[#lesson-show-all-label]</span>
+                  <span class="card__when-open data-placeholder" data-source="#lesson-hide-label">[#lesson-hide-label]</span>
                 </span>
               </summary>
-              <p lang="te-Latn">Namaskāraṁ</p>
+              <p><span class="data-placeholder" data-source="#lesson-transliteration">[#lesson-transliteration]</span></p>
             </details>
             <button class="button--primary" type="button" disabled>
               <img class="button__icon" src="../../assets/icons/play.svg" alt="">
-              Play audio
+              <span class="data-placeholder" data-source="#lesson-play-audio-label">[#lesson-play-audio-label]</span>
             </button>
-            <button type="button" disabled>Say it slowly</button>
+            <button type="button" disabled><span class="data-placeholder" data-source="#lesson-say-slowly-label">[#lesson-say-slowly-label]</span></button>
           </div>
         </section>
 
         <section class="card__region card__actions" aria-labelledby="abilities-title">
-          <h3 id="abilities-title">Available response abilities</h3>
-          <p class="field-help">The Card requests abilities; the learner chooses an available response method.</p>
-          <fieldset>
-            <legend class="visually-hidden">Response method</legend>
+          <h3 id="abilities-title"><span class="data-placeholder" data-source="#lesson-abilities-title">[#lesson-abilities-title]</span></h3>
+          <p class="field-help"><span class="data-placeholder" data-source="#lesson-abilities-help">[#lesson-abilities-help]</span></p>
+          <fieldset aria-labelledby="lesson-response-method-label">
+            <legend class="visually-hidden"><span class="data-placeholder" data-source="#lesson-response-method-label">[#lesson-response-method-label]</span></legend>
             <ul class="user-actions">
               <li class="user-action">
                 <button class="user-action__control" type="button" disabled>
                   <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
-                  Speak
+                  <span class="data-placeholder" data-source="#lesson-speak-label">[#lesson-speak-label]</span>
                 </button>
               </li>
               <li class="user-action">
                 <button class="user-action__control" type="button" disabled>
                   <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
-                  Write
+                  <span class="data-placeholder" data-source="#lesson-write-label">[#lesson-write-label]</span>
                 </button>
               </li>
               <li class="user-action">
                 <button class="user-action__control" type="button" disabled>
                   <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
-                  Type
+                  <span class="data-placeholder" data-source="#lesson-type-label">[#lesson-type-label]</span>
                 </button>
               </li>
               <li class="user-action">
                 <button class="user-action__control" type="button" disabled>
                   <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
-                  Upload image
+                  <span class="data-placeholder" data-source="#lesson-upload-image-label">[#lesson-upload-image-label]</span>
                 </button>
               </li>
             </ul>
@@ -104,9 +141,10 @@
 
         <section class="card__region card__learner" aria-labelledby="response-title">
           <div class="learner-space">
-            <h3 id="response-title">Your response</h3>
+            <h3 id="response-title"><span class="data-placeholder" data-source="#lesson-response-title">[#lesson-response-title]</span></h3>
             <output class="learner-space__output">
-              No response added yet.<br>The selected response surface will appear here.
+              <span class="data-placeholder" data-source="#lesson-response-empty">[#lesson-response-empty]</span><br>
+              <span class="data-placeholder" data-source="#lesson-response-surface">[#lesson-response-surface]</span>
             </output>
           </div>
         </section>
@@ -114,29 +152,29 @@
         <div class="card__region card__learning-groups">
           <article id="meaning-reference" class="learning-group" aria-labelledby="meaning-summary">
             <details class="disclosure learning-group__disclosure">
-              <summary id="meaning-summary">Meaning</summary>
+              <summary id="meaning-summary"><span class="data-placeholder" data-source="#lesson-meaning-title">[#lesson-meaning-title]</span></summary>
               <div class="learning-group__content">
-                <p>A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</p>
+                <p><span class="data-placeholder" data-source="#lesson-meaning-description">[#lesson-meaning-description]</span></p>
               </div>
             </details>
           </article>
           <article id="character-references" class="learning-group" aria-labelledby="characters-summary">
             <details class="disclosure learning-group__disclosure">
-              <summary id="characters-summary">Characters in this lesson</summary>
+              <summary id="characters-summary"><span class="data-placeholder" data-source="#lesson-characters-title">[#lesson-characters-title]</span></summary>
               <div class="learning-group__content">
                 <ul>
-                  <li><span lang="te">మ</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
-                  <li><span lang="te">న</span> · <a href="#card-greeting">Greeting exchange Card</a></li>
+                  <li><span class="data-placeholder" data-source="#lesson-character-ma">[#lesson-character-ma]</span> · <a href="#card-greeting"><span class="data-placeholder" data-source="#lesson-card-link-label">[#lesson-card-link-label]</span></a></li>
+                  <li><span class="data-placeholder" data-source="#lesson-character-na">[#lesson-character-na]</span> · <a href="#card-greeting"><span class="data-placeholder" data-source="#lesson-card-link-label">[#lesson-card-link-label]</span></a></li>
                 </ul>
               </div>
             </details>
           </article>
           <article id="grammar-references" class="learning-group" aria-labelledby="grammar-summary">
             <details class="disclosure learning-group__disclosure">
-              <summary id="grammar-summary">Grammar in this lesson</summary>
+              <summary id="grammar-summary"><span class="data-placeholder" data-source="#lesson-grammar-title">[#lesson-grammar-title]</span></summary>
               <div class="learning-group__content">
                 <ul>
-                  <li><a href="#card-greeting">Respectful greeting pattern · Greeting exchange Card</a></li>
+                  <li><a href="#card-greeting"><span class="data-placeholder" data-source="#lesson-grammar-pattern">[#lesson-grammar-pattern]</span> · <span class="data-placeholder" data-source="#lesson-card-link-label">[#lesson-card-link-label]</span></a></li>
                 </ul>
               </div>
             </details>

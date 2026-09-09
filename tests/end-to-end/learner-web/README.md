@@ -1,43 +1,44 @@
 # Learner Web end-to-end tests
 
-These Playwright tests cover lesson-page test cases TC-08, TC-15, TC-16, TC-17, and TC-18, plus the HTML Card-pattern evaluations TC-25 through TC-28. They use an installed Google Chrome browser and do not require a learner-web server.
+These Playwright tests cover lesson-page test cases TC-08, TC-15 through TC-18, and TC-29, plus the HTML Card-pattern evaluations TC-25 through TC-28. They use an installed Google Chrome browser and do not require a learner-web server.
 
 ## Latest verification
 
-The complete suite was run in Google Chrome after the stylesheet consolidation: **13 passed**. The earlier manual lesson-page run recorded **9 passed** before the catalogue tests were added. Continuous integration is not configured for this static review slice.
+The complete suite was run in Google Chrome after adding the lesson data-placeholder specimen: **15 passed**. The earlier stylesheet-consolidation run recorded **13 passed**. Continuous integration is not configured for this static review slice.
 
 ## Test cases
 
-| ID | Test | Expected result | Automated |
-|---|---|---|---|
-| TC-01 | Open the learner landing page | Learning begins with Chapter 01; no Course Card is displayed. | No |
-| TC-02 | Inspect visible navigation | No Outline page, rail, or explicit Outline link is present in the current interface. | No |
-| TC-03 | Open either lesson page | The lesson uses the `page-shell page-shell--narrow` layout. | No |
-| TC-04 | Inspect the lesson structure | One logical Card `article` contains content, abilities, response, and references. | No |
-| TC-05 | Inspect the top of the Card | Staff-only Card state, name, and review description are not visible. | No |
-| TC-06 | Inspect lesson navigation | No breadcrumbs, repeated activity heading, or phase-progress row appears. | No |
-| TC-07 | Inspect the bottom of the lesson | No “Exit to Chapter 01” footer appears; the top Exit link remains. | No |
-| TC-08 | Read the main content in order | Telugu expression is followed by transliteration, Play audio, and Say it slowly. | Yes — English and Hindi |
-| TC-09 | Open transliteration | Native `details`/`summary` shows transliterated text and switches between Show all and Hide. | No |
-| TC-10 | Use audio controls | Play audio and Say it slowly remain visible, disabled, and non-functional. | No |
-| TC-11 | View response abilities on a narrow viewport | Speak, Write, Type, and Upload image stack in one column. | No |
-| TC-12 | View response abilities at `44rem` or wider | The four abilities display evenly in one row. | No |
-| TC-13 | Inspect Your response | The response placeholder appears before Meaning, Characters, and Grammar. | No |
-| TC-14 | Inspect the reference group | Meaning, Characters, and Grammar are independent closed disclosures. | No |
-| TC-15 | Inspect reference-group labeling | No Related Learning, Extra work, or other learner-facing group heading appears. | Yes — English and Hindi |
-| TC-16 | View the English lesson at `780 × 996` | When Characters in this lesson wraps, all three disclosure outlines match the tallest item. | Yes — English |
-| TC-17 | View a layout where no reference summary wraps | Summaries use their compact natural height without a fixed enlarged height. | Yes — English and Hindi |
-| TC-18 | View the lesson below `44rem` | Reference disclosures stack, start closed, and open independently. | Yes — English and Hindi |
-| TC-19 | Inspect Card appearance | No drop shadow appears beneath the Card. | No |
-| TC-20 | Inspect colours | Canvas, borders, controls, and accents use the approved green palette. | No |
-| TC-21 | Inspect icons | Interface icons load from separate external SVG files rather than inline SVG. | No |
-| TC-22 | Compare English and Hindi lessons | Structure, control order, disabled state, disclosures, and responsive layout correspond. | No |
-| TC-23 | Inspect language metadata | Telugu uses `lang="te"`, transliteration uses `lang="te-Latn"`, and language links declare their language. | No |
-| TC-24 | Inspect page source | No JavaScript, inline event handler, server binding, or functional behavior is introduced. | No |
-| TC-25 | Inspect the Card catalogue | The specimens are ordinary active HTML, contain no templates, use unique references, and keep Cards flat. | Yes |
-| TC-26 | Compare class and stylesheet names | Card, learner-space, user-action, and learning-group use the same component name in HTML and CSS. | Yes |
-| TC-27 | Compare English and Hindi specimens | Both instruction-language specimens use parallel stable values and preserve the same canonical Telugu. | Yes |
-| TC-28 | Compare catalogue component layout | Catalogue specimens use the component-defined action and learning-group columns without a catalogue-specific override. | Yes |
+| ID    | Test                                           | Expected result                                                                                                                 | Automated               |
+| -------| ------------------------------------------------| ---------------------------------------------------------------------------------------------------------------------------------| -------------------------|
+| TC-01 | Open the learner landing page                  | Learning begins with Chapter 01; no Course Card is displayed.                                                                   | No                      |
+| TC-02 | Inspect visible navigation                     | No Outline page, rail, or explicit Outline link is present in the current interface.                                            | No                      |
+| TC-03 | Open either lesson page                        | The lesson uses the `page-shell page-shell--narrow` layout.                                                                     | No                      |
+| TC-04 | Inspect the lesson structure                   | One logical Card `article` contains content, abilities, response, and references.                                               | No                      |
+| TC-05 | Inspect the top of the Card                    | Staff-only Card state, name, and review description are not visible.                                                            | No                      |
+| TC-06 | Inspect lesson navigation                      | No breadcrumbs, repeated activity heading, or phase-progress row appears.                                                       | No                      |
+| TC-07 | Inspect the bottom of the lesson               | No “Exit to Chapter 01” footer appears; the top Exit link remains.                                                              | No                      |
+| TC-08 | Read the main content in order                 | Telugu expression is followed by transliteration, Play audio, and Say it slowly.                                                | Yes — English and Hindi |
+| TC-09 | Open transliteration                           | Native `details`/`summary` shows transliterated text and switches between Show all and Hide.                                    | No                      |
+| TC-10 | Use audio controls                             | Play audio and Say it slowly remain visible, disabled, and non-functional.                                                      | No                      |
+| TC-11 | View response abilities on a narrow viewport   | Speak, Write, Type, and Upload image stack in one column.                                                                       | No                      |
+| TC-12 | View response abilities at `44rem` or wider    | The four abilities display evenly in one row.                                                                                   | No                      |
+| TC-13 | Inspect Your response                          | The response placeholder appears before Meaning, Characters, and Grammar.                                                       | No                      |
+| TC-14 | Inspect the reference group                    | Meaning, Characters, and Grammar are independent closed disclosures.                                                            | No                      |
+| TC-15 | Inspect reference-group labeling               | No Related Learning, Extra work, or other learner-facing group heading appears.                                                 | Yes — English and Hindi |
+| TC-16 | View the English lesson at `780 × 996`         | When Characters in this lesson wraps, all three disclosure outlines match the tallest item.                                     | Yes — English           |
+| TC-17 | View a layout where no reference summary wraps | Summaries use their compact natural height without a fixed enlarged height.                                                     | Yes — English and Hindi |
+| TC-18 | View the lesson below `44rem`                  | Reference disclosures stack, start closed, and open independently.                                                              | Yes — English and Hindi |
+| TC-19 | Inspect Card appearance                        | No drop shadow appears beneath the Card.                                                                                        | No                      |
+| TC-20 | Inspect colours                                | Canvas, borders, controls, and accents use the approved green palette.                                                          | No                      |
+| TC-21 | Inspect icons                                  | Interface icons load from separate external SVG files rather than inline SVG.                                                   | No                      |
+| TC-22 | Compare English and Hindi lessons              | Structure, control order, disabled state, disclosures, and responsive layout correspond.                                        | No                      |
+| TC-23 | Inspect language metadata                      | Telugu uses `lang="te"`, transliteration uses `lang="te-Latn"`, and language links declare their language.                      | No                      |
+| TC-24 | Inspect page source                            | No JavaScript, inline event handler, server binding, or functional behavior is introduced.                                      | No                      |
+| TC-25 | Inspect the Card catalogue                     | The specimens are ordinary active HTML, contain no templates, use unique references, and keep Cards flat.                       | Yes                     |
+| TC-26 | Compare class and stylesheet names             | Card, learner-space, user-action, and learning-group use the same component name in HTML and CSS.                               | Yes                     |
+| TC-27 | Compare English and Hindi specimens            | Both instruction-language specimens use parallel stable values and preserve the same canonical Telugu.                          | Yes                     |
+| TC-28 | Compare catalogue component layout             | Catalogue specimens use the component-defined action and learning-group columns without a catalogue-specific override.          | Yes                     |
+| TC-29 | Inspect lesson data placeholders               | Separate lesson and instruction blocks provide all placeholder and accessibility sources; no literal `aria-label` or JavaScript resolution remains. | Yes — English and Hindi |
 
 ## Install
 

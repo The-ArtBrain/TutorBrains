@@ -91,12 +91,18 @@ test("TC-28 keeps component layouts unchanged inside the catalogue", async ({ pa
   await page.setViewportSize({ width: 1280, height: 1000 });
 
   const result = await page.locator(".catalogue-specimen").first().evaluate((specimen) => {
-    const columnCount = (selector) =>
-      getComputedStyle(specimen.querySelector(selector)).gridTemplateColumns.split(" ").length;
+    const visibleColumnCount = (selector) => {
+      const container = specimen.querySelector(selector);
+      const itemPositions = Array.from(container.children, (item) =>
+        Math.round(item.getBoundingClientRect().left),
+      );
+
+      return new Set(itemPositions).size;
+    };
 
     return {
-      userActionColumns: columnCount(".user-actions"),
-      learningGroupColumns: columnCount(".card__learning-groups"),
+      userActionColumns: visibleColumnCount(".user-actions"),
+      learningGroupColumns: visibleColumnCount(".card__learning-groups"),
     };
   });
 

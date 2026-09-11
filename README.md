@@ -2,6 +2,32 @@
 
 A subject-neutral learning platform. Telugu Tutor is its first focused product.
 
+## Learner web commands
+
+Run the end-to-end tests from the repository root:
+
+```sh
+npm --prefix tests/end-to-end/learner-web test
+```
+
+Debug one test with Playwright Inspector, replacing `TC-16` as needed:
+
+```sh
+npm --prefix tests/end-to-end/learner-web test -- --debug --grep "TC-16"
+```
+
+Watch the complete suite run in a visible browser:
+
+```sh
+npm --prefix tests/end-to-end/learner-web test -- --headed --workers=1
+```
+
+Run the learner-web build tool from the repository root:
+
+```sh
+python3 apps/learner-web/build-tools/build.py
+```
+
 ## Product specifications
 
 - [Student onboarding guide](doc/spec/student_onboarding_guide.md) — student actions before Chapter 01, mapped to the capability catalogue.

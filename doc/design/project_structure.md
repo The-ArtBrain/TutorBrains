@@ -124,6 +124,9 @@ TutorBrains/
 │   └── package-manifests/
 ├── platform/
 │   ├── cloud/
+│   │   ├── bootstrap/
+│   │   ├── modules/
+│   │   └── environments/
 │   ├── deployment/
 │   ├── observability/
 │   ├── identity-and-access/
@@ -179,7 +182,9 @@ TutorBrains/
 | `apps/learner-tauri/` | Optional installed host that assembles the shared web application, Rust core, and selected native plug-ins | Adds native packaging and protected platform capabilities only when measured requirements justify it | Tauri application pipeline, including signing and platform packaging |
 | `apps/platform-api/` | Python composition root for selected backend service modules | Allows one deployable modular monolith without erasing internal capability boundaries | Platform application programming interface pipeline |
 
-An application folder may contain `src/`, `tests/`, `config/`, and `ops/`. The `ops/` directory owns build and deployment configuration for that application, but common templates remain under `platform/pipeline-templates/`.
+The role, internal structure, and deployment ownership of `apps/platform-api/` remain **under review**. Its row above records the current proposal and must not be treated as an accepted implementation design.
+
+An application folder may contain `src/`, `tests/`, `config/`, `build-tools/`, and `ops/` when those directories are needed. In accordance with ADR-021, `build-tools/` owns application-specific build implementation, including generation, transformation, copying, and packaging preparation. `config/` owns version-controlled, non-secret application defaults and configuration schemas. `ops/` owns container definitions, server or process-manager configuration, health checks, deployment manifests, operational runbooks, and component pipeline entry points that invoke the build. Common operational policy and reusable pipeline steps remain under `platform/`.
 
 ### Product build manifests
 
@@ -210,11 +215,15 @@ services/learner-records/
 ├── src/
 ├── tests/
 ├── contracts/
+├── config/
 ├── migrations/
 ├── data-pipelines/
 └── ops/
     ├── Containerfile
+    ├── runtime/
+    ├── observability/
     ├── deployment/
+    ├── runbooks/
     └── pipeline.yaml
 ```
 
@@ -224,9 +233,12 @@ services/learner-records/
 | `src/` | Keeps the capability implementation local to its owner |
 | `tests/` | Allows the component to prove its behavior without requiring the full system |
 | `contracts/` | Holds the component's source contract before approved shared or generated forms are published to `contracts/` |
+| `config/` | Declares non-secret component defaults, supported initialization parameters, and configuration validation without embedding environment-specific deployment values |
 | `migrations/` | Makes the component responsible for its owned schema even when several modules share one physical database initially |
 | `data-pipelines/` | Gives component-specific ingestion, transformation, export, or quality work an explicit DataOps owner |
-| `ops/` | Keeps build, runtime, deployment, and component pipeline configuration beside the deployable unit |
+| `ops/` | Keeps container packaging, runtime, deployment, runbooks, and component pipeline configuration beside the deployable unit |
+
+Within `ops/`, `runtime/` contains server, process-manager, worker or thread settings, startup commands, and deployment-time initialization values. `observability/` contains component-specific telemetry wiring, dashboards, and alerts while using the logging, metrics, tracing, privacy, and redaction policy from `platform/observability/`. `deployment/` contains manifests and component-specific rollout configuration. Secret values do not belong in any of these directories.
 
 Python modules composed into `apps/platform-api/` must communicate through explicit Python interfaces and owned repositories rather than reaching into each other's internal modules or tables. A Rust or Java Spring component remains an out-of-process service even if it is included in the same release and deployed beside the Python application.
 
@@ -352,6 +364,7 @@ Readable YAML or JavaScript Object Notation (JSON) plus validation tests is suff
 
 | Folder | Contains | Rationale |
 |---|---|---|
+| `platform/cloud/bootstrap/` | Remote state, account or project initialization, and provisioning-identity setup | Separates the prerequisites for managing infrastructure from the infrastructure managed afterward |
 | `platform/cloud/modules/` | Reusable network, compute, storage, registry, and policy modules | Produces consistent cloud resources across environments |
 | `platform/cloud/environments/` | Environment composition using non-secret configuration | Makes development, test, staging, and production differences explicit |
 | `platform/deployment/` | Shared release topology and deployment coordination | Supports deploying the modular monolith and any necessary companion processes together |

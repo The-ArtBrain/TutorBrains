@@ -1,7 +1,7 @@
 # Architecture Decision Record Log
 
 **Status:** Active discussion log  
-**Last reviewed:** 2026-08-27  
+**Last reviewed:** 2026-09-11
 **Scope:** Current product-platform and app-skeleton architecture decisions  
 **Authority:** Product decisions remain authoritative in the [platform specification](../spec/platform_spec.md); this log summarizes them alongside implementation decisions.
 
@@ -169,6 +169,17 @@ This file is the Architecture Decision Record (ADR) index for the current design
 - **Consequence:** Lessons use only the activities they need and may arrange them appropriately. Student interfaces do not display named teaching phases merely because internal authoring notes use them. The current Chapter 01 HTML may present its Lesson as one Card without establishing a universal domain rule or final data contract.
 - **Relationship:** This decision supersedes the Lesson-as-mandatory-Card-collection portion of ADR-008 and narrows any earlier use of **Listen**, **Learn**, **Build**, **Talk**, or **Check** as mandatory Lesson Cards or navigation. ADR-008 still prohibits child Cards and Card inheritance unless separately reconsidered.
 - **Source:** [Platform specification, logical presentation and composition model](../spec/platform_spec.md#5-logical-presentation-and-composition-model)
+
+## ADR-021 — Application-specific build logic stays with its application
+
+- **Status:** Accepted
+- **Decision:** Keep build implementation used by only one application inside that application's directory. The learner-web build therefore belongs under `apps/learner-web/build-tools/`, not under top-level `tools/`. Moving build logic outside its owning application requires solid evidence that extraction improves the repository rather than merely anticipating reuse.
+- **Evaluation required before extraction:** Evaluate **ownership clarity, discoverability, demonstrated reuse, coupling to application paths and behavior, pipeline maintenance, separation from shipped runtime code, independent testing or versioning needs, and the risk that top-level `tools/` becomes a miscellaneous scripts folder.** No single factor automatically requires extraction.
+- **Evidence threshold:** Extraction is justified only when evidence such as a second real consumer, a stable cross-application contract, an independently owned lifecycle, or materially simpler pipelines outweighs the additional distance and coordination cost. Hypothetical future reuse is insufficient.
+- **Rationale:** A learner-web-only builder knows the learner-web source layout, fills its HTML, copies its assets, and publishes its `dist/`. Keeping that implementation beside the application makes ownership and change impact obvious, keeps application and build changes reviewable together, and avoids presenting coupled logic as a repository-wide utility. A dedicated `build-tools/` directory separates build implementation from runtime source without moving it outside the owning component.
+- **Consequence:** `apps/learner-web/build-tools/` contains the learner-web build coordinator and stages; `apps/learner-web/dist/` remains generated output. Application build logic must not be shipped as browser runtime code. Top-level `tools/` remains appropriate for genuinely repository-wide generators, validators, and maintenance utilities. Reuse that later meets the evidence threshold should be extracted through a reviewable change and this ADR should be amended or superseded.
+- **Relationship:** This decision clarifies the application ownership and top-level `tools/` guidance in the proposed project structure. It does not move course content into the application, change product-manifest ownership, or alter ADR-018 and ADR-019 build-time localization boundaries.
+- **Source:** [Project structure, top-level folder rationale](project_structure.md#4-top-level-folder-rationale), [application folder rationale](project_structure.md#5-application-folder-rationale), and [pipeline ownership](project_structure.md#14-pipeline-ownership)
 
 ## Open evidence and review triggers
 

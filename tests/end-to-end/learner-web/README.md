@@ -4,7 +4,7 @@ These Playwright tests cover the shared lesson HTML source through test cases TC
 
 ## Latest verification
 
-The complete suite was run in Google Chrome after consolidating the lesson source: **10 passed**. The build-pipeline unit suite also recorded **10 passed**. Continuous integration is not configured for this static review slice.
+The complete suite was run in Google Chrome after consolidating the lesson source: **10 passed**. The build-pipeline unit suite also recorded **11 passed**. Continuous integration is not configured for this static review slice.
 
 ## Test cases
 

@@ -236,14 +236,48 @@ class BuildStageTests(unittest.TestCase):
             'aria-labelledby="lesson-language-switch-label">',
             hindi_html,
         )
-        self.assertIn(
-            '<data id="lesson-language-switch-label" '
-            'value="navigation:instruction-language-en" lang="en">English</data>',
-            hindi_html,
-        )
         self.assertNotIn("lesson-01-hi.html", hindi_html)
         self.assertTrue(english_output.is_file())
         self.assertFalse((self.pages_root / "lesson-01-hi.html").exists())
+
+    def test_language_switch_metadata_matches_alternate_document(self) -> None:
+        (self.course_root / "cards.hi.txt").write_text(
+            "[instruction-language-tag]\nhi-IN\n\n"
+            "[instruction-label]\nनिर्देश का पालन करें।\n\n"
+            "[lesson-language-switch-label]\nEnglish\n",
+            encoding="utf-8",
+        )
+        (self.lesson_root / "lesson.hi.txt").write_text(
+            "[lesson-title]\nअभिवादन पाठ\n",
+            encoding="utf-8",
+        )
+
+        expectations = {
+            "en": ("hi", "हिन्दी"),
+            "hi": ("en", "English"),
+        }
+        for language, (alternate, label) in expectations.items():
+            with self.subTest(language=language):
+                lessons = merge_html_and_instructions(
+                    source_html_root=self.source_html_root,
+                    work_root=self.root / f"work-{language}",
+                    course_root=self.course_root,
+                    instruction_language=language,
+                )
+                html = lessons[0].html_path.read_text(encoding="utf-8")
+
+                self.assertIn(
+                    f'<data id="lesson-language-switch-label" '
+                    f'value="navigation:instruction-language-{alternate}" '
+                    f'lang="{alternate}">{label}</data>',
+                    html,
+                )
+                self.assertIn(
+                    f'href="../../../{alternate}/html/pages/lesson-01.html" '
+                    f'hreflang="{alternate}" lang="{alternate}" '
+                    'aria-labelledby="lesson-language-switch-label"',
+                    html,
+                )
 
     def test_missing_language_file_stops_before_publication(self) -> None:
         with self.assertRaisesRegex(FileNotFoundError, "cards.hi.txt"):

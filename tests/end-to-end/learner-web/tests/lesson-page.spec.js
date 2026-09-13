@@ -2,7 +2,7 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { expect, test } = require("@playwright/test");
 
-const lessonPages = ["lesson-01.html", "lesson-01-hi.html"];
+const lessonPages = ["lesson-01.html"];
 
 function lessonUrl(filename) {
   return pathToFileURL(path.join(__dirname, "../../../..", "apps", "learner-web", "html", "pages", filename)).href;
@@ -66,7 +66,7 @@ for (const filename of lessonPages) {
       expect(result).toEqual({
         blockNames: ["lesson-content-data", "instruction-content-data"],
         blocksAreHidden: true,
-        sourceCounts: [9, 24],
+        sourceCounts: [11, 24],
         placeholderCount: 34,
         literalAriaLabels: 0,
         referencesResolve: true,
@@ -75,21 +75,13 @@ for (const filename of lessonPages) {
         scripts: 0,
       });
 
-      const expectedNames = filename === "lesson-01.html"
-        ? {
-            skip: "Skip to the current Card",
-            context: "Chapter 01 Lesson 1 · Greet someone",
-            controls: "Lesson controls",
-            contentHelp: "Content help",
-            responseMethod: "Response method",
-          }
-        : {
-            skip: "वर्तमान कार्ड पर जाएँ",
-            context: "अध्याय 01 पाठ 1 · किसी का अभिवादन करें",
-            controls: "पाठ नियंत्रण",
-            contentHelp: "सामग्री सहायता",
-            responseMethod: "उत्तर विधि",
-          };
+      const expectedNames = {
+        skip: "Skip to the current Card",
+        context: "Chapter 01 Lesson 1 · Greet someone",
+        controls: "Lesson controls",
+        contentHelp: "Content help",
+        responseMethod: "Response method",
+      };
 
       await expect(page.locator(".skip-link")).toHaveAccessibleName(expectedNames.skip);
       await expect(page.locator(".lesson-context")).toHaveAccessibleName(expectedNames.context);

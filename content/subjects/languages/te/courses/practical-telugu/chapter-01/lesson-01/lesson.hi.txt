@@ -1,0 +1,26 @@
+[lesson-document-description]
+एक तेलुगु ट्यूटर कार्ड और उसकी उपलब्ध क्षमताएँ दिखाने वाला स्थिर पाठ 1 इंटरफ़ेस
+
+[lesson-document-title]
+पाठ 1 · अभिवादन संवाद · तेलुगु ट्यूटर
+
+[lesson-chapter-label]
+अध्याय 01
+
+[lesson-title]
+पाठ 1 · किसी का अभिवादन करें
+
+[lesson-instruction]
+सुनें, फिर किसी बड़े या शिक्षक का अभिवादन करें।
+
+[lesson-transliteration]
+Namaskāraṁ
+
+[lesson-meaning-description]
+किसी अपरिचित वयस्क, बड़े या शिक्षक के लिए उपयुक्त सम्मानपूर्ण अभिवादन।
+
+[lesson-card-link-label]
+अभिवादन संवाद कार्ड
+
+[lesson-grammar-pattern]
+सम्मानपूर्ण अभिवादन पैटर्न

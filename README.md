@@ -28,6 +28,10 @@ Run the learner-web build tool from the repository root:
 python3 apps/learner-web/build-tools/build.py
 ```
 
+The defaults are English instructions, the Telugu course, and the `practical-telugu` content folder; output is published below `apps/learner-web/dist/en/`. See [`apps/learner-web/build-tools/README.md`](apps/learner-web/build-tools/README.md) for parameters and unit tests.
+
+Remove all generated learner-web output with `python3 apps/learner-web/build-tools/build.py clean`.
+
 ## Product specifications
 
 - [Student onboarding guide](doc/spec/student_onboarding_guide.md) — student actions before Chapter 01, mapped to the capability catalogue.

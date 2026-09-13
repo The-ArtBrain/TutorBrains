@@ -1,17 +1,34 @@
-"""Prepare course content for the learner-web build."""
+"""Apply canonical course content and finish generated lesson HTML."""
 
 from pathlib import Path
+import re
+
+from stages.merge_instructions import LessonBuild, apply_values, read_values
 
 
-def generate_course_content(*, repository_root: Path) -> tuple[Path, ...]:
-    """Return generated course-content inputs.
+def _remove_placeholder_markers(html: str) -> str:
+    if re.search(r"\[#[a-z0-9-]+\]", html):
+        unresolved = sorted(set(re.findall(r"\[#([a-z0-9-]+)\]", html)))
+        raise ValueError(f"Unresolved HTML placeholders: {', '.join(unresolved)}")
 
-    Course-content generation is intentionally empty in the first build slice.
-    The repository root is accepted now so this stage can grow without changing
-    the build coordinator's interface.
-    """
+    html = re.sub(r'\sdata-source="#[a-z0-9-]+"', "", html)
 
-    if not repository_root.is_dir():
-        raise FileNotFoundError(f"Repository root does not exist: {repository_root}")
+    def clean_classes(match: re.Match[str]) -> str:
+        classes = [name for name in match.group(1).split() if name != "data-placeholder"]
+        return f'class="{" ".join(classes)}"' if classes else ""
 
-    return ()
+    return re.sub(r'class="([^"]*)"', clean_classes, html)
+
+
+def generate_course_content(*, lessons: tuple[LessonBuild, ...]) -> tuple[Path, ...]:
+    """Insert canonical lesson values and remove resolved placeholder markers."""
+
+    generated: list[Path] = []
+    for lesson in lessons:
+        html = lesson.html_path.read_text(encoding="utf-8")
+        html = apply_values(html, read_values(lesson.content_path), source=lesson.content_path)
+        html = _remove_placeholder_markers(html)
+        lesson.html_path.write_text(html, encoding="utf-8")
+        generated.append(lesson.html_path)
+
+    return tuple(generated)

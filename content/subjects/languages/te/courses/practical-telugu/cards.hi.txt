@@ -1,0 +1,71 @@
+[instruction-language-tag]
+hi-IN
+
+[lesson-skip-card-label]
+वर्तमान कार्ड पर जाएँ
+
+[lesson-controls-label]
+पाठ नियंत्रण
+
+[lesson-language-switch-label]
+English
+
+[lesson-exit-label]
+बाहर जाएँ
+
+[lesson-card-content-title]
+कार्ड सामग्री
+
+[lesson-content-help-label]
+सामग्री सहायता
+
+[lesson-show-all-label]
+पूरा देखें
+
+[lesson-hide-label]
+छिपाएँ
+
+[lesson-play-audio-label]
+ऑडियो चलाएँ
+
+[lesson-say-slowly-label]
+धीरे सुनें
+
+[lesson-abilities-title]
+उपलब्ध उत्तर क्षमताएँ
+
+[lesson-abilities-help]
+कार्ड क्षमताओं का अनुरोध करता है; विद्यार्थी उपलब्ध उत्तर विधि चुनता है।
+
+[lesson-response-method-label]
+उत्तर विधि
+
+[lesson-speak-label]
+बोलें
+
+[lesson-write-label]
+लिखें
+
+[lesson-type-label]
+टाइप करें
+
+[lesson-upload-image-label]
+चित्र अपलोड करें
+
+[lesson-response-title]
+आपका उत्तर
+
+[lesson-response-empty]
+अभी कोई उत्तर नहीं जोड़ा गया है।
+
+[lesson-response-surface]
+चुनी गई उत्तर सतह यहाँ दिखाई देगी।
+
+[lesson-meaning-title]
+अर्थ
+
+[lesson-characters-title]
+इस पाठ के अक्षर
+
+[lesson-grammar-title]
+इस पाठ का व्याकरण

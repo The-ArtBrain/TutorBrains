@@ -1,0 +1,71 @@
+[instruction-language-tag]
+en-IN
+
+[lesson-skip-card-label]
+Skip to the current Card
+
+[lesson-controls-label]
+Lesson controls
+
+[lesson-language-switch-label]
+हिन्दी
+
+[lesson-exit-label]
+Exit
+
+[lesson-card-content-title]
+Card content
+
+[lesson-content-help-label]
+Content help
+
+[lesson-show-all-label]
+Show all
+
+[lesson-hide-label]
+Hide
+
+[lesson-play-audio-label]
+Play audio
+
+[lesson-say-slowly-label]
+Say it slowly
+
+[lesson-abilities-title]
+Available response abilities
+
+[lesson-abilities-help]
+The Card requests abilities; the learner chooses an available response method.
+
+[lesson-response-method-label]
+Response method
+
+[lesson-speak-label]
+Speak
+
+[lesson-write-label]
+Write
+
+[lesson-type-label]
+Type
+
+[lesson-upload-image-label]
+Upload image
+
+[lesson-response-title]
+Your response
+
+[lesson-response-empty]
+No response added yet.
+
+[lesson-response-surface]
+The selected response surface will appear here.
+
+[lesson-meaning-title]
+Meaning
+
+[lesson-characters-title]
+Characters in this lesson
+
+[lesson-grammar-title]
+Grammar in this lesson

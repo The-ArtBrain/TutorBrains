@@ -1,0 +1,8 @@
+[lesson-target-expression]
+నమస్కారం
+
+[lesson-character-ma]
+మ
+
+[lesson-character-na]
+న

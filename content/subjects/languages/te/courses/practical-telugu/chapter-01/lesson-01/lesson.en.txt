@@ -1,0 +1,26 @@
+[lesson-document-description]
+Static Lesson 1 interface showing one Telugu Tutor Card and its available abilities
+
+[lesson-document-title]
+Lesson 1 · Greeting exchange · Telugu Tutor
+
+[lesson-chapter-label]
+Chapter 01
+
+[lesson-title]
+Lesson 1 · Greet someone
+
+[lesson-instruction]
+Listen, then greet an elder or teacher.
+
+[lesson-transliteration]
+Namaskāraṁ
+
+[lesson-meaning-description]
+A respectful greeting suitable for an unfamiliar adult, elder, or teacher.
+
+[lesson-card-link-label]
+Greeting exchange Card
+
+[lesson-grammar-pattern]
+Respectful greeting pattern

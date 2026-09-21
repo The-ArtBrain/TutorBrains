@@ -9,6 +9,14 @@ build/
 out/
 target/
 
+# Dependency lockfiles
+*.lock
+*.lock.*
+*-lock.json
+*-lock.yaml
+*-lock.yml
+npm-shrinkwrap.json
+
 # Python
 __pycache__/
 *.py[cod]

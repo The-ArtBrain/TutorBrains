@@ -34,11 +34,11 @@ Run the unit tests from the repository root:
 apps/learner-web/build-tools/.venv/bin/python -m unittest discover -s apps/learner-web/build-tools/tests -v
 ```
 
-Each page has one HTML source. Instruction-language files provide the localized values; separate HTML files per language are not needed. Successive English and Hindi builds create all six pages in each language:
+Application pages have one HTML source each. `chapter.html` and `lesson.html` are generic sources: the build instantiates them once for every chapter and lesson folder in the selected course. Instruction-language files provide localized values; separate HTML files per language or chapter are not needed. Successive English and Hindi builds create these pages for the current course:
 
 ```text
 dist/
-├── en/html/pages/  # index, chapter-01, lesson-01, preferences, sign-in, patterns
+├── en/html/pages/  # index, chapter-01, chapter-01-lesson-01, preferences, sign-in, patterns
 └── hi/html/pages/  # the same page names
 ```
 
@@ -49,12 +49,13 @@ Building one language replaces only that language directory and preserves other 
 | HTML source | Localized instructions | Optional fixed content | Generated page |
 | --- | --- | --- | --- |
 | `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/html/pages/index.html` |
-| `html/pages/chapter-01.html` | `content/chapter-01.<language>.yml` | `content/chapter-01.yml` | `dist/<language>/html/pages/chapter-01.html` |
+| `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<language>/html/pages/<chapter>.html` |
+| `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<language>/html/pages/<chapter>-<lesson>.html` |
 | `html/pages/preferences.html` | `content/preferences.<language>.yml` | `content/preferences.yml` | `dist/<language>/html/pages/preferences.html` |
 | `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/html/pages/sign-in.html` |
 | `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/html/pages/patterns.html` |
 
-Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. The filename stem must match exactly. Lessons continue to read `cards.<language>.txt`, `lesson.<language>.txt`, and `lesson.txt` from the selected course. This convention is build input, not a final educational content schema.
+Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. Application page filename stems must match their top-level YAML files. Course content is selected with `--course-name` and `--course-content-folder`; chapter and lesson folders below that course determine the generated page names and values. For example, `chapter-01/lesson-01/` becomes `chapter-01-lesson-01.html`. The generic `chapter-` and `lesson-` placeholder prefixes stay the same for every instance. This convention is build input, not a final educational content schema.
 
 Use a flat YAML mapping with semantic keys prefixed by the page name:
 
@@ -75,7 +76,9 @@ index-brand-home-label: "Telugu Tutor home"
 - Fixed files hold canonical Telugu, language self-names, and explicitly tagged bilingual review specimens. Translatable page text belongs in language files, including titles, descriptions, and accessibility labels.
 - The generated document includes alternate-language metadata. Ordinary relative links preserve the current instruction language. The existing preferences selector reflects the generated language but remains a static control.
 
-To add another non-lesson page, create `html/pages/<page>.html` plus `content/<page>.en.yml` and `content/<page>.hi.yml`. The build discovers it automatically. The source should have `<html lang="[#instruction-language-tag]">`; optional shared values go in `content/<page>.yml`.
+To add another application page, create `html/pages/<page>.html` plus `content/<page>.en.yml` and `content/<page>.hi.yml`. The build discovers it automatically. The source should have `<html lang="[#instruction-language-tag]">`; optional shared values go in `content/<page>.yml`.
+
+To add a chapter, create `<course>/<chapter>/chapter.yml`, `chapter.en.yml`, and `chapter.hi.yml` plus its lesson folders. The build discovers the chapter and fills the generic `chapter.html` source from that folder. To add a lesson, place `lesson.txt`, `lesson.en.txt`, `lesson.hi.txt`, `overview.en.yml`, and `overview.hi.yml` under `<chapter>/<lesson>/`. The `lesson.html` source generates the lesson page; the overview files supply that lesson's card in the chapter page. The build renders one card per lesson folder, with links to its distinct generated URL. The chapter template's `<!-- lesson-list:start -->` and `<!-- lesson-list:end -->` markers identify the card to repeat. Only its placeholders and lesson link vary; the existing card layout stays in HTML.
 
 Place `<!--#include file="../includes/account-menu.inc" -->` in a page header to insert [`html/includes/account-menu.inc`](../html/includes/account-menu.inc) before text localization. The filename is relative to the including HTML file and must stay within `html/`. Include files cannot contain other include directives; use multiple markers in the page if needed. Each page's instruction file supplies `account-menu-label`, `account-preferences-link`, and `account-sign-in-link`. Include files are build inputs and are not published. See [ADR-022](../../../doc/design/ARCHITECTURE_DECISION_LOG.md#adr-022--single-level-html-includes-in-the-learner-web-build).
 

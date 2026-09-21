@@ -80,6 +80,8 @@ class PageLocalizationTests(unittest.TestCase):
         for language in ("en", "hi"):
             pages = self.app / "dist" / language / "html/pages"
             self.assertEqual(len(list(pages.glob("*.html"))), 6)
+            self.assertFalse((pages / "chapter.html").exists())
+            self.assertFalse((pages / "lesson.html").exists())
             for name, title in zip(names, expected_titles[language]):
                 html = (pages / f"{name}.html").read_text()
                 with self.subTest(language=language, page=name):
@@ -143,6 +145,57 @@ class PageLocalizationTests(unittest.TestCase):
                 self.assertEqual(html.count('data-shared-menu="yes"'), 1)
                 self.assertNotIn("#include file=", html)
         self.assertFalse(list((self.app / "dist/en/html/includes").glob("*.inc")))
+
+    def test_chapter_and_lesson_outputs_use_their_own_content_folders(self):
+        course = self.content / "subjects/languages/te/courses/practical-telugu"
+        first_chapter = course / "chapter-01"
+        second_chapter = course / "chapter-02"
+        shutil.copytree(first_chapter, second_chapter)
+        (second_chapter / "chapter.en.yml").write_text(
+            (second_chapter / "chapter.en.yml").read_text().replace("Chapter 01", "Chapter 02").replace(
+                'chapter-heading: "Greet someone respectfully"',
+                'chapter-heading: "Second chapter only"',
+            ),
+            encoding="utf-8",
+        )
+        (second_chapter / "chapter.yml").write_text(
+            (second_chapter / "chapter.yml").read_text().replace("నమస్కారం. బాగున్నారా?", "రెండవ అధ్యాయం"),
+            encoding="utf-8",
+        )
+        (second_chapter / "lesson-01/lesson.en.txt").write_text(
+            (second_chapter / "lesson-01/lesson.en.txt").read_text().replace(
+                "Lesson 1 · Greeting exchange · Telugu Tutor", "Second chapter lesson"
+            ),
+            encoding="utf-8",
+        )
+        second_lesson = first_chapter / "lesson-02"
+        shutil.copytree(first_chapter / "lesson-01", second_lesson)
+        (second_lesson / "lesson.en.txt").write_text(
+            (second_lesson / "lesson.en.txt").read_text().replace(
+                "Lesson 1 · Greeting exchange · Telugu Tutor", "First chapter second lesson"
+            ),
+            encoding="utf-8",
+        )
+        (second_lesson / "overview.en.yml").write_text(
+            (second_lesson / "overview.en.yml").read_text().replace(
+                'lesson-title: "Greet someone"', 'lesson-title: "Second listed lesson"'
+            ),
+            encoding="utf-8",
+        )
+
+        pages = self.build_language("en")
+        self.assertEqual(len(list(pages.glob("*.html"))), 9)
+        self.assertIn("Greet someone respectfully", (pages / "chapter-01.html").read_text())
+        self.assertNotIn("Second chapter only", (pages / "chapter-01.html").read_text())
+        self.assertIn("Second chapter only", (pages / "chapter-02.html").read_text())
+        self.assertIn("<title>Chapter 02", (pages / "chapter-02.html").read_text())
+        self.assertIn("రెండవ అధ్యాయం", (pages / "chapter-02.html").read_text())
+        self.assertIn("First chapter second lesson", (pages / "chapter-01-lesson-02.html").read_text())
+        self.assertIn("Second listed lesson", (pages / "chapter-01.html").read_text())
+        self.assertIn('href="chapter-01-lesson-02.html"', (pages / "chapter-01.html").read_text())
+        self.assertIn("Second chapter lesson", (pages / "chapter-02-lesson-01.html").read_text())
+        self.assertIn('href="chapter-02.html"', (pages / "chapter-02-lesson-01.html").read_text())
+        self.assertIn('href="chapter-02-lesson-01.html"', (pages / "chapter-02.html").read_text())
 
     def test_incomplete_translations_do_not_replace_previous_publication(self):
         pages = self.build_language("hi")

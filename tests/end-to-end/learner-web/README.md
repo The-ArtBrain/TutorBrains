@@ -6,7 +6,7 @@ Global setup generates both languages before browser tests, using `LEARNER_WEB_P
 
 ## Latest verification
 
-The complete suite was run in Google Chrome after generating all pages: **16 passed**. The build-pipeline unit suite also recorded **16 passed**. Continuous integration is not configured for this static review slice.
+The complete suite was run in Google Chrome after generating all pages: **16 passed**. The build-pipeline unit suite now covers distinct chapter and lesson folders with **20 passing tests**. Continuous integration is not configured for this static review slice.
 
 ## Test cases
 

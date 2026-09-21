@@ -52,11 +52,13 @@ def generate_page_instructions(
     language: str,
     language_tag: str,
     available_languages: tuple[str, ...],
+    content_stem: str | None = None,
 ) -> None:
     """Fill one HTML page without changing its layout or adding visible controls."""
 
-    localized_path = content_root / f"{page_path.stem}.{language}.yml"
-    shared_path = content_root / f"{page_path.stem}.yml"
+    stem = content_stem or page_path.stem
+    localized_path = content_root / f"{stem}.{language}.yml"
+    shared_path = content_root / f"{stem}.yml"
     sources = []
     if shared_path.is_file():
         sources.append((shared_path, read_yaml_values(shared_path)))
@@ -74,7 +76,7 @@ def generate_page_instructions(
         f'    <link rel="alternate" hreflang="{candidate}" '
         f'href="../../../{candidate}/html/pages/{page_path.name}">'
         for candidate in available_languages
-        if (content_root / f"{page_path.stem}.{candidate}.yml").is_file()
+        if (content_root / f"{stem}.{candidate}.yml").is_file()
     )
     html = html.replace("  </head>", f"{alternates}\n  </head>", 1)
 

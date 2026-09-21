@@ -45,8 +45,8 @@ for (const language of ["en", "hi"]) {
     await page.goto(pageUrl(language, "index"));
     await page.locator('main a[href="chapter-01.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
-    await page.locator('main a[href="lesson-01.html"]').click();
-    await expect(page).toHaveURL(pageUrl(language, "lesson-01"));
+    await page.locator('main a[href="chapter-01-lesson-01.html"]').click();
+    await expect(page).toHaveURL(pageUrl(language, "chapter-01-lesson-01"));
     await page.locator(".lesson-context").click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
     await page.locator(".account-menu summary").click();

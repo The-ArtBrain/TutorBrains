@@ -135,42 +135,87 @@ def merge_html_and_instructions(
     available_languages = tuple(
         sorted(path.name.removeprefix("cards.").removesuffix(".txt") for path in course_root.glob("cards.*.txt"))
     )
+    pages_root = prepared_html_root / "pages"
+    chapter_template = pages_root / "chapter.html"
+    lesson_template = pages_root / "lesson.html"
+    if not chapter_template.is_file() or not lesson_template.is_file():
+        raise FileNotFoundError("Generic chapter.html and lesson.html sources are required")
+    chapter_html = chapter_template.read_text(encoding="utf-8")
+    lesson_html = lesson_template.read_text(encoding="utf-8")
+    chapter_template.unlink()
+    lesson_template.unlink()
+
+    chapters = sorted(path for path in course_root.glob("chapter-*") if path.is_dir())
+    if not chapters:
+        raise FileNotFoundError(f"No chapter content folders found in {course_root}")
+
+    # Import here to keep the shared placeholder helpers independent of YAML loading.
+    from stages.page_instructions import generate_page_instructions, read_yaml_values
+
     lessons: list[LessonBuild] = []
+    first_lesson_name: str | None = None
+    for chapter_directory in chapters:
+        lesson_directories = sorted(path for path in chapter_directory.glob("lesson-*") if path.is_dir())
+        if not lesson_directories:
+            raise FileNotFoundError(f"No lesson content folders found in {chapter_directory}")
 
-    lesson_directories = sorted(course_root.glob("chapter-*/lesson-*"))
-    if not lesson_directories:
-        raise FileNotFoundError(f"No lesson content folders found in {course_root}")
-
-    for lesson_directory in lesson_directories:
-        lesson_instructions_path = lesson_directory / f"lesson.{language}.txt"
-        canonical_content_path = lesson_directory / "lesson.txt"
-        page_path = prepared_html_root / "pages" / f"{lesson_directory.name}.html"
-        if not page_path.is_file():
-            raise FileNotFoundError(f"Lesson HTML does not exist for {language}: {page_path}")
-
-        instructions = merge_values(
-            (card_instructions_path, card_instructions),
-            (lesson_instructions_path, read_values(lesson_instructions_path)),
-        )
-        html = _prepare_localized_document(
-            page_path.read_text(encoding="utf-8"),
+        chapter_name = f"{chapter_directory.name}.html"
+        lesson_names = [f"{chapter_directory.name}-{path.name}.html" for path in lesson_directories]
+        first_lesson_name = first_lesson_name or lesson_names[0]
+        chapter_path = pages_root / chapter_name
+        start_marker = "<!-- lesson-list:start -->"
+        end_marker = "<!-- lesson-list:end -->"
+        before, separator, remaining = chapter_html.partition(start_marker)
+        listing_template, end_separator, after = remaining.partition(end_marker)
+        if not separator or not end_separator:
+            raise ValueError("Generic chapter.html must contain one lesson-list marker pair")
+        listings = []
+        for lesson_directory, lesson_name in zip(lesson_directories, lesson_names):
+            overview_path = lesson_directory / f"overview.{language}.yml"
+            listing = listing_template.replace('id="lesson-title"', f'id="{lesson_directory.name}-title"')
+            listing = listing.replace('aria-labelledby="lesson-title"', f'aria-labelledby="{lesson_directory.name}-title"')
+            listing = listing.replace('href="lesson.html"', f'href="{lesson_name}"')
+            listing = apply_values(listing, read_yaml_values(overview_path), source=overview_path)
+            listings.append(listing.strip("\n"))
+        chapter_path.write_text(before + "\n".join(listings) + after, encoding="utf-8")
+        generate_page_instructions(
+            page_path=chapter_path,
+            content_root=chapter_directory,
+            content_stem="chapter",
             language=language,
             language_tag=language_tag,
             available_languages=available_languages,
-            page_name=page_path.name,
         )
-        page_path.write_text(
-            apply_values(html, instructions, source=lesson_instructions_path),
-            encoding="utf-8",
-        )
-        lessons.append(LessonBuild(html_path=page_path, content_path=canonical_content_path))
 
-    # Import here to keep the shared placeholder helpers independent of YAML loading.
-    from stages.page_instructions import generate_page_instructions
+        for lesson_directory, lesson_name in zip(lesson_directories, lesson_names):
+            lesson_instructions_path = lesson_directory / f"lesson.{language}.txt"
+            canonical_content_path = lesson_directory / "lesson.txt"
+            page_path = pages_root / lesson_name
+            instructions = merge_values(
+                (card_instructions_path, card_instructions),
+                (lesson_instructions_path, read_values(lesson_instructions_path)),
+            )
+            html = lesson_html.replace('href="chapter.html"', f'href="{chapter_name}"')
+            html = _prepare_localized_document(
+                html,
+                language=language,
+                language_tag=language_tag,
+                available_languages=available_languages,
+                page_name=page_path.name,
+            )
+            page_path.write_text(apply_values(html, instructions, source=lesson_instructions_path), encoding="utf-8")
+            lessons.append(LessonBuild(html_path=page_path, content_path=canonical_content_path))
 
+    first_chapter_name = f"{chapters[0].name}.html"
     lesson_paths = {lesson.html_path for lesson in lessons}
     for page_path in sorted(prepared_html_root.rglob("*.html")):
         if page_path not in lesson_paths:
+            if page_path.name == first_chapter_name or any(page_path.name == f"{chapter.name}.html" for chapter in chapters):
+                continue
+            html = page_path.read_text(encoding="utf-8")
+            html = html.replace('href="chapter.html"', f'href="{first_chapter_name}"')
+            html = html.replace('href="lesson.html"', f'href="{first_lesson_name}"')
+            page_path.write_text(html, encoding="utf-8")
             generate_page_instructions(
                 page_path=page_path,
                 content_root=page_content_root,

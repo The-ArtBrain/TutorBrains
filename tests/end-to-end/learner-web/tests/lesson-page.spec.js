@@ -2,7 +2,7 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 const { expect, test } = require("@playwright/test");
 
-const lessonPages = ["lesson-01.html"];
+const lessonPages = ["lesson.html"];
 
 function lessonUrl(filename) {
   return pathToFileURL(path.join(__dirname, "../../../..", "apps", "learner-web", "html", "pages", filename)).href;
@@ -123,7 +123,7 @@ for (const filename of lessonPages) {
       await expect(page.locator("body")).not.toContainText("Extra work");
     });
 
-    if (filename === "lesson-01.html") {
+    if (filename === "lesson.html") {
       test("TC-16 matches disclosure outlines when a summary wraps at 780 by 996", async ({ page }) => {
         await openLesson(page, filename, { width: 780, height: 996 });
 

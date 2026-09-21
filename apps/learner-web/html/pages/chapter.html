@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="[#instruction-language-tag]">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="[#chapter-document-description]">
+    <title>[#chapter-document-title]</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/components/account-menu.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">[#chapter-skip-label]</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="index.html" aria-label="[#chapter-brand-home-label]">
+          <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
+          <span>[#chapter-brand-name]</span>
+        </a>
+        <!--#include file="../includes/account-menu.inc" -->
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell">
+      <header>
+        <p class="eyebrow">[#chapter-chapter-label]</p>
+        <h1>[#chapter-heading]</h1>
+        <p class="lede">[#chapter-introduction]</p>
+      </header>
+
+      <section class="surface panel panel--accent" aria-labelledby="mission-title">
+        <h2 id="mission-title">[#chapter-mission-title]</h2>
+        <p>[#chapter-mission-description]</p>
+        <p lang="te"><strong>[#chapter-mission-question]</strong></p>
+        <p lang="te"><strong>[#chapter-mission-response]</strong></p>
+      </section>
+
+      <section aria-labelledby="lessons-title">
+        <p class="eyebrow">[#chapter-contents-label]</p>
+        <h2 id="lessons-title">[#chapter-lessons-title]</h2>
+        <div class="hierarchy-grid">
+          <!-- lesson-list:start -->
+          <article class="surface hierarchy-card" aria-labelledby="lesson-title">
+            <p class="hierarchy-card__meta">[#lesson-duration]</p>
+            <h3 id="lesson-title">[#lesson-title]</h3>
+            <p>[#lesson-description]</p>
+            <a class="hierarchy-card__link" href="lesson.html">[#lesson-link]</a>
+          </article>
+          <!-- lesson-list:end -->
+        </div>
+      </section>
+
+      <section class="surface panel" aria-labelledby="outcomes-title">
+        <h2 id="outcomes-title">[#chapter-outcomes-title]</h2>
+        <ul>
+          <li>[#chapter-outcome-greeting]</li>
+          <li>[#chapter-outcome-characters-prefix] <span lang="te">[#chapter-character-ma]</span> [#chapter-outcome-characters-join] <span lang="te">[#chapter-character-na]</span> [#chapter-outcome-characters-suffix]</li>
+          <li>[#chapter-outcome-vowel-prefix] <span lang="te">[#chapter-long-vowel-sign]</span> [#chapter-outcome-vowel-suffix]</li>
+          <li>[#chapter-outcome-writing-prefix] <span lang="te">[#chapter-greeting-expression]</span></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner"><p>[#chapter-footer]</p></div>
+    </footer>
+  </body>
+</html>

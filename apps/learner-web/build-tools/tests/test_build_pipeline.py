@@ -11,6 +11,7 @@ sys.path.insert(0, str(BUILD_TOOLS_ROOT))
 
 import build  # noqa: E402
 from stages.course_content import generate_course_content  # noqa: E402
+from stages.include_html import include_html_files  # noqa: E402
 from stages.merge_instructions import (  # noqa: E402
     merge_html_and_instructions,
     merge_values,
@@ -89,6 +90,44 @@ class ContentFileTests(unittest.TestCase):
             )
 
 
+class IncludeStageTests(unittest.TestCase):
+    def test_includes_the_named_file_before_other_build_stages(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source"
+            (source / "pages").mkdir(parents=True)
+            (source / "includes").mkdir()
+            (source / "includes/navigation.inc").write_text("<nav>Links</nav>\n", encoding="utf-8")
+            (source / "pages/example.html").write_text(
+                '<header>\n  <!--#include file="../includes/navigation.inc" -->\n</header>\n',
+                encoding="utf-8",
+            )
+
+            include_html_files(source_html_root=source, destination_html_root=root / "included")
+
+            self.assertEqual(
+                (root / "included/pages/example.html").read_text(encoding="utf-8"),
+                "<header>\n  <nav>Links</nav>\n</header>\n",
+            )
+
+    def test_rejects_an_include_inside_an_included_file(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source"
+            (source / "pages").mkdir(parents=True)
+            (source / "includes").mkdir()
+            (source / "pages/example.html").write_text(
+                '<!--#include file="../includes/outer.inc" -->\n', encoding="utf-8"
+            )
+            (source / "includes/outer.inc").write_text(
+                '<!--#include file="inner.inc" -->\n', encoding="utf-8"
+            )
+            (source / "includes/inner.inc").write_text("<nav>Links</nav>\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "Nested HTML include.*outer.inc"):
+                include_html_files(source_html_root=source, destination_html_root=root / "included")
+
+
 class BuildStageTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary_directory = tempfile.TemporaryDirectory()
@@ -109,8 +148,7 @@ class BuildStageTests(unittest.TestCase):
         (self.learner_web_root / "assets/.DS_Store").write_text("ignored", encoding="utf-8")
         (self.course_root / "cards.en.txt").write_text(
             "[instruction-language-tag]\nen-IN\n\n"
-            "[instruction-label]\nFollow the instruction.\n\n"
-            "[lesson-language-switch-label]\nहिन्दी\n",
+            "[instruction-label]\nFollow the instruction.\n",
             encoding="utf-8",
         )
         (self.lesson_root / "lesson.en.txt").write_text(
@@ -127,13 +165,11 @@ class BuildStageTests(unittest.TestCase):
 <link rel="alternate" hreflang="en" href="lesson-01.html">
 <link rel="alternate" hreflang="hi" href="lesson-01.html">
 <data id="instruction-label">old instruction</data>
-<data id="lesson-language-switch-label" value="navigation:instruction-language-hi" lang="hi">old language switch</data>
 <data id="lesson-title">old title</data>
 <data id="target-expression" lang="te">old target</data>
 <h1><span class="heading data-placeholder" data-source="#lesson-title">[#lesson-title]</span></h1>
 <p><span class="data-placeholder" data-source="#instruction-label">[#instruction-label]</span></p>
 <p><span class="target data-placeholder" data-source="#target-expression">[#target-expression]</span></p>
-<a href="lesson-01.html" hreflang="hi" lang="hi" aria-labelledby="lesson-language-switch-label">switch</a>
 </body></html>
 """,
             encoding="utf-8",
@@ -199,8 +235,7 @@ class BuildStageTests(unittest.TestCase):
     def test_hindi_build_uses_same_lesson_template_and_preserves_english_output(self) -> None:
         (self.course_root / "cards.hi.txt").write_text(
             "[instruction-language-tag]\nhi-IN\n\n"
-            "[instruction-label]\nनिर्देश का पालन करें।\n\n"
-            "[lesson-language-switch-label]\nEnglish\n",
+            "[instruction-label]\nनिर्देश का पालन करें।\n",
             encoding="utf-8",
         )
         (self.lesson_root / "lesson.hi.txt").write_text(
@@ -234,19 +269,17 @@ class BuildStageTests(unittest.TestCase):
         self.assertIn("నమస్కారం", hindi_html)
         self.assertIn('<html lang="hi-IN">', hindi_html)
         self.assertIn(
-            '<a href="../../../en/html/pages/lesson-01.html" hreflang="en" lang="en" '
-            'aria-labelledby="lesson-language-switch-label">',
+            '<link rel="alternate" hreflang="en" href="../../../en/html/pages/lesson-01.html">',
             hindi_html,
         )
         self.assertNotIn("lesson-01-hi.html", hindi_html)
         self.assertTrue(english_output.is_file())
         self.assertFalse((self.pages_root / "lesson-01-hi.html").exists())
 
-    def test_language_switch_metadata_matches_alternate_document(self) -> None:
+    def test_alternate_metadata_matches_generated_documents(self) -> None:
         (self.course_root / "cards.hi.txt").write_text(
             "[instruction-language-tag]\nhi-IN\n\n"
-            "[instruction-label]\nनिर्देश का पालन करें।\n\n"
-            "[lesson-language-switch-label]\nEnglish\n",
+            "[instruction-label]\nनिर्देश का पालन करें।\n",
             encoding="utf-8",
         )
         (self.lesson_root / "lesson.hi.txt").write_text(
@@ -254,11 +287,7 @@ class BuildStageTests(unittest.TestCase):
             encoding="utf-8",
         )
 
-        expectations = {
-            "en": ("hi", "हिन्दी"),
-            "hi": ("en", "English"),
-        }
-        for language, (alternate, label) in expectations.items():
+        for language in ("en", "hi"):
             with self.subTest(language=language):
                 lessons = merge_html_and_instructions(
                     source_html_root=self.source_html_root,
@@ -269,18 +298,12 @@ class BuildStageTests(unittest.TestCase):
                 )
                 html = lessons[0].html_path.read_text(encoding="utf-8")
 
-                self.assertIn(
-                    f'<data id="lesson-language-switch-label" '
-                    f'value="navigation:instruction-language-{alternate}" '
-                    f'lang="{alternate}">{label}</data>',
-                    html,
-                )
-                self.assertIn(
-                    f'href="../../../{alternate}/html/pages/lesson-01.html" '
-                    f'hreflang="{alternate}" lang="{alternate}" '
-                    'aria-labelledby="lesson-language-switch-label"',
-                    html,
-                )
+                for available_language in ("en", "hi"):
+                    self.assertIn(
+                        f'<link rel="alternate" hreflang="{available_language}" '
+                        f'href="../../../{available_language}/html/pages/lesson-01.html">',
+                        html,
+                    )
 
     def test_missing_language_file_stops_before_publication(self) -> None:
         with self.assertRaisesRegex(FileNotFoundError, "cards.hi.txt"):

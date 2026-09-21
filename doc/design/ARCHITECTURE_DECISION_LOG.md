@@ -1,7 +1,7 @@
 # Architecture Decision Record Log
 
 **Status:** Active discussion log  
-**Last reviewed:** 2026-09-11
+**Last reviewed:** 2026-09-21
 **Scope:** Current product-platform and app-skeleton architecture decisions  
 **Authority:** Product decisions remain authoritative in the [platform specification](../spec/platform_spec.md); this log summarizes them alongside implementation decisions.
 
@@ -180,6 +180,16 @@ This file is the Architecture Decision Record (ADR) index for the current design
 - **Consequence:** `apps/learner-web/build-tools/` contains the learner-web build coordinator and stages; `apps/learner-web/dist/` remains generated output. Application build logic must not be shipped as browser runtime code. Top-level `tools/` remains appropriate for genuinely repository-wide generators, validators, and maintenance utilities. Reuse that later meets the evidence threshold should be extracted through a reviewable change and this ADR should be amended or superseded.
 - **Relationship:** This decision clarifies the application ownership and top-level `tools/` guidance in the proposed project structure. It does not move course content into the application, change product-manifest ownership, or alter ADR-018 and ADR-019 build-time localization boundaries.
 - **Source:** [Project structure, top-level folder rationale](project_structure.md#4-top-level-folder-rationale), [application folder rationale](project_structure.md#5-application-folder-rationale), and [pipeline ownership](project_structure.md#14-pipeline-ownership)
+
+## ADR-022 — Single-level HTML includes in the learner-web build
+
+- **Status:** Accepted for the learner-web static review slice
+- **Context:** Several HTML pages share the same account menu. HTML has no native file include, and duplicating its markup across source pages makes shared changes easy to miss.
+- **Decision:** Source pages may use `<!--#include file="relative/path.inc" -->` on its own line. The application-owned include stage replaces each marker with the named file before instruction and course-content merge. Include paths resolve relative to the including HTML file and must remain within the learner-web HTML source directory. Included files cannot contain another include directive; the build fails when they do. Pages needing more than one fragment declare multiple includes directly.
+- **Rationale:** One level keeps the build order and final HTML easy to inspect, avoids recursive expansion and cycle handling, and lets localization operate on the complete page after inclusion. The include stage is generic and has no account-menu or page-specific rules.
+- **Consequence:** Shared markup has one source file and produces ordinary static HTML with no browser-side include code. Include fragments may contain localization placeholders, but they cannot compose other fragments. Tests cover a named-file include and rejection of nested includes.
+- **Alternatives considered:** Duplicate markup in every page, recursive build-time includes, and browser-side JavaScript inclusion. Recursive includes add ordering and cycle behavior that this slice does not need; browser-side inclusion conflicts with the static HTML boundary.
+- **Relationship:** This applies ADR-019's build-time localization boundary and ADR-021's application-owned build logic to shared learner-web markup.
 
 ## Open evidence and review triggers
 

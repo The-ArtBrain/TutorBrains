@@ -1,4 +1,8 @@
 # Dependencies for running the application-owned build scripts.
+[project]
+name = "tutorbrains-learner-web-build-tools"
+version = "0.1.0"
+
 [dependency-groups]
 build = [
     "PyYAML==6.0.2",

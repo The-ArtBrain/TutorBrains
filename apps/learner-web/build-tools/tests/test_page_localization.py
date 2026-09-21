@@ -11,6 +11,7 @@ BUILD_TOOLS_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BUILD_TOOLS_ROOT))
 
 from stages.course_content import generate_course_content
+from stages.include_html import include_html_files
 from stages.merge_instructions import merge_html_and_instructions
 from stages.page_instructions import read_yaml_values
 from stages.publish import publish_static_site
@@ -48,8 +49,13 @@ class PageLocalizationTests(unittest.TestCase):
     def build_language(self, language):
         self.build_count += 1
         work = self.root / f"work-{self.build_count}"
-        lessons = merge_html_and_instructions(
+        included_html_root = work / "included-html"
+        include_html_files(
             source_html_root=self.app / "html",
+            destination_html_root=included_html_root,
+        )
+        lessons = merge_html_and_instructions(
+            source_html_root=included_html_root,
             work_root=work,
             course_root=self.content / "subjects/languages/te/courses/practical-telugu",
             page_content_root=self.content,
@@ -123,6 +129,20 @@ class PageLocalizationTests(unittest.TestCase):
         self.assertIn(text, [attrs.get("aria-label") for _, attrs in doc.elements])
         self.assertIn(text, [attrs.get("content") for tag, attrs in doc.elements if tag == "meta"])
         self.assertNotIn("script", [tag for tag, _ in doc.elements])
+
+    def test_account_menu_include_updates_every_generated_page(self):
+        partial = self.app / "html/includes/account-menu.inc"
+        partial.write_text(partial.read_text().replace(
+            'class="account-menu"', 'class="account-menu" data-shared-menu="yes"'
+        ))
+
+        pages = self.build_language("en")
+        for page in pages.glob("*.html"):
+            with self.subTest(page=page.name):
+                html = page.read_text()
+                self.assertEqual(html.count('data-shared-menu="yes"'), 1)
+                self.assertNotIn("#include file=", html)
+        self.assertFalse(list((self.app / "dist/en/html/includes").glob("*.inc")))
 
     def test_incomplete_translations_do_not_replace_previous_publication(self):
         pages = self.build_language("hi")

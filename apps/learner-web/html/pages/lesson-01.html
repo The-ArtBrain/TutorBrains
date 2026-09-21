@@ -9,6 +9,7 @@
     <link rel="alternate" hreflang="hi" href="lesson-01.html">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/components/account-menu.css">
     <link rel="stylesheet" href="../../css/components/card.css">
     <link rel="stylesheet" href="../../css/components/learner-space.css">
     <link rel="stylesheet" href="../../css/components/user-action.css">
@@ -33,9 +34,6 @@
       </section>
       <section class="instruction-content-data" hidden>
         <data id="lesson-skip-card-label" value="navigation:skip-card">Skip to the current Card</data>
-        <data id="lesson-controls-label" value="navigation:lesson-controls">Lesson controls</data>
-        <data id="lesson-language-switch-label" value="navigation:instruction-language-hindi" lang="hi">हिन्दी</data>
-        <data id="lesson-exit-label" value="navigation:exit">Exit</data>
         <data id="lesson-card-content-title" value="region:card-content">Card content</data>
         <data id="lesson-content-help-label" value="region:content-help">Content help</data>
         <data id="lesson-instruction" value="instruction:greet-respectfully">Listen, then greet an elder or teacher.</data>
@@ -65,12 +63,7 @@
             <small><span class="data-placeholder" data-source="#lesson-title">[#lesson-title]</span></small>
           </span>
         </a>
-        <nav aria-labelledby="lesson-controls-label">
-          <ul class="header-actions">
-            <li><a href="lesson-01.html" hreflang="hi" lang="hi" aria-labelledby="lesson-language-switch-label"><span class="data-placeholder" data-source="#lesson-language-switch-label">[#lesson-language-switch-label]</span></a></li>
-            <li><a href="chapter-01.html" aria-labelledby="lesson-exit-label"><span class="data-placeholder" data-source="#lesson-exit-label">[#lesson-exit-label]</span></a></li>
-          </ul>
-        </nav>
+        <!--#include file="../includes/account-menu.inc" -->
       </div>
     </header>
 

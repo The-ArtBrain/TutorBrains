@@ -21,11 +21,12 @@ All parameters can be supplied explicitly:
 apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi --course-name telugu --course-content-folder "practical telugu"
 ```
 
-The build has three stages:
+The build has four stages:
 
-1. `merge_html_and_instructions` copies HTML into a temporary workspace, merges the selected course instruction files into lessons, and fills every other page from its top-level YAML files.
-2. `generate_course_content` inserts canonical course values, verifies that no placeholders remain in the selected lesson HTML, and removes review-only placeholder attributes and classes.
-3. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<instruction-language>/`.
+1. `include_html_files` copies HTML into a temporary workspace and replaces file include markers with the named files.
+2. `merge_html_and_instructions` merges the selected course instruction files into lessons and fills every other page from its top-level YAML files.
+3. `generate_course_content` inserts canonical course values, verifies that no placeholders remain in the selected lesson HTML, and removes review-only placeholder attributes and classes.
+4. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<instruction-language>/`.
 
 Run the unit tests from the repository root:
 
@@ -72,9 +73,11 @@ index-brand-home-label: "Telugu Tutor home"
 - Every key must be used; duplicate keys, conflicting fixed/localized values, empty or non-text values, and unresolved placeholders fail the build before publication. Missing translations also fail; there is no silent English fallback.
 - `[#instruction-language-tag]` is reserved for the locale declared by the selected course instruction file (`en-IN` or `hi-IN`). Other keys contain only lowercase letters, digits, and hyphens. Values cannot contain placeholder syntax.
 - Fixed files hold canonical Telugu, language self-names, and explicitly tagged bilingual review specimens. Translatable page text belongs in language files, including titles, descriptions, and accessibility labels.
-- The generated document includes alternate-language metadata. Ordinary relative links preserve the current instruction language; the lesson's existing language switch links to the corresponding complete document. Build both languages to make both destinations available. The existing preferences selector reflects the generated language but remains a static control.
+- The generated document includes alternate-language metadata. Ordinary relative links preserve the current instruction language. The existing preferences selector reflects the generated language but remains a static control.
 
 To add another non-lesson page, create `html/pages/<page>.html` plus `content/<page>.en.yml` and `content/<page>.hi.yml`. The build discovers it automatically. The source should have `<html lang="[#instruction-language-tag]">`; optional shared values go in `content/<page>.yml`.
+
+Place `<!--#include file="../includes/account-menu.inc" -->` in a page header to insert [`html/includes/account-menu.inc`](../html/includes/account-menu.inc) before text localization. The filename is relative to the including HTML file and must stay within `html/`. Include files cannot contain other include directives; use multiple markers in the page if needed. Each page's instruction file supplies `account-menu-label`, `account-preferences-link`, and `account-sign-in-link`. Include files are build inputs and are not published. See [ADR-022](../../../doc/design/ARCHITECTURE_DECISION_LOG.md#adr-022--single-level-html-includes-in-the-learner-web-build).
 
 Delete the complete generated distribution without changing source files:
 

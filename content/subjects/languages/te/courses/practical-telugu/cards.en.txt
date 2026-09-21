@@ -4,15 +4,6 @@ en-IN
 [lesson-skip-card-label]
 Skip to the current Card
 
-[lesson-controls-label]
-Lesson controls
-
-[lesson-language-switch-label]
-हिन्दी
-
-[lesson-exit-label]
-Exit
-
 [lesson-card-content-title]
 Card content
 
@@ -69,3 +60,12 @@ Characters in this lesson
 
 [lesson-grammar-title]
 Grammar in this lesson
+
+[account-menu-label]
+Account menu
+
+[account-preferences-link]
+Preferences
+
+[account-sign-in-link]
+Sign in

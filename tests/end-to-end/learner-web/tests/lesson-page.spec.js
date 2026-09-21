@@ -66,8 +66,8 @@ for (const filename of lessonPages) {
       expect(result).toEqual({
         blockNames: ["lesson-content-data", "instruction-content-data"],
         blocksAreHidden: true,
-        sourceCounts: [11, 24],
-        placeholderCount: 34,
+        sourceCounts: [11, 21],
+        placeholderCount: 32,
         literalAriaLabels: 0,
         referencesResolve: true,
         ariaReferencesResolve: true,
@@ -78,14 +78,12 @@ for (const filename of lessonPages) {
       const expectedNames = {
         skip: "Skip to the current Card",
         context: "Chapter 01 Lesson 1 · Greet someone",
-        controls: "Lesson controls",
         contentHelp: "Content help",
         responseMethod: "Response method",
       };
 
       await expect(page.locator(".skip-link")).toHaveAccessibleName(expectedNames.skip);
       await expect(page.locator(".lesson-context")).toHaveAccessibleName(expectedNames.context);
-      await expect(page.locator(".site-header nav")).toHaveAccessibleName(expectedNames.controls);
       await expect(page.locator(".card__content-actions")).toHaveAccessibleName(expectedNames.contentHelp);
       await expect(page.locator(".card__actions fieldset")).toHaveAccessibleName(expectedNames.responseMethod);
     });

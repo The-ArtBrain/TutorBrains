@@ -18,6 +18,14 @@ for (const language of ["en", "hi"]) {
         await expect(page.locator(".brand")).toHaveAccessibleName(
           language === "en" ? "Telugu Tutor home" : "तेलुगु ट्यूटर का मुख्य पृष्ठ",
         );
+        const menu = page.locator(".account-menu");
+        await expect(menu.locator("summary")).toHaveAccessibleName(
+          language === "en" ? "Account menu" : "खाता मेनू",
+        );
+        await expect(menu.locator('a[href="preferences.html"]')).toBeHidden();
+        await menu.locator("summary").click();
+        await expect(menu.locator('a[href="preferences.html"]')).toBeVisible();
+        await expect(menu.locator('a[href="sign-in.html"]')).toBeVisible();
         const state = await page.evaluate(() => ({
           hasHorizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
           scripts: document.scripts.length,
@@ -39,8 +47,9 @@ for (const language of ["en", "hi"]) {
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
     await page.locator('main a[href="lesson-01.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "lesson-01"));
-    await page.locator('a[aria-labelledby="lesson-exit-label"]').click();
+    await page.locator(".lesson-context").click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
+    await page.locator(".account-menu summary").click();
     await page.locator('nav a[href="preferences.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "preferences"));
     await page.locator('main a[href="sign-in.html"]').click();

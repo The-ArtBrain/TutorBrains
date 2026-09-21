@@ -1,7 +1,6 @@
 # Instructions for html/pages/patterns.html (en). Plain text only.
 patterns-document-title: "Card pattern catalogue · TutorBrains"
 patterns-skip-label: "Skip to main content"
-patterns-lesson-link: "Lesson example"
 patterns-eyebrow: "Markup investigation"
 patterns-heading: "Card pattern catalogue"
 patterns-introduction: "English and Hindi specimens document the current Card structure as ordinary semantic HTML. They are examples for review, not templates to initialize or clone."
@@ -19,6 +18,8 @@ patterns-specimens-description: "These Cards are written as ordinary semantic HT
 patterns-conclusion-heading: "Current conclusion:"
 patterns-conclusion-description: "the lesson uses one Card, so no Card template or cloning mechanism is needed. Shared class names and component styles provide the useful reuse boundary."
 patterns-brand-home-label: "Telugu Tutor home"
-patterns-navigation-label: "Pattern navigation"
 patterns-conclusion-label: "Pattern conclusion"
 patterns-document-description: "Semantic HTML Card patterns for TutorBrains learners"
+account-menu-label: "Account menu"
+account-preferences-link: "Preferences"
+account-sign-in-link: "Sign in"

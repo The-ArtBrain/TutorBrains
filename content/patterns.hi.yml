@@ -1,7 +1,6 @@
 # Instructions for html/pages/patterns.html (hi). Plain text only.
 patterns-document-title: "कार्ड नमूना सूची · TutorBrains"
 patterns-skip-label: "मुख्य सामग्री पर जाएँ"
-patterns-lesson-link: "पाठ का उदाहरण"
 patterns-eyebrow: "मार्कअप का अध्ययन"
 patterns-heading: "कार्ड नमूना सूची"
 patterns-introduction: "अंग्रेज़ी और हिन्दी के नमूने सामान्य सिमैंटिक HTML में कार्ड की वर्तमान संरचना दिखाते हैं। ये समीक्षा के उदाहरण हैं, आरंभ करने या प्रतिलिपि बनाने के टेम्पलेट नहीं।"
@@ -19,6 +18,8 @@ patterns-specimens-description: "ये कार्ड सामान्य �
 patterns-conclusion-heading: "वर्तमान निष्कर्ष:"
 patterns-conclusion-description: "पाठ में एक कार्ड है, इसलिए कार्ड टेम्पलेट या प्रतिलिपि तंत्र की ज़रूरत नहीं है। साझा क्लास नाम और घटकों की शैलियाँ पुनः उपयोग का आधार हैं।"
 patterns-brand-home-label: "तेलुगु ट्यूटर का मुख्य पृष्ठ"
-patterns-navigation-label: "नमूनों का नेविगेशन"
 patterns-conclusion-label: "नमूनों का निष्कर्ष"
 patterns-document-description: "TutorBrains शिक्षार्थियों के लिए सिमैंटिक HTML कार्ड के नमूने"
+account-menu-label: "खाता मेनू"
+account-preferences-link: "प्राथमिकताएँ"
+account-sign-in-link: "साइन इन करें"

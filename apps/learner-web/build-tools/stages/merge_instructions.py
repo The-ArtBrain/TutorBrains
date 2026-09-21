@@ -105,23 +105,6 @@ def _prepare_localized_document(
             html,
         )
 
-    alternate_languages = [candidate for candidate in available_languages if candidate != language]
-    if alternate_languages:
-        alternate = alternate_languages[0]
-        localized_href = f"../../../{alternate}/html/pages/{page_name}"
-        html = re.sub(
-            r'(<data\s+id="lesson-language-switch-label"\s+value=")[^"]+("\s+lang=")[^"]+(">)',
-            rf'\g<1>navigation:instruction-language-{alternate}\g<2>{alternate}\g<3>',
-            html,
-            count=1,
-        )
-        html = re.sub(
-            r'(<a\b)[^>]*(aria-labelledby="lesson-language-switch-label"[^>]*>)',
-            rf'\1 href="{localized_href}" hreflang="{alternate}" lang="{alternate}" \2',
-            html,
-            count=1,
-        )
-
     return html
 
 

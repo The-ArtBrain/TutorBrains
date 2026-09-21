@@ -4,15 +4,6 @@ hi-IN
 [lesson-skip-card-label]
 वर्तमान कार्ड पर जाएँ
 
-[lesson-controls-label]
-पाठ नियंत्रण
-
-[lesson-language-switch-label]
-English
-
-[lesson-exit-label]
-बाहर जाएँ
-
 [lesson-card-content-title]
 कार्ड सामग्री
 
@@ -69,3 +60,12 @@ English
 
 [lesson-grammar-title]
 इस पाठ का व्याकरण
+
+[account-menu-label]
+खाता मेनू
+
+[account-preferences-link]
+प्राथमिकताएँ
+
+[account-sign-in-link]
+साइन इन करें

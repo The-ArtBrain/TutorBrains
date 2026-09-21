@@ -27,7 +27,10 @@ def publish_static_site(
 
     # Check every page before touching an already published language directory.
     for page in prepared_html_root.rglob("*.html"):
-        _remove_placeholder_markers(page.read_text(encoding="utf-8"))
+        html = page.read_text(encoding="utf-8")
+        _remove_placeholder_markers(html)
+        if "<!--#include" in html:
+            raise ValueError(f"Unexpanded HTML include in {page}")
 
     dist_root = learner_web_root / "dist"
     dist_root.mkdir(exist_ok=True)
@@ -39,7 +42,7 @@ def publish_static_site(
             shutil.copytree(
                 source,
                 staging / name,
-                ignore=shutil.ignore_patterns(".DS_Store", "__pycache__", "*.pyc"),
+                ignore=shutil.ignore_patterns(".DS_Store", "__pycache__", "*.pyc", "*.inc"),
             )
 
         published_files = sum(1 for path in staging.rglob("*") if path.is_file())

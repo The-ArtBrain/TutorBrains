@@ -6,6 +6,8 @@ Build both instruction languages using the [build instructions](build-tools/READ
 
 The non-lesson pages use repository-level `content/<page>.<language>.yml` instructions, matching the HTML filename. Optional `content/<page>.yml` files contain fixed material such as canonical Telugu and the catalogue's explicitly English and Hindi specimens. Lesson content retains its existing course-owned text files. Text and accessibility labels are resolved during the build; no browser localization code is required. Layout, controls, and styling remain the reviewed interface.
 
+Every page header includes the same [account menu partial](html/includes/account-menu.inc) during the build and uses [`account-menu.css`](css/components/account-menu.css). The circular image defaults to [`user.svg`](assets/icons/user.svg); a future identity integration can supply a user photo by replacing the image `src`. The current guest fixture links to Preferences and Sign in. A signed-in state should replace the Sign in link with a real Sign out action when authentication exists; this static review has no sign-out endpoint.
+
 ## Current boundary
 
 - HTML expresses document structure, navigation, language, forms, and learner-facing content.

@@ -8,6 +8,7 @@ import shutil
 import tempfile
 
 from stages.course_content import generate_course_content
+from stages.include_html import include_html_files
 from stages.merge_instructions import merge_html_and_instructions
 from stages.publish import publish_static_site
 
@@ -87,8 +88,13 @@ def main(arguments: list[str] | None = None) -> None:
 
     with tempfile.TemporaryDirectory(prefix=".build-", dir=learner_web_root) as temporary_directory:
         work_root = Path(temporary_directory)
-        lessons = merge_html_and_instructions(
+        included_html_root = work_root / "included-html"
+        include_html_files(
             source_html_root=learner_web_root / "html",
+            destination_html_root=included_html_root,
+        )
+        lessons = merge_html_and_instructions(
+            source_html_root=included_html_root,
             work_root=work_root,
             course_root=course_root,
             page_content_root=repository_root / "content",

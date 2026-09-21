@@ -2,7 +2,9 @@
 
 This directory currently contains a non-functional semantic Hypertext Markup Language (HTML) and Cascading Style Sheets (CSS) review slice. It starts at Chapter 01 and presents one current Lesson Card with its content and available abilities.
 
-Start with [`html/pages/index.html`](html/pages/index.html). The pages use ordinary relative links and can be opened directly from the filesystem or served by any static file server. Reusable interface icons live as separate files under [`assets/icons/`](assets/icons/); the interface does not depend on the specification SVGs in `doc/spec/`.
+Build both instruction languages using the [build instructions](build-tools/README.md), then start with `dist/en/html/pages/index.html` or `dist/hi/html/pages/index.html`. Every page is generated. Source HTML under `html/pages/` contains `[#key]` placeholders and is an authoring source, not the finished interface. Generated pages use ordinary relative links and can be opened directly from the filesystem or served by any static file server. Reusable interface icons live as separate files under [`assets/icons/`](assets/icons/); the interface does not depend on the specification SVGs in `doc/spec/`.
+
+The non-lesson pages use repository-level `content/<page>.<language>.yml` instructions, matching the HTML filename. Optional `content/<page>.yml` files contain fixed material such as canonical Telugu and the catalogue's explicitly English and Hindi specimens. Lesson content retains its existing course-owned text files. Text and accessibility labels are resolved during the build; no browser localization code is required. Layout, controls, and styling remain the reviewed interface.
 
 ## Current boundary
 

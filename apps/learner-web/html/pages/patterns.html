@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en-IN">
+<html lang="[#instruction-language-tag]">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Semantic HTML Card patterns for TutorBrains learners">
-    <title>Card pattern catalogue · TutorBrains</title>
+    <meta name="description" content="[#patterns-document-description]">
+    <title>[#patterns-document-title]</title>
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
     <link rel="stylesheet" href="../../css/components/card.css">
@@ -14,97 +14,97 @@
     <link rel="stylesheet" href="../../css/pattern-catalogue.css">
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content">[#patterns-skip-label]</a>
 
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="index.html" aria-label="Telugu Tutor home">
+        <a class="brand" href="index.html" aria-label="[#patterns-brand-home-label]">
           <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
-          <span>Tutor Brain</span>
+          <span>[#patterns-brand-name]</span>
         </a>
-        <nav aria-label="Pattern navigation"><a href="lesson-01.html">Lesson example</a></nav>
+        <nav aria-label="[#patterns-navigation-label]"><a href="lesson-01.html">[#patterns-lesson-link]</a></nav>
       </div>
     </header>
 
     <main id="main-content" class="page-shell">
       <header class="catalogue-introduction">
-        <p class="eyebrow">Markup investigation</p>
-        <h1>Card pattern catalogue</h1>
-        <p class="lede">English and Hindi specimens document the current Card structure as ordinary semantic HTML. They are examples for review, not templates to initialize or clone.</p>
+        <p class="eyebrow">[#patterns-eyebrow]</p>
+        <h1>[#patterns-heading]</h1>
+        <p class="lede">[#patterns-introduction]</p>
       </header>
 
       <section class="surface panel" aria-labelledby="convention-title">
-        <h2 id="convention-title">Naming and data convention</h2>
-        <p>Each component root class and stylesheet shares one name. Visible <code>data</code> elements keep a stable value separate from localized wording.</p>
+        <h2 id="convention-title">[#patterns-convention-title]</h2>
+        <p>[#patterns-convention-prefix] <code>[#patterns-element-name]</code> [#patterns-convention-suffix]</p>
         <dl class="catalogue-conventions">
           <div>
-            <dt>Card</dt>
-            <dd><code>card</code>, <code>card.css</code></dd>
+            <dt>[#patterns-card-term]</dt>
+            <dd><code>[#patterns-card-class]</code>, <code>[#patterns-card-stylesheet]</code></dd>
           </div>
           <div>
-            <dt>Learner space</dt>
-            <dd><code>learner-space</code>, <code>learner-space.css</code></dd>
+            <dt>[#patterns-learner-space-term]</dt>
+            <dd><code>[#patterns-learner-space-class]</code>, <code>[#patterns-learner-space-stylesheet]</code></dd>
           </div>
           <div>
-            <dt>User action</dt>
-            <dd><code>user-action</code>, <code>user-action.css</code></dd>
+            <dt>[#patterns-user-action-term]</dt>
+            <dd><code>[#patterns-user-action-class]</code>, <code>[#patterns-user-action-stylesheet]</code></dd>
           </div>
           <div>
-            <dt>Learning group</dt>
-            <dd><code>learning-group</code>, <code>learning-group.css</code></dd>
+            <dt>[#patterns-learning-group-term]</dt>
+            <dd><code>[#patterns-learning-group-class]</code>, <code>[#patterns-learning-group-stylesheet]</code></dd>
           </div>
         </dl>
-        <p class="field-help">A capability value declares what the Card may request. It does not declare device availability, permission, consent, or authorization.</p>
+        <p class="field-help">[#patterns-capability-help]</p>
       </section>
 
       <section aria-labelledby="specimens-title">
-        <p class="eyebrow">Current structure</p>
-        <h2 id="specimens-title">Card specimens</h2>
-        <p>These Cards are written as ordinary semantic HTML so their structure, layout, data values, and language metadata can be reviewed directly.</p>
+        <p class="eyebrow">[#patterns-structure-label]</p>
+        <h2 id="specimens-title">[#patterns-specimens-title]</h2>
+        <p>[#patterns-specimens-description]</p>
 
         <div class="catalogue-specimens">
           <section class="catalogue-specimen" lang="en-IN" aria-labelledby="english-specimen-title">
-            <h3 id="english-specimen-title">English instruction-language specimen</h3>
+            <h3 id="english-specimen-title">[#patterns-specimen-en-title]</h3>
             <article class="surface card" aria-labelledby="card-title-en">
               <header class="card__header">
-                <h4 id="card-title-en"><data value="card:greeting-exchange">Greeting exchange</data></h4>
+                <h4 id="card-title-en"><data value="card:greeting-exchange">[#patterns-specimen-en-card-title]</data></h4>
               </header>
 
               <section class="card__region card__content" aria-labelledby="card-content-title-en">
-                <h4 id="card-content-title-en" class="visually-hidden">Learning content</h4>
-                <p><data value="instruction:greet-respectfully">Listen, then greet an elder or teacher.</data></p>
-                <p class="card__target"><data value="content:greeting-respectful" lang="te">నమస్కారం</data></p>
+                <h4 id="card-content-title-en" class="visually-hidden">[#patterns-specimen-en-content-title]</h4>
+                <p><data value="instruction:greet-respectfully">[#patterns-specimen-en-instruction]</data></p>
+                <p class="card__target"><data value="content:greeting-respectful" lang="te">[#patterns-target-expression]</data></p>
                 <details class="disclosure card__transliteration">
-                  <summary><data value="action:show-transliteration">Show transliteration</data></summary>
-                  <p><data value="transliteration:greeting-respectful" lang="te-Latn">Namaskāraṁ</data></p>
+                  <summary><data value="action:show-transliteration">[#patterns-specimen-en-transliteration-label]</data></summary>
+                  <p><data value="transliteration:greeting-respectful" lang="te-Latn">[#patterns-transliteration]</data></p>
                 </details>
               </section>
 
               <section class="card__region card__actions" aria-labelledby="card-actions-title-en">
-                <h4 id="card-actions-title-en"><data value="actions:available">Available response abilities</data></h4>
+                <h4 id="card-actions-title-en"><data value="actions:available">[#patterns-specimen-en-abilities-title]</data></h4>
                 <ul class="user-actions">
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
-                      <data class="user-action__label" value="capability:speak">Speak</data>
+                      <data class="user-action__label" value="capability:speak">[#patterns-specimen-en-speak-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
-                      <data class="user-action__label" value="capability:write">Write</data>
+                      <data class="user-action__label" value="capability:write">[#patterns-specimen-en-write-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
-                      <data class="user-action__label" value="capability:type">Type</data>
+                      <data class="user-action__label" value="capability:type">[#patterns-specimen-en-type-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
-                      <data class="user-action__label" value="capability:accept-learner-image">Upload image</data>
+                      <data class="user-action__label" value="capability:accept-learner-image">[#patterns-specimen-en-upload-label]</data>
                     </button>
                   </li>
                 </ul>
@@ -112,9 +112,9 @@
 
               <section class="card__region card__learner" aria-labelledby="learner-space-heading-en">
                 <div class="learner-space">
-                  <h4 id="learner-space-heading-en"><data value="learner-space:response">Your response</data></h4>
+                  <h4 id="learner-space-heading-en"><data value="learner-space:response">[#patterns-specimen-en-response-title]</data></h4>
                   <output class="learner-space__output">
-                    <data value="learner-space:empty">No response added yet.</data>
+                    <data value="learner-space:empty">[#patterns-specimen-en-response-empty]</data>
                   </output>
                 </div>
               </section>
@@ -122,25 +122,25 @@
               <div class="card__region card__learning-groups">
                 <article class="learning-group" aria-labelledby="meaning-summary-en">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="meaning-summary-en"><data value="learning-group:meaning">Meaning</data></summary>
+                    <summary id="meaning-summary-en"><data value="learning-group:meaning">[#patterns-specimen-en-meaning-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="meaning:greeting-respectful">A respectful greeting suitable for an unfamiliar adult, elder, or teacher.</data></p>
+                      <p><data value="meaning:greeting-respectful">[#patterns-specimen-en-meaning-description]</data></p>
                     </div>
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="characters-summary-en">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="characters-summary-en"><data value="learning-group:characters">Characters in this lesson</data></summary>
+                    <summary id="characters-summary-en"><data value="learning-group:characters">[#patterns-specimen-en-characters-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="characters:greeting-respectful" lang="te">మ · న</data></p>
+                      <p><data value="characters:greeting-respectful" lang="te">[#patterns-characters]</data></p>
                     </div>
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="grammar-summary-en">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="grammar-summary-en"><data value="learning-group:grammar">Grammar in this lesson</data></summary>
+                    <summary id="grammar-summary-en"><data value="learning-group:grammar">[#patterns-specimen-en-grammar-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="grammar:greeting-respectful">Respectful greeting pattern</data></p>
+                      <p><data value="grammar:greeting-respectful">[#patterns-specimen-en-grammar-description]</data></p>
                     </div>
                   </details>
                 </article>
@@ -149,47 +149,47 @@
           </section>
 
           <section class="catalogue-specimen" lang="hi-IN" aria-labelledby="hindi-specimen-title">
-            <h3 id="hindi-specimen-title">हिन्दी निर्देश-भाषा नमूना</h3>
+            <h3 id="hindi-specimen-title">[#patterns-specimen-hi-title]</h3>
             <article class="surface card" aria-labelledby="card-title-hi">
               <header class="card__header">
-                <h4 id="card-title-hi"><data value="card:greeting-exchange">अभिवादन संवाद</data></h4>
+                <h4 id="card-title-hi"><data value="card:greeting-exchange">[#patterns-specimen-hi-card-title]</data></h4>
               </header>
 
               <section class="card__region card__content" aria-labelledby="card-content-title-hi">
-                <h4 id="card-content-title-hi" class="visually-hidden">सीखने की सामग्री</h4>
-                <p><data value="instruction:greet-respectfully">सुनें, फिर किसी बड़े या शिक्षक का अभिवादन करें।</data></p>
-                <p class="card__target"><data value="content:greeting-respectful" lang="te">నమస్కారం</data></p>
+                <h4 id="card-content-title-hi" class="visually-hidden">[#patterns-specimen-hi-content-title]</h4>
+                <p><data value="instruction:greet-respectfully">[#patterns-specimen-hi-instruction]</data></p>
+                <p class="card__target"><data value="content:greeting-respectful" lang="te">[#patterns-target-expression]</data></p>
                 <details class="disclosure card__transliteration">
-                  <summary><data value="action:show-transliteration">लिप्यंतरण देखें</data></summary>
-                  <p><data value="transliteration:greeting-respectful" lang="te-Latn">Namaskāraṁ</data></p>
+                  <summary><data value="action:show-transliteration">[#patterns-specimen-hi-transliteration-label]</data></summary>
+                  <p><data value="transliteration:greeting-respectful" lang="te-Latn">[#patterns-transliteration]</data></p>
                 </details>
               </section>
 
               <section class="card__region card__actions" aria-labelledby="card-actions-title-hi">
-                <h4 id="card-actions-title-hi"><data value="actions:available">उपलब्ध उत्तर क्षमताएँ</data></h4>
+                <h4 id="card-actions-title-hi"><data value="actions:available">[#patterns-specimen-hi-abilities-title]</data></h4>
                 <ul class="user-actions">
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/microphone.svg" alt="">
-                      <data class="user-action__label" value="capability:speak">बोलें</data>
+                      <data class="user-action__label" value="capability:speak">[#patterns-specimen-hi-speak-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/pencil.svg" alt="">
-                      <data class="user-action__label" value="capability:write">लिखें</data>
+                      <data class="user-action__label" value="capability:write">[#patterns-specimen-hi-write-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/keyboard.svg" alt="">
-                      <data class="user-action__label" value="capability:type">टाइप करें</data>
+                      <data class="user-action__label" value="capability:type">[#patterns-specimen-hi-type-label]</data>
                     </button>
                   </li>
                   <li class="user-action">
                     <button class="user-action__control" type="button" disabled>
                       <img class="button__icon" src="../../assets/icons/upload.svg" alt="">
-                      <data class="user-action__label" value="capability:accept-learner-image">चित्र अपलोड करें</data>
+                      <data class="user-action__label" value="capability:accept-learner-image">[#patterns-specimen-hi-upload-label]</data>
                     </button>
                   </li>
                 </ul>
@@ -197,9 +197,9 @@
 
               <section class="card__region card__learner" aria-labelledby="learner-space-heading-hi">
                 <div class="learner-space">
-                  <h4 id="learner-space-heading-hi"><data value="learner-space:response">आपका उत्तर</data></h4>
+                  <h4 id="learner-space-heading-hi"><data value="learner-space:response">[#patterns-specimen-hi-response-title]</data></h4>
                   <output class="learner-space__output">
-                    <data value="learner-space:empty">अभी कोई उत्तर नहीं जोड़ा गया है।</data>
+                    <data value="learner-space:empty">[#patterns-specimen-hi-response-empty]</data>
                   </output>
                 </div>
               </section>
@@ -207,25 +207,25 @@
               <div class="card__region card__learning-groups">
                 <article class="learning-group" aria-labelledby="meaning-summary-hi">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="meaning-summary-hi"><data value="learning-group:meaning">अर्थ</data></summary>
+                    <summary id="meaning-summary-hi"><data value="learning-group:meaning">[#patterns-specimen-hi-meaning-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="meaning:greeting-respectful">किसी अपरिचित वयस्क, बड़े या शिक्षक के लिए उपयुक्त सम्मानपूर्ण अभिवादन।</data></p>
+                      <p><data value="meaning:greeting-respectful">[#patterns-specimen-hi-meaning-description]</data></p>
                     </div>
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="characters-summary-hi">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="characters-summary-hi"><data value="learning-group:characters">इस पाठ के अक्षर</data></summary>
+                    <summary id="characters-summary-hi"><data value="learning-group:characters">[#patterns-specimen-hi-characters-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="characters:greeting-respectful" lang="te">మ · న</data></p>
+                      <p><data value="characters:greeting-respectful" lang="te">[#patterns-characters]</data></p>
                     </div>
                   </details>
                 </article>
                 <article class="learning-group" aria-labelledby="grammar-summary-hi">
                   <details class="disclosure learning-group__disclosure">
-                    <summary id="grammar-summary-hi"><data value="learning-group:grammar">इस पाठ का व्याकरण</data></summary>
+                    <summary id="grammar-summary-hi"><data value="learning-group:grammar">[#patterns-specimen-hi-grammar-title]</data></summary>
                     <div class="learning-group__content">
-                      <p><data value="grammar:greeting-respectful">सम्मानपूर्ण अभिवादन पैटर्न</data></p>
+                      <p><data value="grammar:greeting-respectful">[#patterns-specimen-hi-grammar-description]</data></p>
                     </div>
                   </details>
                 </article>
@@ -235,8 +235,8 @@
         </div>
       </section>
 
-      <aside class="prototype-note" aria-label="Pattern conclusion">
-        <strong>Current conclusion:</strong> the lesson uses one Card, so no Card template or cloning mechanism is needed. Shared class names and component styles provide the useful reuse boundary.
+      <aside class="prototype-note" aria-label="[#patterns-conclusion-label]">
+        <strong>[#patterns-conclusion-heading]</strong> [#patterns-conclusion-description]
       </aside>
     </main>
   </body>

@@ -1,10 +1,12 @@
 # Learner Web end-to-end tests
 
-These Playwright tests cover the shared lesson HTML source through test cases TC-08, TC-15 through TC-18, and TC-29, plus the HTML Card-pattern evaluations TC-25 through TC-28. They use an installed Google Chrome browser and do not require a learner-web server. Build-pipeline unit tests separately verify that the same lesson source generates English and Hindi output.
+These Playwright tests cover the shared lesson HTML source through test cases TC-08, TC-15 through TC-18, and TC-29, plus the generated English Card-pattern evaluations TC-25 through TC-28. Additional tests check all five generated non-lesson pages in English and Hindi at mobile and desktop widths, including accessibility labels, language metadata, static controls, and navigation through the lesson and back. They use an installed Google Chrome browser and do not require a learner-web server.
+
+Global setup generates both languages before browser tests, using `LEARNER_WEB_PYTHON` when supplied, otherwise `apps/learner-web/build-tools/.venv` if present, otherwise `python3`. Follow the [build environment setup](../../../apps/learner-web/build-tools/README.md) first. Build-pipeline unit tests cover all six pages, YAML validation, escaped text and attributes, fixed Telugu content, local links, missing translations, and preservation of previously published output on content errors.
 
 ## Latest verification
 
-The complete suite was run in Google Chrome after consolidating the lesson source: **10 passed**. The build-pipeline unit suite also recorded **11 passed**. Continuous integration is not configured for this static review slice.
+The complete suite was run in Google Chrome after generating all pages: **16 passed**. The build-pipeline unit suite also recorded **16 passed**. Continuous integration is not configured for this static review slice.
 
 ## Test cases
 

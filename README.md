@@ -22,13 +22,16 @@ Watch the complete suite run in a visible browser:
 npm --prefix tests/end-to-end/learner-web test -- --headed --workers=1
 ```
 
-Run the learner-web build tool from the repository root:
+Set up the build environment once, then generate the English and Hindi pages from the repository root:
 
 ```sh
-python3 apps/learner-web/build-tools/build.py
+python3 -m venv apps/learner-web/build-tools/.venv
+apps/learner-web/build-tools/.venv/bin/python -m pip install --group apps/learner-web/build-tools/pyproject.toml:build
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi
 ```
 
-The defaults are English instructions, the Telugu course, and the `practical-telugu` content folder; output is published below `apps/learner-web/dist/en/`. See [`apps/learner-web/build-tools/README.md`](apps/learner-web/build-tools/README.md) for parameters and unit tests.
+The defaults are English instructions, the Telugu course, and the `practical-telugu` content folder; output is published below `apps/learner-web/dist/en/` and `dist/hi/`. Open the generated `html/pages/index.html` in either directory. Every page is generated; non-lesson instructions live in top-level `content/<page>.<language>.yml` files. See [`apps/learner-web/build-tools/README.md`](apps/learner-web/build-tools/README.md) for conventions, parameters, and unit tests. Browser tests build both languages automatically using this environment (or `LEARNER_WEB_PYTHON`).
 
 Remove all generated learner-web output with `python3 apps/learner-web/build-tools/build.py clean`.
 

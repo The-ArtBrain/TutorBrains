@@ -1,38 +1,80 @@
 # Learner Web build tool
 
-Run the learner-web build from the repository root. The default build uses English instructions, the Telugu course, and the `practical-telugu` course-content folder:
+Run commands from the repository root. Create a build environment and install its pinned YAML parser once:
 
 ```sh
-python3 apps/learner-web/build-tools/build.py
+python3 -m venv apps/learner-web/build-tools/.venv
+apps/learner-web/build-tools/.venv/bin/python -m pip install --group apps/learner-web/build-tools/pyproject.toml:build
+```
+
+Dependencies are declared in the `build` dependency group in `pyproject.toml`. The install command requires a pip version supporting `--group`; upgrade pip in the virtual environment if that option is unavailable.
+
+The commands below use the environment's Python directly (on Windows, use `.venv/Scripts/python.exe`). PyYAML is a build dependency; no Python or YAML parser ships to the browser. The default build uses English instructions, the Telugu course, and the `practical-telugu` course-content folder:
+
+```sh
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py
 ```
 
 All parameters can be supplied explicitly:
 
 ```sh
-python3 apps/learner-web/build-tools/build.py  --instruction-language hi --course-name telugu --course-content-folder "practical telugu"
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi --course-name telugu --course-content-folder "practical telugu"
 ```
 
 The build has three stages:
 
-1. `merge_html_and_instructions` copies the shared lesson HTML into a temporary workspace and merges the selected application and lesson instruction files into it.
+1. `merge_html_and_instructions` copies HTML into a temporary workspace, merges the selected course instruction files into lessons, and fills every other page from its top-level YAML files.
 2. `generate_course_content` inserts canonical course values, verifies that no placeholders remain in the selected lesson HTML, and removes review-only placeholder attributes and classes.
-3. `publish_static_site` copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<instruction-language>/`.
+3. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<instruction-language>/`.
 
 Run the unit tests from the repository root:
 
 ```sh
-python3 -m unittest discover -s apps/learner-web/build-tools/tests -v
+apps/learner-web/build-tools/.venv/bin/python -m unittest discover -s apps/learner-web/build-tools/tests -v
 ```
 
-The source contains one lesson HTML file, such as `html/pages/lesson-01.html`. Instruction-language files provide the localized values; a separate HTML template per language is not needed. For example, successive English and Hindi builds create:
+Each page has one HTML source. Instruction-language files provide the localized values; separate HTML files per language are not needed. Successive English and Hindi builds create all six pages in each language:
 
 ```text
 dist/
-├── en/html/pages/lesson-01.html
-└── hi/html/pages/lesson-01.html
+├── en/html/pages/  # index, chapter-01, lesson-01, preferences, sign-in, patterns
+└── hi/html/pages/  # the same page names
 ```
 
 Building one language replaces only that language directory and preserves other generated languages. The entire `dist/` directory is generated output and is not committed.
+
+## Page and content naming
+
+| HTML source | Localized instructions | Optional fixed content | Generated page |
+| --- | --- | --- | --- |
+| `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/html/pages/index.html` |
+| `html/pages/chapter-01.html` | `content/chapter-01.<language>.yml` | `content/chapter-01.yml` | `dist/<language>/html/pages/chapter-01.html` |
+| `html/pages/preferences.html` | `content/preferences.<language>.yml` | `content/preferences.yml` | `dist/<language>/html/pages/preferences.html` |
+| `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/html/pages/sign-in.html` |
+| `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/html/pages/patterns.html` |
+
+Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. The filename stem must match exactly. Lessons continue to read `cards.<language>.txt`, `lesson.<language>.txt`, and `lesson.txt` from the selected course. This convention is build input, not a final educational content schema.
+
+Use a flat YAML mapping with semantic keys prefixed by the page name:
+
+```yaml
+# content/index.en.yml
+index-heading: "Learn one useful conversation at a time."
+index-brand-home-label: "Telugu Tutor home"
+```
+
+```html
+<h1>[#index-heading]</h1>
+<a href="index.html" aria-label="[#index-brand-home-label]">…</a>
+```
+
+- Values are plain text and are escaped in both HTML text and attributes. Keep markup, layout, links, element IDs, and semantic structure in HTML. Use YAML block scalars for multiline prose; quote numeric or boolean-looking text.
+- Every key must be used; duplicate keys, conflicting fixed/localized values, empty or non-text values, and unresolved placeholders fail the build before publication. Missing translations also fail; there is no silent English fallback.
+- `[#instruction-language-tag]` is reserved for the locale declared by the selected course instruction file (`en-IN` or `hi-IN`). Other keys contain only lowercase letters, digits, and hyphens. Values cannot contain placeholder syntax.
+- Fixed files hold canonical Telugu, language self-names, and explicitly tagged bilingual review specimens. Translatable page text belongs in language files, including titles, descriptions, and accessibility labels.
+- The generated document includes alternate-language metadata. Ordinary relative links preserve the current instruction language; the lesson's existing language switch links to the corresponding complete document. Build both languages to make both destinations available. The existing preferences selector reflects the generated language but remains a static control.
+
+To add another non-lesson page, create `html/pages/<page>.html` plus `content/<page>.en.yml` and `content/<page>.hi.yml`. The build discovers it automatically. The source should have `<html lang="[#instruction-language-tag]">`; optional shared values go in `content/<page>.yml`.
 
 Delete the complete generated distribution without changing source files:
 

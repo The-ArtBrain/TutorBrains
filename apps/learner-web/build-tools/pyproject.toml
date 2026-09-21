@@ -1,0 +1,5 @@
+# Dependencies for running the application-owned build scripts.
+[dependency-groups]
+build = [
+    "PyYAML==6.0.2",
+]

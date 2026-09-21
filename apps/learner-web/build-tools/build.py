@@ -91,6 +91,7 @@ def main(arguments: list[str] | None = None) -> None:
             source_html_root=learner_web_root / "html",
             work_root=work_root,
             course_root=course_root,
+            page_content_root=repository_root / "content",
             instruction_language=options.instruction_language,
         )
         generate_course_content(lessons=lessons)

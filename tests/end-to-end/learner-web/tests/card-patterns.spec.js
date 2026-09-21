@@ -3,7 +3,7 @@ const { pathToFileURL } = require("node:url");
 const { expect, test } = require("@playwright/test");
 
 const patternsUrl = pathToFileURL(
-  path.join(__dirname, "../../../..", "apps", "learner-web", "html", "pages", "patterns.html"),
+  path.join(__dirname, "../../../..", "apps", "learner-web", "dist", "en", "html", "pages", "patterns.html"),
 ).href;
 
 test.beforeEach(async ({ page }) => {

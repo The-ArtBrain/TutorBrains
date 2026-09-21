@@ -78,9 +78,9 @@ def apply_values(html: str, values: dict[str, str], *, source: Path) -> str:
             re.DOTALL,
         )
         if token not in html and not data_pattern.search(html):
-            raise ValueError(f"[{identifier}] from {source} is not used by the lesson HTML")
+            raise ValueError(f"[{identifier}] from {source} is not used by the page HTML")
 
-        safe_value = escape(value, quote=False)
+        safe_value = escape(value, quote=True)
         html = html.replace(token, safe_value)
         html = data_pattern.sub(lambda match: f"{match.group(1)}{safe_value}{match.group(3)}", html)
 
@@ -130,6 +130,7 @@ def merge_html_and_instructions(
     source_html_root: Path,
     work_root: Path,
     course_root: Path,
+    page_content_root: Path,
     instruction_language: str,
 ) -> tuple[LessonBuild, ...]:
     """Copy source HTML to staging and insert selected instruction-language values."""
@@ -180,5 +181,19 @@ def merge_html_and_instructions(
             encoding="utf-8",
         )
         lessons.append(LessonBuild(html_path=page_path, content_path=canonical_content_path))
+
+    # Import here to keep the shared placeholder helpers independent of YAML loading.
+    from stages.page_instructions import generate_page_instructions
+
+    lesson_paths = {lesson.html_path for lesson in lessons}
+    for page_path in sorted(prepared_html_root.rglob("*.html")):
+        if page_path not in lesson_paths:
+            generate_page_instructions(
+                page_path=page_path,
+                content_root=page_content_root,
+                language=language,
+                language_tag=language_tag,
+                available_languages=available_languages,
+            )
 
     return tuple(lessons)

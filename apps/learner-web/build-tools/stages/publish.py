@@ -4,6 +4,8 @@ from pathlib import Path
 import shutil
 import tempfile
 
+from stages.course_content import _remove_placeholder_markers
+
 
 def publish_static_site(
     *,
@@ -22,6 +24,10 @@ def publish_static_site(
     if missing:
         missing_list = ", ".join(str(path) for path in missing)
         raise FileNotFoundError(f"Learner-web source directories are missing: {missing_list}")
+
+    # Check every page before touching an already published language directory.
+    for page in prepared_html_root.rglob("*.html"):
+        _remove_placeholder_markers(page.read_text(encoding="utf-8"))
 
     dist_root = learner_web_root / "dist"
     dist_root.mkdir(exist_ok=True)

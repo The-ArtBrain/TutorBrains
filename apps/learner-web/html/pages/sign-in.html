@@ -1,49 +1,49 @@
 <!doctype html>
-<html lang="en-IN">
+<html lang="[#instruction-language-tag]">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Non-functional provider-neutral sign-in interface for Telugu Tutor">
-    <title>Sign in · Telugu Tutor</title>
+    <meta name="description" content="[#sign-in-document-description]">
+    <title>[#sign-in-document-title]</title>
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="../../css/components.css">
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content">[#sign-in-skip-label]</a>
 
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="index.html" aria-label="Telugu Tutor home">
+        <a class="brand" href="index.html" aria-label="[#sign-in-brand-home-label]">
           <img class="brand__mark" src="../../assets/icons/brand-mark.svg" alt="" width="37" height="37">
-          <span>Telugu Tutor</span>
+          <span>[#sign-in-brand-name]</span>
         </a>
-        <nav aria-label="Primary navigation">
+        <nav aria-label="[#sign-in-primary-navigation-label]">
           <ul class="header-actions">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="sign-in.html" aria-current="page">Sign in</a></li>
+            <li><a href="index.html">[#sign-in-home-link]</a></li>
+            <li><a href="index.html">[#sign-in-home-link]</a></li>
+            <li><a href="sign-in.html" aria-current="page">[#sign-in-sign-in-link]</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
     <main id="main-content" class="page-shell page-shell--narrow">
-      <p class="eyebrow">Your learning identity</p>
-      <h1>Sign in</h1>
-      <p class="lede">Continue your Telugu learning on this device or with a connected identity later.</p>
+      <p class="eyebrow">[#sign-in-eyebrow]</p>
+      <h1>[#sign-in-sign-in-link]</h1>
+      <p class="lede">[#sign-in-introduction]</p>
 
       <section class="surface form-card" aria-labelledby="identity-options-title">
-        <h2 id="identity-options-title">Choose how to continue</h2>
+        <h2 id="identity-options-title">[#sign-in-options-title]</h2>
         <ul class="provider-list">
-          <li><button type="button" disabled aria-describedby="identity-help">Continue with an identity provider</button></li>
-          <li><button type="button" disabled aria-describedby="identity-help">Continue with email</button></li>
-          <li><a class="button button--primary" href="chapter-01.html">Continue as guest</a></li>
+          <li><button type="button" disabled aria-describedby="identity-help">[#sign-in-provider-label]</button></li>
+          <li><button type="button" disabled aria-describedby="identity-help">[#sign-in-email-label]</button></li>
+          <li><a class="button button--primary" href="chapter-01.html">[#sign-in-guest-label]</a></li>
         </ul>
-        <p id="identity-help" class="field-help">Provider selection and account creation will be supplied by a future identity service such as Firebase or Supabase. Guest navigation is available for this review.</p>
+        <p id="identity-help" class="field-help">[#sign-in-identity-help]</p>
       </section>
 
-      <aside class="prototype-note" aria-label="Privacy boundary">
-        <strong>Separate concerns:</strong> sign-in details identify the learner. Lesson responses and learning evidence have their own consent and retention rules.
+      <aside class="prototype-note" aria-label="[#sign-in-privacy-label]">
+        <strong>[#sign-in-privacy-heading]</strong> [#sign-in-privacy-description]
       </aside>
     </main>
   </body>

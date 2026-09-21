@@ -162,6 +162,7 @@ class BuildStageTests(unittest.TestCase):
             source_html_root=self.source_html_root,
             work_root=work_root,
             course_root=self.course_root,
+            page_content_root=self.root / "content",
             instruction_language="en",
         )
         after_instructions = lessons[0].html_path.read_text(encoding="utf-8")
@@ -215,6 +216,7 @@ class BuildStageTests(unittest.TestCase):
             source_html_root=self.source_html_root,
             work_root=work_root,
             course_root=self.course_root,
+            page_content_root=self.root / "content",
             instruction_language="hi",
         )
         generate_course_content(lessons=lessons)
@@ -262,6 +264,7 @@ class BuildStageTests(unittest.TestCase):
                     source_html_root=self.source_html_root,
                     work_root=self.root / f"work-{language}",
                     course_root=self.course_root,
+                    page_content_root=self.root / "content",
                     instruction_language=language,
                 )
                 html = lessons[0].html_path.read_text(encoding="utf-8")
@@ -285,6 +288,7 @@ class BuildStageTests(unittest.TestCase):
                 source_html_root=self.source_html_root,
                 work_root=self.root / "work",
                 course_root=self.course_root,
+                page_content_root=self.root / "content",
                 instruction_language="hi",
             )
 

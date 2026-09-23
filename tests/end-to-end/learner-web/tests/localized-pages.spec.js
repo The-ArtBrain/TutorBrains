@@ -4,7 +4,7 @@ const { expect, test } = require("@playwright/test");
 
 const outputRoot = path.resolve(__dirname, "../../../../apps/learner-web/dist");
 const pageUrl = (language, name) => pathToFileURL(path.join(outputRoot, language, "html/pages", `${name}.html`)).href;
-const names = ["index", "chapter-01", "preferences", "sign-in", "patterns"];
+const names = ["index", "chapter-01", "sign-in", "patterns"];
 
 for (const language of ["en", "hi"]) {
   for (const width of [390, 1280]) {
@@ -22,9 +22,9 @@ for (const language of ["en", "hi"]) {
         await expect(menu.locator("summary")).toHaveAccessibleName(
           language === "en" ? "Account menu" : "खाता मेनू",
         );
-        await expect(menu.locator('a[href="preferences.html"]')).toBeHidden();
+        await expect(menu.locator('a[href="index.html#preferences"]')).toBeHidden();
         await menu.locator("summary").click();
-        await expect(menu.locator('a[href="preferences.html"]')).toBeVisible();
+        await expect(menu.locator('a[href="index.html#preferences"]')).toBeVisible();
         await expect(menu.locator('a[href="sign-in.html"]')).toBeVisible();
         const state = await page.evaluate(() => ({
           hasHorizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
@@ -35,9 +35,14 @@ for (const language of ["en", "hi"]) {
         }));
         expect(state, name).toEqual({ hasHorizontalOverflow: false, scripts: 0, unlabeledControls: 0 });
       }
-      await page.goto(pageUrl(language, "preferences"));
+      await page.goto(pageUrl(language, "index"));
+      const indexSections = page.locator("main > section");
+      await expect(indexSections.nth(0).locator('a[href="sign-in.html"]')).toBeVisible();
+      await expect(indexSections.nth(0).locator('a[href="chapter-01.html"]')).toBeVisible();
+      await expect(indexSections.nth(1)).toHaveAttribute("id", "preferences");
       await expect(page.locator("#instruction-language option:checked")).toHaveAttribute("lang", language);
       await expect(page.locator("form button")).toBeDisabled();
+      await expect(page.locator('main a[href="chapter-01.html"]')).toBeVisible();
     });
   }
 
@@ -50,9 +55,10 @@ for (const language of ["en", "hi"]) {
     await page.locator(".lesson-context").click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
     await page.locator(".account-menu summary").click();
-    await page.locator('nav a[href="preferences.html"]').click();
-    await expect(page).toHaveURL(pageUrl(language, "preferences"));
-    await page.locator('main a[href="sign-in.html"]').click();
+    await page.locator('nav a[href="index.html#preferences"]').click();
+    await expect(page).toHaveURL(`${pageUrl(language, "index")}#preferences`);
+    await page.locator('.account-menu summary').click();
+    await page.locator('nav a[href="sign-in.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "sign-in"));
     await page.locator('main a[href="chapter-01.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));

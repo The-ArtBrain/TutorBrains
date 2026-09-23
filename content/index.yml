@@ -1,3 +1,6 @@
 # Fixed content for html/pages/index.html, shared by all instruction languages.
 index-welcome-expression: "స్వాగతం"
 index-welcome-transliteration: "Svāgataṁ"
+
+index-english-name: "English"
+index-hindi-name: "हिन्दी"

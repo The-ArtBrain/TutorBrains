@@ -38,7 +38,7 @@ Application pages have one HTML source each. `chapter.html` and `lesson.html` ar
 
 ```text
 dist/
-├── en/html/pages/  # index, chapter-01, chapter-01-lesson-01, preferences, sign-in, patterns
+├── en/html/pages/  # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
 └── hi/html/pages/  # the same page names
 ```
 
@@ -51,7 +51,6 @@ Building one language replaces only that language directory and preserves other 
 | `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/html/pages/index.html` |
 | `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<language>/html/pages/<chapter>.html` |
 | `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<language>/html/pages/<chapter>-<lesson>.html` |
-| `html/pages/preferences.html` | `content/preferences.<language>.yml` | `content/preferences.yml` | `dist/<language>/html/pages/preferences.html` |
 | `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/html/pages/sign-in.html` |
 | `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/html/pages/patterns.html` |
 

@@ -31,17 +31,48 @@
         <p class="lede">[#index-introduction]</p>
       </div>
 
-      <section class="surface panel panel--accent" aria-labelledby="setup-title">
-        <p class="eyebrow">[#index-first-visit]</p>
-        <h2 id="setup-title">[#index-setup-title]</h2>
-        <p>[#index-setup-description]</p>
+      <section class="surface panel" aria-labelledby="identity-title">
+        <p class="eyebrow">[#index-identity-eyebrow]</p>
+        <h2 id="identity-title">[#index-identity-title]</h2>
+        <p>[#index-identity-description]</p>
+        <!-- A signed-in experience will replace this choice with a personalized "Hello, User" state. -->
         <div class="action-row">
-          <a class="button button--primary" href="preferences.html">[#index-setup-link]</a>
-          <a class="button" href="chapter.html">[#index-chapter-link]</a>
+          <a class="button button--primary" href="sign-in.html">[#index-sign-in-link]</a>
+          <span>[#index-choice-separator]</span>
+          <a class="button button--quiet" href="chapter-01.html">[#index-guest-link]</a>
         </div>
       </section>
 
-      <aside class="prototype-note" aria-label="[#index-prototype-label]">
+      <section id="preferences" class="surface panel panel--accent" aria-labelledby="setup-title">
+        <p class="eyebrow">[#index-first-visit]</p>
+        <h2 id="setup-title">[#index-setup-title]</h2>
+        <p>[#index-setup-description]</p>
+        <form class="form-stack">
+          <fieldset>
+            <legend>[#index-language-title]</legend>
+            <label for="instruction-language">[#index-instruction-language-label]</label>
+            <select id="instruction-language" name="instruction-language" aria-describedby="instruction-language-help">
+              <option lang="en" selected>[#index-english-name]</option>
+              <option lang="hi">[#index-hindi-name]</option>
+            </select>
+            <p id="instruction-language-help" class="field-help">[#index-instruction-language-help]</p>
+          </fieldset>
+          <fieldset>
+            <legend>[#index-support-title]</legend>
+            <label for="transliteration">[#index-transliteration-label]</label>
+            <select id="transliteration" name="transliteration">
+              <option selected>[#index-transliteration-requested]</option>
+              <option>[#index-transliteration-shown]</option>
+              <option>[#index-transliteration-hidden]</option>
+            </select>
+          </fieldset>
+          <div class="setup-actions">
+            <button class="button--primary" type="button" disabled aria-describedby="prototype-status">[#index-setup-link]</button>
+          </div>
+        </form>
+      </section>
+
+      <aside id="prototype-status" class="prototype-note" aria-label="[#index-prototype-label]">
         <strong>[#index-review-heading]</strong> [#index-review-description]
       </aside>
     </main>

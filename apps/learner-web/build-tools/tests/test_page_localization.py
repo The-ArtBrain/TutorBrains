@@ -71,15 +71,15 @@ class PageLocalizationTests(unittest.TestCase):
 
     def test_all_pages_generate_in_both_languages_with_valid_links_and_semantics(self):
         expected_titles = {
-            "en": ["Welcome", "Chapter 01", "Preferences", "Sign in", "Card pattern catalogue"],
-            "hi": ["स्वागत", "अध्याय 01", "प्राथमिकताएँ", "साइन इन करें", "कार्ड नमूना सूची"],
+            "en": ["Welcome", "Chapter 01", "Sign in", "Card pattern catalogue"],
+            "hi": ["स्वागत", "अध्याय 01", "साइन इन करें", "कार्ड नमूना सूची"],
         }
-        names = ["index", "chapter-01", "preferences", "sign-in", "patterns"]
+        names = ["index", "chapter-01", "sign-in", "patterns"]
         for language in ("en", "hi"):
             self.build_language(language)
         for language in ("en", "hi"):
             pages = self.app / "dist" / language / "html/pages"
-            self.assertEqual(len(list(pages.glob("*.html"))), 6)
+            self.assertEqual(len(list(pages.glob("*.html"))), 5)
             self.assertFalse((pages / "chapter.html").exists())
             self.assertFalse((pages / "lesson.html").exists())
             for name, title in zip(names, expected_titles[language]):
@@ -106,7 +106,7 @@ class PageLocalizationTests(unittest.TestCase):
                         for attribute in ("href", "src"):
                             link = attrs.get(attribute, "")
                             if link and not link.startswith("#"):
-                                self.assertTrue((page.parent / link).is_file(), link)
+                                self.assertTrue((page.parent / link.split("#", 1)[0]).is_file(), link)
                         if tag == "option" and "selected" in attrs and "lang" in attrs:
                             self.assertEqual(attrs["lang"], language)
             self.assertIn("నమస్కారం. బాగున్నారా?", (pages / "chapter-01.html").read_text())
@@ -184,7 +184,7 @@ class PageLocalizationTests(unittest.TestCase):
         )
 
         pages = self.build_language("en")
-        self.assertEqual(len(list(pages.glob("*.html"))), 9)
+        self.assertEqual(len(list(pages.glob("*.html"))), 8)
         self.assertIn("Greet someone respectfully", (pages / "chapter-01.html").read_text())
         self.assertNotIn("Second chapter only", (pages / "chapter-01.html").read_text())
         self.assertIn("Second chapter only", (pages / "chapter-02.html").read_text())
@@ -200,16 +200,16 @@ class PageLocalizationTests(unittest.TestCase):
     def test_incomplete_translations_do_not_replace_previous_publication(self):
         pages = self.build_language("hi")
         before = {p.name: p.read_bytes() for p in pages.glob("*.html")}
-        path = self.content / "preferences.hi.yml"
+        path = self.content / "index.hi.yml"
         original = path.read_text()
         path.unlink()
-        with self.assertRaisesRegex(FileNotFoundError, "preferences.hi.yml"):
+        with self.assertRaisesRegex(FileNotFoundError, "index.hi.yml"):
             self.build_language("hi")
-        path.write_text("\n".join(line for line in original.splitlines() if not line.startswith("preferences-save-label:")))
-        with self.assertRaisesRegex(ValueError, "Unresolved HTML placeholders.*preferences-save-label"):
+        path.write_text("\n".join(line for line in original.splitlines() if not line.startswith("index-setup-link:")))
+        with self.assertRaisesRegex(ValueError, "Unresolved HTML placeholders.*index-setup-link"):
             self.build_language("hi")
-        path.write_text(original + '\npreferences-typo: "Unused"\n')
-        with self.assertRaisesRegex(ValueError, "preferences-typo.*not used"):
+        path.write_text(original + '\nindex-typo: "Unused"\n')
+        with self.assertRaisesRegex(ValueError, "index-typo.*not used"):
             self.build_language("hi")
         self.assertEqual(before, {p.name: p.read_bytes() for p in pages.glob("*.html")})
 

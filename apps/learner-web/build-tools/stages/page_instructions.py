@@ -80,14 +80,14 @@ def generate_page_instructions(
     )
     html = html.replace("  </head>", f"{alternates}\n  </head>", 1)
 
-    # Reflect the generated language in the existing static preferences control.
+    # Reflect the generated language in the static setup control.
     def select_language(match: re.Match[str]) -> str:
         option = re.sub(r"\sselected(?:=\"[^\"]*\")?", "", match.group(0))
         if match.group(1) == language:
             option = option[:-1] + " selected>"
         return option
 
-    if page_path.stem == "preferences":
+    if page_path.stem == "index":
         html = re.sub(r'<option\s+lang="([^"]+)"[^>]*>', select_language, html)
 
     page_path.write_text(_remove_placeholder_markers(html), encoding="utf-8")

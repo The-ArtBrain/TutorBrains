@@ -38,8 +38,6 @@
         <!-- A signed-in experience will replace this choice with a personalized "Hello, User" state. -->
         <div class="action-row">
           <a class="button button--primary" href="sign-in.html">[#index-sign-in-link]</a>
-          <span>[#index-choice-separator]</span>
-          <a class="button button--quiet" href="chapter-01.html">[#index-guest-link]</a>
         </div>
       </section>
 
@@ -75,6 +73,20 @@
       <aside id="prototype-status" class="prototype-note" aria-label="[#index-prototype-label]">
         <strong>[#index-review-heading]</strong> [#index-review-description]
       </aside>
+
+      <div class="guest-entry">
+        <a class="button button--quiet" href="#next-chapter">[#index-guest-link]</a>
+      </div>
+
+      <section id="next-chapter" aria-labelledby="next-chapter-title">
+        <p class="eyebrow">[#index-next-chapter-label]</p>
+        <article class="surface hierarchy-card" aria-labelledby="next-chapter-title">
+          <p class="hierarchy-card__meta">[#index-chapter-label]</p>
+          <h2 id="next-chapter-title">[#index-next-chapter-title]</h2>
+          <p>[#index-next-chapter-description]</p>
+          <a class="hierarchy-card__link" href="chapter-01.html">[#index-next-chapter-link]</a>
+        </article>
+      </section>
     </main>
 
     <footer class="site-footer">

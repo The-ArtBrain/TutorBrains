@@ -38,8 +38,10 @@ for (const language of ["en", "hi"]) {
       await page.goto(pageUrl(language, "index"));
       const indexSections = page.locator("main > section");
       await expect(indexSections.nth(0).locator('a[href="sign-in.html"]')).toBeVisible();
-      await expect(indexSections.nth(0).locator('a[href="chapter-01.html"]')).toBeVisible();
       await expect(indexSections.nth(1)).toHaveAttribute("id", "preferences");
+      await expect(page.locator('.guest-entry a[href="#next-chapter"]')).toBeVisible();
+      await expect(indexSections.nth(2)).toHaveAttribute("id", "next-chapter");
+      await expect(indexSections.nth(2).locator('a[href="chapter-01.html"]')).toBeVisible();
       await expect(page.locator("#instruction-language option:checked")).toHaveAttribute("lang", language);
       await expect(page.locator("form button")).toBeDisabled();
       await expect(page.locator('main a[href="chapter-01.html"]')).toBeVisible();

@@ -68,7 +68,7 @@ class PageLocalizationTests(unittest.TestCase):
             prepared_html_root=work / "html",
             instruction_language=language,
         )
-        return self.app / "dist" / language / "html/pages"
+        return self.app / "dist" / language
 
     def test_all_pages_generate_in_both_languages_with_valid_links_and_semantics(self):
         expected_titles = {
@@ -79,7 +79,7 @@ class PageLocalizationTests(unittest.TestCase):
         for language in ("en", "hi"):
             self.build_language(language)
         for language in ("en", "hi"):
-            pages = self.app / "dist" / language / "html/pages"
+            pages = self.app / "dist" / language
             self.assertEqual(len(list(pages.glob("*.html"))), 5)
             self.assertFalse((pages / "chapter.html").exists())
             self.assertFalse((pages / "lesson.html").exists())
@@ -145,7 +145,34 @@ class PageLocalizationTests(unittest.TestCase):
                 html = page.read_text()
                 self.assertEqual(html.count('data-shared-menu="yes"'), 1)
                 self.assertNotIn("#include file=", html)
-        self.assertFalse(list((self.app / "dist/en/html/includes").glob("*.inc")))
+        self.assertFalse(list((self.app / "dist/en").rglob("*.inc")))
+
+    def test_publication_flattens_localized_pages_and_rewrites_paths(self):
+        english_pages = self.build_language("en")
+        hindi_pages = self.build_language("hi")
+        expected_pages = {
+            "chapter-01-lesson-01.html",
+            "chapter-01.html",
+            "index.html",
+            "patterns.html",
+            "sign-in.html",
+        }
+
+        self.assertEqual({path.name for path in english_pages.glob("*.html")}, expected_pages)
+        self.assertEqual({path.name for path in hindi_pages.glob("*.html")}, expected_pages)
+        self.assertFalse((english_pages / "html").exists())
+        self.assertFalse((hindi_pages / "html").exists())
+
+        english_index = (english_pages / "index.html").read_text(encoding="utf-8")
+        self.assertIn('href="css/base.css"', english_index)
+        self.assertIn('src="assets/icons/brand-mark.svg"', english_index)
+        self.assertIn('href="../hi/index.html"', english_index)
+        self.assertNotIn('../../css/', english_index)
+        self.assertNotIn('../../assets/', english_index)
+
+        root_entry = (self.app / "dist/index.html").read_text(encoding="utf-8")
+        self.assertIn('url=en/index.html', root_entry)
+        self.assertIn('href="en/index.html"', root_entry)
 
     def test_chapter_and_lesson_outputs_use_their_own_content_folders(self):
         course = self.content / "subjects/languages/te/courses/practical-telugu"

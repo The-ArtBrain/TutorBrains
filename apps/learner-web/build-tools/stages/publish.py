@@ -1,6 +1,7 @@
 """Publish prepared learner-web HTML and its static dependencies."""
 
 from pathlib import Path
+import re
 import shutil
 import tempfile
 
@@ -16,11 +17,11 @@ def publish_static_site(
     """Atomically publish prepared HTML with unchanged CSS and assets."""
 
     source_directories = {
-        "html": prepared_html_root,
         "css": learner_web_root / "css",
         "assets": learner_web_root / "assets",
     }
-    missing = [source for source in source_directories.values() if not source.is_dir()]
+    prepared_pages_root = prepared_html_root / "pages"
+    missing = [source for source in (*source_directories.values(), prepared_pages_root) if not source.is_dir()]
     root_entry = learner_web_root / "index.html"
     if instruction_language.strip().lower() == "en" and not root_entry.is_file():
         missing.append(root_entry)
@@ -40,6 +41,15 @@ def publish_static_site(
     destination = dist_root / instruction_language.strip().lower()
     with tempfile.TemporaryDirectory(prefix=".language-", dir=dist_root) as temporary_directory:
         staging = Path(temporary_directory)
+
+        for page in prepared_pages_root.glob("*.html"):
+            html = page.read_text(encoding="utf-8")
+            html = re.sub(
+                r'(?P<attribute>href|src)="\.\./\.\./(?P<directory>css|assets)/',
+                r'\g<attribute>="\g<directory>/',
+                html,
+            )
+            (staging / page.name).write_text(html, encoding="utf-8")
 
         for name, source in source_directories.items():
             shutil.copytree(

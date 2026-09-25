@@ -20,7 +20,7 @@ The first release is a public static course site. Authentication may identify a 
 - Use stable locale-prefixed URLs that can be cached, bookmarked, shared, and indexed.
 - Remember the learner's instruction-language preference in a cookie.
 - Invoke a Cloudflare Pages Function only at the site root.
-- Support automatic deployments from the production Git branch and preview deployments from other branches or pull requests.
+- Support explicit, operator-initiated preview and production deployments from a locally verified artifact.
 - Serve a custom domain over Hypertext Transfer Protocol Secure (HTTPS).
 - Preserve existing DNS and mail service during a DNS migration.
 - Provide a tested rollback path that does not require rebuilding the previous release.
@@ -40,8 +40,10 @@ If course content must later be restricted, protected content must not be publis
 
 ```mermaid
 flowchart LR
-    Git["GitHub repository"] --> Build["Cloudflare Pages build"]
+    Git["GitHub repository"] --> Build["Operator runs learner-web infra build"]
     Build --> Dist["apps/learner-web/dist"]
+    Dist --> Upload["Wrangler Direct Upload"]
+    Upload --> Pages["Cloudflare Pages"]
     Browser["Learner browser"] --> DNS["Custom domain DNS"]
     DNS --> Pages["Cloudflare Pages"]
     Pages --> Root["Root Pages Function"]
@@ -57,12 +59,12 @@ The deployed paths retain the generated structure:
 
 ```text
 /
-/en/html/pages/index.html
-/en/html/pages/chapter-01.html
-/en/html/pages/chapter-01-lesson-01.html
-/hi/html/pages/index.html
-/hi/html/pages/chapter-01.html
-/hi/html/pages/chapter-01-lesson-01.html
+/en/index.html
+/en/chapter-01.html
+/en/chapter-01-lesson-01.html
+/hi/index.html
+/hi/chapter-01.html
+/hi/chapter-01-lesson-01.html
 ```
 
 The locale prefix is authoritative. The cookie helps choose a locale only when the learner visits `/`; it must not silently rewrite an explicitly selected `/en/` or `/hi/` URL.
@@ -101,7 +103,7 @@ The cookie contains a non-sensitive preference and must never contain identity, 
 1. Read and validate `tb_instruction_language`.
 2. If the cookie is absent or invalid, inspect `Accept-Language`.
 3. Select `hi` only when Hindi is the best supported match; otherwise select `en`.
-4. Return a temporary redirect to `/<language>/html/pages/index.html`.
+4. Return a temporary redirect to `/<language>/index.html`.
 5. Return `Cache-Control: private, no-store` because the result varies by learner.
 6. Return `Vary: Cookie, Accept-Language`.
 
@@ -143,11 +145,11 @@ The implementation should introduce or generate the following deployment-owned f
 
 ```text
 apps/learner-web/
-├── functions/
-│   └── index.js          # GET /
-├── ops/
-│   └── cloudflare/
-│       └── README.md     # concise operator runbook and project identifiers
+├── infra/
+│   ├── README.md
+│   ├── deploy-cloudflare-pages.sh
+│   ├── functions/        # Pages Functions when implemented
+│   └── policies/         # authoritative _headers, _redirects, and _routes.json
 └── dist/
     ├── _headers          # generated/copied deployment headers
     ├── _routes.json      # generated/copied function route selection
@@ -155,7 +157,7 @@ apps/learner-web/
     └── hi/
 ```
 
-`dist/` remains generated and ignored by Git. Authoritative copies or generators for `_headers` and `_routes.json` must live outside `dist/`, and the learner-web publish stage must copy them into each complete deployment output.
+`dist/` remains generated and ignored by Git. Authoritative `_headers`, `_redirects`, and `_routes.json` files live under `infra/policies/`; the manual deployment entry point stages recognized policies into the complete output. Cloudflare JavaScript Functions live under `infra/functions/`. Wrangler runs from `infra/` so it can discover that Functions directory without publishing infrastructure source as a static asset.
 
 Do not store Cloudflare API tokens, account identifiers treated as secrets, registrar credentials, Supabase secrets, or private keys in the repository.
 
@@ -179,7 +181,7 @@ The deployment must publish a Cloudflare Pages `_headers` file. The initial poli
 /*/css/*
   Cache-Control: public, max-age=3600
 
-/*/html/pages/*
+/*/*.html
   Cache-Control: public, max-age=0, must-revalidate
 ```
 
@@ -189,147 +191,174 @@ A Content Security Policy (CSP) must be designed alongside authentication. Do no
 
 ## 9. Cloudflare Pages project configuration
 
-Create one Pages project with these settings:
+Create one **Direct Upload** Pages project with these settings:
 
 | Setting | Required value |
 |---|---|
-| Project name | `tutorbrains-courses` or another stable, recorded name |
-| Git provider | GitHub |
-| Repository | `The-ArtBrain/TutorBrains` |
-| Production branch | The repository's protected release branch, initially `main` if that is the release branch |
-| Root directory | `apps/learner-web` |
-| Framework preset | None |
-| Build output directory | `dist` |
-| Node.js dependency install | None required for the static build |
+| Project name | `tutorbrains-courses` |
+| Production branch | `main` |
+| Git provider | None |
+| Cloudflare build command | None; Cloudflare receives a prebuilt artifact |
+| Uploaded static directory | `apps/learner-web/dist` |
+| Deployment entry point | `apps/learner-web/infra/deploy-cloudflare-pages.sh` |
 
-Use this build command from the configured root directory:
+Create the project once with reviewed, pinned Wrangler tooling:
 
 ```sh
-python3 -m venv build-tools/.venv && build-tools/.venv/bin/python -m pip install --group build-tools/pyproject.toml:build && build-tools/.venv/bin/python build-tools/build.py && build-tools/.venv/bin/python build-tools/build.py --instruction-language hi
+npx wrangler pages project create tutorbrains-courses --production-branch main
 ```
 
-The command installs the pinned build dependency, builds English, and then builds Hindi without deleting the first language. A deployment must fail if either language build fails.
+The project must not be connected to Cloudflare's native Git integration in this phase. The build and tests run in the operator's checked-out repository; Wrangler uploads only the verified `dist/` artifact and any Functions discovered from `infra/functions/`.
 
-Before enabling production deployments, verify that Cloudflare's selected build image supplies a Python and `pip` version compatible with dependency groups. Pin the build-image version in the Pages configuration after verification so an unannounced build-image change cannot alter the release unexpectedly.
+Cloudflare does not allow a Direct Upload project to be converted later to native Git integration. Future automation should therefore invoke Wrangler from a controlled continuous-integration workflow against this same project. Its deployment logic, Functions, and policies remain owned by `infra/`.
 
-No runtime environment variable or secret is required for static hosting and locale routing.
+No runtime secret is required for static hosting and locale routing. Local deployment requires Wrangler login or restricted `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` environment variables; these credentials must never enter Git.
 
 ## 10. Deployment workflow
 
 ### 10.1 Preview deployment
 
-1. Push the implementation to a non-production branch.
-2. Allow Pages to create a preview deployment.
-3. Run the verification checklist in section 14 against the preview hostname.
-4. Confirm that only `/` appears as a Function invocation.
-5. Confirm that no repository source or build input is reachable.
+1. Commit the exact revision to be tested and ensure the worktree is clean.
+2. Run `./infra/deploy-cloudflare-pages.sh preview <branch-label>` from `apps/learner-web`.
+3. The script runs unit tests, browser tests, a clean two-language build, policy staging, and an explicit Wrangler upload.
+4. Run the verification checklist in section 14 against the returned preview hostname.
+5. Confirm that only `/` appears as a Function invocation.
+6. Confirm that no repository source or build input is reachable.
 
 Preview hostnames should not be added to search indexes. If Cloudflare does not protect or mark preview deployments automatically, add an appropriate preview-only `X-Robots-Tag: noindex` response policy.
 
 ### 10.2 Production deployment
 
-1. Merge an approved revision to the production branch.
-2. Wait for both language builds and the Pages deployment to succeed.
-3. Smoke-test the generated `pages.dev` hostname.
-4. Attach or validate the custom domain.
-5. Run production verification.
-6. Record the Git commit, Cloudflare deployment identifier, time, and verifier in the release record.
+1. Review and commit the exact release revision; the worktree must be clean.
+2. Run `./infra/deploy-cloudflare-pages.sh build` and inspect the generated `dist/` when a separate preflight is desired.
+3. Run `./infra/deploy-cloudflare-pages.sh production --confirm learntelugu.brainos.in`.
+4. The script reruns all verification, rebuilds the artifact, and explicitly uploads it to the Pages production branch.
+5. Smoke-test the generated `pages.dev` hostname.
+6. Attach or validate the custom domain.
+7. Run production verification.
+8. Record the Git commit, Cloudflare deployment identifier, time, and verifier in the release record.
 
 The first production release should keep the assigned `*.pages.dev` hostname available for diagnosis but should advertise only the custom domain.
 
 ## 11. Domain naming policy
 
-The recommended first hostname is a dedicated subdomain:
+The production hostname is:
 
 ```text
-learn.example.com
+learntelugu.brainos.in
 ```
 
-This preserves the apex domain for a future product or marketing site and permits the course deployment to move independently. Replace `example.com` with the selected registered domain before implementation.
+DNS hostnames are case-insensitive. A user may type `learnTelugu.brainos.in`, but links, canonical metadata, redirects, certificates, tests, and operational documentation must consistently use the lowercase form `learntelugu.brainos.in`.
 
-Select exactly one canonical public hostname. Any additional hostname, such as `www.example.com` or the apex, must permanently redirect to the canonical hostname rather than independently serving duplicate content.
+The Pages project must attach only `learntelugu.brainos.in`. It must not attach, redirect, proxy, or otherwise change `brainos.in` or `www.brainos.in`. The existing apex website and any other subdomains remain independent of the learner site.
 
 ## 12. DNS management
 
-Choose one of the following DNS paths. Path A is recommended when Cloudflare will manage the complete zone. Path B is the lowest-risk option when an existing DNS provider must remain authoritative and the course uses a subdomain.
+The recommended first setup changes only one DNS record at the current DNS provider. Moving the complete `brainos.in` DNS zone to Cloudflare is optional and can be performed later without changing the destinations of the existing apex or `www` records.
 
-### 12.1 Pre-change inventory for either path
+### 12.1 Observed starting point
 
-Before changing DNS:
+Public DNS was inspected on 25 September 2026 and returned:
 
-1. Identify the registrar and the current authoritative DNS provider; they may be different companies.
-2. Export or record every current DNS record and its Time to Live (TTL).
-3. Pay particular attention to:
-   - apex `A`, `AAAA`, `ALIAS`, or `CNAME` records;
-   - `www` and application subdomains;
-   - mail exchanger (`MX`) records;
-   - Sender Policy Framework (SPF), DomainKeys Identified Mail (DKIM), and Domain-based Message Authentication, Reporting and Conformance (DMARC) `TXT` records;
-   - provider-verification `TXT` records;
-   - Certification Authority Authorization (CAA) records;
-   - subdomain delegations (`NS` records); and
-   - existing redirects or proxies.
-4. Record whether DNS Security Extensions (DNSSEC) is enabled and whether a Delegation Signer (DS) record exists at the registrar.
-5. If the current provider permits it, lower TTLs for records that will change to 300 seconds at least one prior TTL period before migration.
-6. Verify access to the registrar, current DNS provider, Cloudflare account, and GitHub organization before beginning the change window.
-7. Choose a change window and name the person authorized to roll back.
+| Name | Type | Current value |
+|---|---|---|
+| `brainos.in` | `NS` | `ns45.domaincontrol.com`, `ns46.domaincontrol.com` |
+| `brainos.in` | `A` | `76.223.105.230`, `13.248.243.5` |
+| `www.brainos.in` | `CNAME` | `brainos.in` |
+| `learntelugu.brainos.in` | — | No record observed |
+| `brainos.in` | `DS` | No record observed |
 
-Do not proceed with a nameserver migration based only on Cloudflare's automatic record scan. Compare the imported zone with the recorded inventory.
+This public check cannot enumerate every record in the GoDaddy zone. Before any nameserver migration, export or manually record the complete zone from the GoDaddy DNS dashboard, including mail, verification, service, and inactive records. Recheck all public values immediately before making changes.
 
-### 12.2 Path A: Cloudflare manages the complete DNS zone
+### 12.2 Recommended setup: create only the learner subdomain
 
-Use this path for an apex custom domain or when Cloudflare should become the authoritative DNS provider.
+This path leaves the current GoDaddy nameservers, apex records, `www`, mail, and every unrelated subdomain unchanged. The new subdomain is created by adding one `CNAME` record; it is not purchased or registered separately.
 
-1. In Cloudflare, select **Domains > Onboard a domain** and add the apex domain.
-2. Select the Free plan unless another requirement justifies a paid zone plan.
-3. Allow Cloudflare to scan existing records.
-4. Compare every imported record with the pre-change inventory; manually add anything missing.
-5. Confirm that mail, verification, and delegated-subdomain records are present before changing nameservers.
-6. If DNSSEC is enabled, disable it at the current provider or registrar and remove the old DS record before changing nameservers. Changing nameservers while an old DS record remains can make the domain unreachable.
-7. Copy the two Cloudflare-assigned authoritative nameservers from the zone Overview page.
-8. At the registrar, replace all previous authoritative nameservers with exactly the two assigned Cloudflare nameservers. Do not leave an old provider's nameserver in the set.
-9. Wait until Cloudflare reports the zone as **Active**. Registrar propagation can take up to 24 hours.
-10. Verify delegation independently:
+1. Create the Cloudflare Pages project described in section 9 and complete a successful production deployment.
+2. Open the generated `https://<project>.pages.dev` hostname and verify the English page, Hindi page, styles, and assets before changing DNS.
+3. Record the exact Pages hostname. If the project is named `tutorbrains-courses`, the expected target is `tutorbrains-courses.pages.dev`; use the actual value shown by Cloudflare.
+4. In Cloudflare, open **Workers & Pages > tutorbrains-courses > Custom domains**.
+5. Select **Set up a domain**.
+6. Enter `learntelugu.brainos.in` in lowercase and continue.
+7. Cloudflare will report that DNS validation is pending and show the required target. Keep this browser page open or record the exact target.
+8. In GoDaddy, open **My Products > brainos.in > DNS > Manage DNS**.
+9. Select **Add New Record** and enter:
+
+    | Field | Value |
+    |---|---|
+    | Type | `CNAME` |
+    | Name/Host | `learntelugu` |
+    | Value/Points to | `<project>.pages.dev` using the exact Pages target |
+    | TTL | 600 seconds if available; otherwise GoDaddy's default |
+
+10. Before saving, confirm that no `A`, `AAAA`, or other `CNAME` record already uses the exact host `learntelugu`. Do not delete or edit `@`, `brainos.in`, `www`, either nameserver, or any mail record.
+11. Save the new `CNAME` record.
+12. Wait for DNS propagation and for the custom domain in Cloudflare Pages to report **Active**. Cloudflare will issue and renew the HTTPS certificate.
+13. Verify DNS from public resolvers:
 
     ```sh
-    dig NS example.com @1.1.1.1
-    dig NS example.com @8.8.8.8
-    dig example.com +trace
+    dig CNAME learntelugu.brainos.in @1.1.1.1
+    dig CNAME learntelugu.brainos.in @8.8.8.8
     ```
 
-11. Verify existing web, mail, and verification records before attaching Pages.
-12. In **Workers & Pages**, open the Pages project, select **Custom domains > Set up a domain**, and enter the canonical hostname.
-13. Confirm the proposed DNS record. Cloudflare will create the Pages record when the zone is in the same account.
-14. Wait for the custom domain and managed certificate to become active.
-15. Re-enable DNSSEC in Cloudflare, publish the new DS information through the registrar when instructed, and confirm DNSSEC validation before closing the change.
-16. Restore ordinary TTL values after the deployment is stable.
+14. Verify the deployed site and certificate:
 
-For an apex hostname, the zone must be active on Cloudflare for a normal Pages custom-domain setup. Do not invent fixed Cloudflare `A` record addresses.
+    ```sh
+    curl -I https://learntelugu.brainos.in/
+    curl -I https://learntelugu.brainos.in/en/index.html
+    curl -I https://learntelugu.brainos.in/hi/index.html
+    ```
 
-### 12.3 Path B: retain an external DNS provider and use a subdomain
+15. Recheck the existing main site without changing it:
 
-Use this path for a hostname such as `learn.example.com` when the apex zone should remain at its current DNS provider.
+    ```sh
+    dig A brainos.in @1.1.1.1
+    dig CNAME www.brainos.in @1.1.1.1
+    curl -I https://brainos.in/
+    curl -I https://www.brainos.in/
+    ```
 
-1. Deploy and verify the Pages project at `<project>.pages.dev`.
-2. In the Pages project, select **Custom domains > Set up a domain** and enter `learn.example.com`.
-3. Complete the Pages custom-domain association before manually creating the DNS record. Creating only a CNAME without associating the hostname in Pages can produce a `522` error.
-4. At the authoritative DNS provider, create:
+16. Set the production canonical origin used by page metadata, the sitemap, `robots.txt`, and future identity configuration to exactly `https://learntelugu.brainos.in`.
 
-    | Type | Name | Target |
+The Pages custom-domain association must be created before or together with the CNAME. Pointing an unassociated hostname at a Pages project can return a Cloudflare `522` error.
+
+### 12.3 Optional later transition: move `brainos.in` DNS to Cloudflare
+
+This transition changes the authoritative DNS provider for the whole zone, but it must not change where the apex website, `www`, mail, or any existing service resolves. Perform it only after the learner subdomain works through the recommended setup.
+
+1. Export the complete `brainos.in` zone from GoDaddy or capture every record and TTL from its DNS dashboard.
+2. Record the current website responses and resolve every important hostname from at least two public resolvers.
+3. In Cloudflare, select **Domains > Onboard a domain**, enter `brainos.in`, and choose the Free plan.
+4. Let Cloudflare scan the current zone, but treat the scan as a starting point rather than a complete migration.
+5. Compare the imported zone record by record with the GoDaddy export. Add every missing `A`, `AAAA`, `CNAME`, `MX`, `TXT`, `CAA`, `SRV`, and delegated `NS` record.
+6. Confirm that these existing public records retain their exact targets:
+
+    | Name | Type | Required value during migration |
     |---|---|---|
-    | `CNAME` | `learn` | `<project>.pages.dev` |
+    | `brainos.in` / `@` | `A` | `76.223.105.230` |
+    | `brainos.in` / `@` | `A` | `13.248.243.5` |
+    | `www` | `CNAME` | `brainos.in` |
+    | `learntelugu` | `CNAME` | the exact `<project>.pages.dev` target |
 
-5. Remove any conflicting `A`, `AAAA`, or `CNAME` record for `learn`.
-6. Wait for DNS propagation and Cloudflare certificate issuance.
-7. Verify the CNAME and HTTPS response:
+7. Initially set the existing apex and `www` website records to **DNS only** (gray cloud). This keeps Cloudflare from becoming a reverse proxy for the main site during the DNS migration. Mail-related records must also remain DNS-only.
+8. Leave the Pages custom-domain association intact. Confirm that `learntelugu` appears in the imported Cloudflare zone and remains connected to the Pages project.
+9. Check DNSSEC at the registrar immediately before migration. No public `DS` record was observed on 25 September 2026, but this must be rechecked. If a DS record exists, disable the old DNSSEC configuration and remove the DS record before changing nameservers.
+10. In the Cloudflare zone Overview, copy the two assigned Cloudflare nameservers.
+11. At GoDaddy, open the domain's nameserver settings, choose custom nameservers, remove `ns45.domaincontrol.com` and `ns46.domaincontrol.com`, and enter exactly the two Cloudflare-assigned nameservers.
+12. Do not change the domain registration, contacts, renewal, or transfer-lock settings.
+13. Wait until Cloudflare reports the zone as **Active**. Nameserver propagation can take up to 24 hours.
+14. Verify delegation:
 
     ```sh
-    dig CNAME learn.example.com @1.1.1.1
-    curl -I https://learn.example.com/
+    dig NS brainos.in @1.1.1.1
+    dig NS brainos.in @8.8.8.8
+    dig brainos.in +trace
     ```
 
-8. Keep DNSSEC management with the existing authoritative provider; no nameserver change is required for this path.
-
-The external-provider path is for a subdomain. Use Path A if the Pages project must serve the apex domain.
+15. Verify the existing main site, `www`, mail records, verification records, and the learner subdomain before changing any proxy setting.
+16. In Cloudflare Pages, confirm that `learntelugu.brainos.in` is still **Active** and its managed certificate is valid.
+17. Re-enable DNSSEC in Cloudflare and add the Cloudflare-provided DS record at GoDaddy. Confirm DNSSEC validation before declaring the migration complete.
+18. Keep the apex and `www` records DNS-only unless a separate reviewed change explicitly authorizes proxying the main site through Cloudflare.
 
 ### 12.4 TLS and zone settings
 
@@ -344,9 +373,9 @@ After the domain is active:
 
 ### 12.5 DNS rollback
 
-For Path A, rollback means restoring the recorded DNS zone at the prior provider and restoring its authoritative nameservers at the registrar. If DNSSEC was re-enabled, coordinate DS removal or replacement before nameserver rollback to avoid validation failure.
+For the recommended subdomain-only setup, rollback means removing the `learntelugu` CNAME from GoDaddy and detaching `learntelugu.brainos.in` from the Pages project. No main-domain record changes are involved.
 
-For Path B, rollback means removing the `learn` CNAME or restoring its previous recorded value. Other zone records remain untouched.
+For a full DNS migration rollback, first make sure the complete GoDaddy zone is restored, then remove or replace the Cloudflare DS record if DNSSEC was enabled, and finally restore `ns45.domaincontrol.com` and `ns46.domaincontrol.com` at GoDaddy. Recheck the apex website, `www`, mail, and learner subdomain after delegation propagates.
 
 DNS rollback does not replace a Pages deployment rollback. Choose the smallest rollback that addresses the failure.
 
@@ -369,7 +398,7 @@ The assigned `pages.dev` hostname must not silently become an unrestricted produ
 
 - [ ] Unit tests for the build pipeline pass.
 - [ ] End-to-end learner-web tests pass.
-- [ ] The Pages build generates both `dist/en/` and `dist/hi/`.
+- [ ] The manual infrastructure build generates both `dist/en/` and `dist/hi/` before upload.
 - [ ] No unresolved `[#placeholder]` or `<!--#include` marker exists in published HTML.
 - [ ] `dist/_routes.json` and `dist/_headers` exist.
 - [ ] Repository source, YAML content, build scripts, and tests are not served.
@@ -392,7 +421,7 @@ The assigned `pages.dev` hostname must not silently become an unrestricted produ
 - [ ] The custom-domain certificate is valid and covers the exact hostname.
 - [ ] HTTP redirects to HTTPS without a loop.
 - [ ] The canonical hostname loads both locales.
-- [ ] Additional hostnames redirect to the canonical hostname.
+- [ ] `brainos.in` and `www.brainos.in` retain their pre-change DNS destinations and behavior.
 - [ ] Existing mail and verification records still resolve.
 - [ ] DNSSEC validates if enabled.
 
@@ -432,7 +461,7 @@ If dynamic traffic approaches the quota, first confirm that `_routes.json` still
 
 ### 16.2 Function failure fallback
 
-The implementation should publish a static English fallback at a documented path such as `/en/html/pages/index.html`. Operators and status communications can always link directly to it if root routing fails.
+The implementation should publish a static English fallback at a documented path such as `/en/index.html`. Operators and status communications can always link directly to it if root routing fails.
 
 ### 16.3 Build failure
 
@@ -442,7 +471,7 @@ A failed build must leave the currently active production deployment untouched. 
 
 The Cloudflare hosting implementation is complete when:
 
-1. A production-branch revision automatically builds and deploys both locales.
+1. The manual infrastructure entry point tests and builds both locales, and no Git commit automatically deploys them.
 2. Only `dist/` contents are publicly served.
 3. `/` selects a supported locale from the validated cookie or request language.
 4. Explicit language selection uses locale-prefixed links and does not require a Cloudflare endpoint.
@@ -458,12 +487,12 @@ The Cloudflare hosting implementation is complete when:
 
 1. Add tests for language selection, hosted cookie persistence, cookie validation, and route isolation.
 2. Implement the root Pages Function and application-side preference writer.
-3. Add source-controlled `_routes.json` and `_headers` inputs and copy them through the publish stage.
-4. Connect the GitHub repository to a Cloudflare Pages preview project.
-5. Verify build-image compatibility and pin it.
-6. Complete preview verification.
-7. Inventory DNS and choose Path A or Path B.
-8. Configure the custom domain and HTTPS.
+3. Add source-controlled `_routes.json` and `_headers` inputs under `infra/policies/` and stage them through the deployment entry point.
+4. Create a Direct Upload Cloudflare Pages project without connecting a Git provider.
+5. Install and pin Wrangler for repeatable operator deployments.
+6. Exercise the manual preview command and complete preview verification.
+7. Inventory DNS and add only the `learntelugu` CNAME at the current provider.
+8. Activate `learntelugu.brainos.in` as the custom domain and verify HTTPS without changing the apex or `www`.
 9. Complete production verification.
 10. Exercise Pages rollback and record the runbook outcome.
 11. Configure the future identity provider only after the canonical production origin is stable.
@@ -471,6 +500,8 @@ The Cloudflare hosting implementation is complete when:
 ## 19. References
 
 - [Cloudflare Pages custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/)
+- [Cloudflare Pages Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/)
+- [Wrangler Pages commands](https://developers.cloudflare.com/workers/wrangler/commands/pages/)
 - [Cloudflare Pages Functions routing](https://developers.cloudflare.com/pages/functions/routing/)
 - [Cloudflare Pages Functions pricing](https://developers.cloudflare.com/pages/functions/pricing/)
 - [Cloudflare Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/)

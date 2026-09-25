@@ -39,8 +39,8 @@ Application pages have one HTML source each. `chapter.html` and `lesson.html` ar
 ```text
 dist/
 ├── index.html           # default English entry, usable from file or a static server root
-├── en/html/pages/  # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
-└── hi/html/pages/  # the same page names
+├── en/                  # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
+└── hi/                  # the same page names
 ```
 
 Building one language replaces only that language directory and preserves other generated languages. The entire `dist/` directory is generated output and is not committed.
@@ -49,11 +49,11 @@ Building one language replaces only that language directory and preserves other 
 
 | HTML source | Localized instructions | Optional fixed content | Generated page |
 | --- | --- | --- | --- |
-| `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/html/pages/index.html` |
-| `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<language>/html/pages/<chapter>.html` |
-| `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<language>/html/pages/<chapter>-<lesson>.html` |
-| `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/html/pages/sign-in.html` |
-| `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/html/pages/patterns.html` |
+| `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/index.html` |
+| `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<language>/<chapter>.html` |
+| `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<language>/<chapter>-<lesson>.html` |
+| `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/sign-in.html` |
+| `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/patterns.html` |
 
 Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. Application page filename stems must match their top-level YAML files. Course content is selected with `--course-name` and `--course-content-folder`; chapter and lesson folders below that course determine the generated page names and values. For example, `chapter-01/lesson-01/` becomes `chapter-01-lesson-01.html`. The generic `chapter-` and `lesson-` placeholder prefixes stay the same for every instance. This convention is build input, not a final educational content schema.
 

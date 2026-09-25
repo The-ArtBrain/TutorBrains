@@ -98,7 +98,7 @@ def _prepare_localized_document(
     html = re.sub(r'(<html\b[^>]*\blang=")[^"]+("[^>]*>)', rf"\g<1>{language_tag}\g<2>", html, count=1)
 
     for available_language in available_languages:
-        localized_href = f"../../../{available_language}/html/pages/{page_name}"
+        localized_href = f"../{available_language}/{page_name}"
         html = re.sub(
             rf'(<link\s+rel="alternate"\s+hreflang="{re.escape(available_language)}"\s+href=")[^"]+("\s*>)',
             rf"\g<1>{localized_href}\g<2>",

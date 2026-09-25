@@ -146,7 +146,7 @@ class BuildStageTests(unittest.TestCase):
         (self.learner_web_root / "css/site.css").write_text("body {}\n", encoding="utf-8")
         (self.learner_web_root / "assets/icon.svg").write_text("<svg></svg>\n", encoding="utf-8")
         (self.learner_web_root / "index.html").write_text(
-            '<meta http-equiv="refresh" content="0; url=en/html/pages/index.html">',
+            '<meta http-equiv="refresh" content="0; url=en/index.html">',
             encoding="utf-8",
         )
         (self.learner_web_root / "assets/.DS_Store").write_text("ignored", encoding="utf-8")
@@ -195,7 +195,7 @@ class BuildStageTests(unittest.TestCase):
 
     def test_clean_removes_only_generated_distribution(self) -> None:
         source_file = self.pages_root / "lesson.html"
-        generated_file = self.learner_web_root / "dist/en/html/pages/chapter-01-lesson-01.html"
+        generated_file = self.learner_web_root / "dist/en/chapter-01-lesson-01.html"
         generated_file.parent.mkdir(parents=True)
         generated_file.write_text("generated", encoding="utf-8")
 
@@ -240,10 +240,10 @@ class BuildStageTests(unittest.TestCase):
         self.assertEqual(published_files, 5)
         self.assertTrue((self.learner_web_root / "dist/index.html").is_file())
         self.assertEqual(
-            (self.learner_web_root / "dist/en/html/pages/chapter-01-lesson-01.html").read_text(encoding="utf-8"),
+            (self.learner_web_root / "dist/en/chapter-01-lesson-01.html").read_text(encoding="utf-8"),
             final_html,
         )
-        self.assertIn("Greeting chapter", (self.learner_web_root / "dist/en/html/pages/chapter-01.html").read_text())
+        self.assertIn("Greeting chapter", (self.learner_web_root / "dist/en/chapter-01.html").read_text())
         self.assertTrue((self.learner_web_root / "dist/en/css/site.css").is_file())
         self.assertTrue((self.learner_web_root / "dist/en/assets/icon.svg").is_file())
         self.assertFalse((self.learner_web_root / "dist/en/assets/.DS_Store").exists())
@@ -280,7 +280,7 @@ class BuildStageTests(unittest.TestCase):
             instruction_language="hi",
         )
 
-        hindi_html = (self.learner_web_root / "dist/hi/html/pages/chapter-01-lesson-01.html").read_text(
+        hindi_html = (self.learner_web_root / "dist/hi/chapter-01-lesson-01.html").read_text(
             encoding="utf-8"
         )
         self.assertIn("अभिवादन पाठ", hindi_html)
@@ -288,13 +288,13 @@ class BuildStageTests(unittest.TestCase):
         self.assertIn("నమస్కారం", hindi_html)
         self.assertIn('<html lang="hi-IN">', hindi_html)
         self.assertIn(
-            '<link rel="alternate" hreflang="en" href="../../../en/html/pages/chapter-01-lesson-01.html">',
+            '<link rel="alternate" hreflang="en" href="../en/chapter-01-lesson-01.html">',
             hindi_html,
         )
         self.assertNotIn("lesson-01-hi.html", hindi_html)
         self.assertTrue(english_output.is_file())
         self.assertFalse((self.pages_root / "lesson-01-hi.html").exists())
-        self.assertIn("अभिवादन अध्याय", (self.learner_web_root / "dist/hi/html/pages/chapter-01.html").read_text())
+        self.assertIn("अभिवादन अध्याय", (self.learner_web_root / "dist/hi/chapter-01.html").read_text())
 
     def test_alternate_metadata_matches_generated_documents(self) -> None:
         (self.course_root / "cards.hi.txt").write_text(
@@ -323,7 +323,7 @@ class BuildStageTests(unittest.TestCase):
                 for available_language in ("en", "hi"):
                     self.assertIn(
                         f'<link rel="alternate" hreflang="{available_language}" '
-                        f'href="../../../{available_language}/html/pages/chapter-01-lesson-01.html">',
+                        f'href="../{available_language}/chapter-01-lesson-01.html">',
                         html,
                     )
 

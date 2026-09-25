@@ -3,7 +3,7 @@ const { pathToFileURL } = require("node:url");
 const { expect, test } = require("@playwright/test");
 
 const outputRoot = path.resolve(__dirname, "../../../../apps/learner-web/dist");
-const pageUrl = (language, name) => pathToFileURL(path.join(outputRoot, language, "html/pages", `${name}.html`)).href;
+const pageUrl = (language, name) => pathToFileURL(path.join(outputRoot, language, `${name}.html`)).href;
 const names = ["index", "chapter-01", "sign-in", "patterns"];
 
 test("root index opens the default English learner page", async ({ page }) => {

@@ -31,7 +31,7 @@ apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build
 apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi
 ```
 
-The defaults are English instructions, the Telugu course, and the `practical-telugu` content folder; output is published below `apps/learner-web/dist/en/` and `dist/hi/`. Open the generated `html/pages/index.html` in either directory. Application pages use top-level `content/<page>.<language>.yml` files. Generic chapter and lesson HTML sources are filled from the selected course's chapter and lesson folders, producing identity-specific filenames. See [`apps/learner-web/build-tools/README.md`](apps/learner-web/build-tools/README.md) for conventions, parameters, and unit tests. Browser tests build both languages automatically using this environment (or `LEARNER_WEB_PYTHON`).
+The defaults are English instructions, the Telugu course, and the `practical-telugu` content folder; output is published below `apps/learner-web/dist/en/` and `dist/hi/`. Open the generated `index.html` in either directory. Application pages use top-level `content/<page>.<language>.yml` files. Generic chapter and lesson HTML sources are filled from the selected course's chapter and lesson folders, producing identity-specific filenames. See [`apps/learner-web/build-tools/README.md`](apps/learner-web/build-tools/README.md) for conventions, parameters, and unit tests. Browser tests build both languages automatically using this environment (or `LEARNER_WEB_PYTHON`).
 
 Remove all generated learner-web output with `python3 apps/learner-web/build-tools/build.py clean`.
 

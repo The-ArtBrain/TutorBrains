@@ -74,7 +74,7 @@ def generate_page_instructions(
     # Discovery metadata has no visible effect. Relative page links stay in this locale.
     alternates = "\n".join(
         f'    <link rel="alternate" hreflang="{candidate}" '
-        f'href="../../../{candidate}/html/pages/{page_path.name}">'
+        f'href="../{candidate}/{page_path.name}">'
         for candidate in available_languages
         if (content_root / f"{stem}.{candidate}.yml").is_file()
     )

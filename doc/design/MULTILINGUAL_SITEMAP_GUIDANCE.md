@@ -48,15 +48,15 @@ Every public page has one stable URL per instruction language. The route after t
 Preferred long-term shape:
 
 ```text
-https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/
-https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/
+https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/
+https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/
 ```
 
-The production domain in this document is illustrative. The build must use the selected canonical production origin.
+The canonical production origin is `https://learntelugu.brainos.in`. Hostnames are case-insensitive, but generated URLs must consistently use this lowercase form.
 
 Stable routes should be derived from durable course, chapter, and lesson identifiers rather than translated titles. Changing display wording must not change a URL.
 
-The current generated paths such as `/en/html/pages/chapter-01-lesson-01.html` may be used for the initial release if they are deliberately accepted as permanent public URLs. If clean URLs are wanted, introduce them before search indexing begins. A later change requires permanent redirects from every old URL.
+The current generated paths such as `/en/chapter-01-lesson-01.html` may be used for the initial release if they are deliberately accepted as permanent public URLs. If clean URLs are wanted, introduce them before search indexing begins. A later change requires permanent redirects from every old URL.
 
 URL rules:
 
@@ -90,25 +90,25 @@ For the English lesson:
 
 ```html
 <link rel="canonical"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/">
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/">
 ```
 
 For the Hindi lesson:
 
 ```html
 <link rel="canonical"
-      href="https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/">
+      href="https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/">
 ```
 
 Both pages must contain the same complete alternate set:
 
 ```html
 <link rel="alternate" hreflang="en-IN"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/">
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/">
 <link rel="alternate" hreflang="hi-IN"
-      href="https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/">
+      href="https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/">
 <link rel="alternate" hreflang="x-default"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/">
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/">
 ```
 
 `x-default` initially points to English because English is the product fallback. It may instead point to a static language-selection page if one is introduced later.
@@ -120,7 +120,7 @@ Do not canonicalize a Hindi translation to its English counterpart. Doing so sig
 Publish one sitemap at:
 
 ```text
-https://learn.example.com/sitemap.xml
+https://learntelugu.brainos.in/sitemap.xml
 ```
 
 Include:
@@ -150,16 +150,16 @@ Keep `hreflang` relationships in HTML and use the sitemap as a simple canonical 
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://learn.example.com/en/courses/practical-telugu/</loc>
+    <loc>https://learntelugu.brainos.in/en/courses/practical-telugu/</loc>
   </url>
   <url>
-    <loc>https://learn.example.com/hi/courses/practical-telugu/</loc>
+    <loc>https://learntelugu.brainos.in/hi/courses/practical-telugu/</loc>
   </url>
   <url>
-    <loc>https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/</loc>
+    <loc>https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/</loc>
   </url>
   <url>
-    <loc>https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/</loc>
+    <loc>https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/</loc>
   </url>
 </urlset>
 ```
@@ -178,22 +178,22 @@ If sitemap-level alternates are adopted, every localized URL entry must repeat t
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/</loc>
+    <loc>https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/</loc>
     <xhtml:link rel="alternate" hreflang="en-IN"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/"/>
     <xhtml:link rel="alternate" hreflang="hi-IN"
-      href="https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/"/>
     <xhtml:link rel="alternate" hreflang="x-default"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/"/>
   </url>
   <url>
-    <loc>https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/</loc>
+    <loc>https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/</loc>
     <xhtml:link rel="alternate" hreflang="en-IN"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/"/>
     <xhtml:link rel="alternate" hreflang="hi-IN"
-      href="https://learn.example.com/hi/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/hi/courses/practical-telugu/chapter-01/lesson-01/"/>
     <xhtml:link rel="alternate" hreflang="x-default"
-      href="https://learn.example.com/en/courses/practical-telugu/chapter-01/lesson-01/"/>
+      href="https://learntelugu.brainos.in/en/courses/practical-telugu/chapter-01/lesson-01/"/>
   </url>
 </urlset>
 ```
@@ -219,7 +219,7 @@ Do not add `changefreq` or `priority`; they are unnecessary for this site and do
 Publish a static file at:
 
 ```text
-https://learn.example.com/robots.txt
+https://learntelugu.brainos.in/robots.txt
 ```
 
 Initial production content:
@@ -228,7 +228,7 @@ Initial production content:
 User-agent: *
 Allow: /
 
-Sitemap: https://learn.example.com/sitemap.xml
+Sitemap: https://learntelugu.brainos.in/sitemap.xml
 ```
 
 Do not use `robots.txt` to canonicalize pages or hide sensitive content. A URL blocked from crawling can still be discovered through links. Sensitive content must not be published as a public static asset.
@@ -252,7 +252,7 @@ Do not submit preview sitemaps to any search engine.
 The learner-web build should accept a canonical production origin, for example:
 
 ```text
-https://learn.example.com
+https://learntelugu.brainos.in
 ```
 
 Production builds must fail when the origin is absent, malformed, non-HTTPS, contains a path, or uses a preview hostname.
@@ -306,7 +306,7 @@ Do not redirect all retired lessons to the course home page. A removed page with
 After the custom domain is live:
 
 1. verify ownership of the canonical domain in Google Search Console;
-2. submit `https://learn.example.com/sitemap.xml`;
+2. submit `https://learntelugu.brainos.in/sitemap.xml`;
 3. inspect one English and one Hindi URL;
 4. confirm the declared and Google-selected canonical URLs;
 5. confirm that rendered HTML contains the reciprocal alternates;

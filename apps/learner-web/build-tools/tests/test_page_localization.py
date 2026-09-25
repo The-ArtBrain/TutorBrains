@@ -43,6 +43,7 @@ class PageLocalizationTests(unittest.TestCase):
         self.app.mkdir(parents=True)
         for name in ("html", "css", "assets"):
             shutil.copytree(REPOSITORY_ROOT / "apps/learner-web" / name, self.app / name)
+        shutil.copy2(REPOSITORY_ROOT / "apps/learner-web/index.html", self.app / "index.html")
         shutil.copytree(REPOSITORY_ROOT / "content", self.content)
         self.build_count = 0
 

@@ -41,7 +41,8 @@
         </div>
       </section>
 
-      <section id="preferences" class="surface panel panel--accent" aria-labelledby="setup-title">
+      <details id="preferences" class="surface panel panel--accent disclosure">
+        <summary>[#index-preferences-summary]</summary>
         <p class="eyebrow">[#index-first-visit]</p>
         <h2 id="setup-title">[#index-setup-title]</h2>
         <p>[#index-setup-description]</p>
@@ -68,7 +69,7 @@
             <button class="button--primary" type="button" disabled aria-describedby="prototype-status">[#index-setup-link]</button>
           </div>
         </form>
-      </section>
+      </details>
 
       <aside id="prototype-status" class="prototype-note" aria-label="[#index-prototype-label]">
         <strong>[#index-review-heading]</strong> [#index-review-description]
@@ -78,15 +79,15 @@
         <a class="button button--quiet" href="#next-chapter">[#index-guest-link]</a>
       </div>
 
-      <section id="next-chapter" aria-labelledby="next-chapter-title">
-        <p class="eyebrow">[#index-next-chapter-label]</p>
-        <article class="surface hierarchy-card" aria-labelledby="next-chapter-title">
+      <details id="next-chapter" class="surface disclosure">
+        <summary>[#index-next-chapter-label]</summary>
+        <article class="hierarchy-card" aria-labelledby="next-chapter-title">
           <p class="hierarchy-card__meta">[#index-chapter-label]</p>
           <h2 id="next-chapter-title">[#index-next-chapter-title]</h2>
           <p>[#index-next-chapter-description]</p>
           <a class="hierarchy-card__link" href="chapter-01.html">[#index-next-chapter-link]</a>
         </article>
-      </section>
+      </details>
     </main>
 
     <footer class="site-footer">

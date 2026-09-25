@@ -21,6 +21,9 @@ def publish_static_site(
         "assets": learner_web_root / "assets",
     }
     missing = [source for source in source_directories.values() if not source.is_dir()]
+    root_entry = learner_web_root / "index.html"
+    if instruction_language.strip().lower() == "en" and not root_entry.is_file():
+        missing.append(root_entry)
     if missing:
         missing_list = ", ".join(str(path) for path in missing)
         raise FileNotFoundError(f"Learner-web source directories are missing: {missing_list}")
@@ -50,5 +53,9 @@ def publish_static_site(
         if destination.exists():
             shutil.rmtree(destination)
         staging.replace(destination)
+
+    if instruction_language.strip().lower() == "en":
+        shutil.copy2(root_entry, dist_root / "index.html")
+        published_files += 1
 
     return published_files

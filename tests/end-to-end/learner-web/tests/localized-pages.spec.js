@@ -6,6 +6,12 @@ const outputRoot = path.resolve(__dirname, "../../../../apps/learner-web/dist");
 const pageUrl = (language, name) => pathToFileURL(path.join(outputRoot, language, "html/pages", `${name}.html`)).href;
 const names = ["index", "chapter-01", "sign-in", "patterns"];
 
+test("root index opens the default English learner page", async ({ page }) => {
+  await page.goto(pathToFileURL(path.join(outputRoot, "index.html")).href);
+  await expect(page).toHaveURL(pageUrl("en", "index"));
+  await expect(page.locator("html")).toHaveAttribute("lang", "en-IN");
+});
+
 for (const language of ["en", "hi"]) {
   for (const width of [390, 1280]) {
     test(`${language}: generated pages are readable and accessible at ${width}px`, async ({ page }) => {
@@ -38,10 +44,18 @@ for (const language of ["en", "hi"]) {
       await page.goto(pageUrl(language, "index"));
       const indexSections = page.locator("main > section");
       await expect(indexSections.nth(0).locator('a[href="sign-in.html"]')).toBeVisible();
-      await expect(indexSections.nth(1)).toHaveAttribute("id", "preferences");
+      const preferences = page.locator("#preferences");
+      await expect(preferences).not.toHaveAttribute("open", "");
+      await expect(preferences.locator("#setup-title")).toBeHidden();
+      await preferences.locator("summary").click();
+      await expect(preferences).toHaveAttribute("open", "");
       await expect(page.locator('.guest-entry a[href="#next-chapter"]')).toBeVisible();
-      await expect(indexSections.nth(2)).toHaveAttribute("id", "next-chapter");
-      await expect(indexSections.nth(2).locator('a[href="chapter-01.html"]')).toBeVisible();
+      const nextChapter = page.locator("#next-chapter");
+      await expect(nextChapter).not.toHaveAttribute("open", "");
+      await expect(nextChapter.locator('a[href="chapter-01.html"]')).toBeHidden();
+      await nextChapter.locator("summary").click();
+      await expect(nextChapter).toHaveAttribute("open", "");
+      await expect(nextChapter.locator('a[href="chapter-01.html"]')).toBeVisible();
       await expect(page.locator("#instruction-language option:checked")).toHaveAttribute("lang", language);
       await expect(page.locator("form button")).toBeDisabled();
       await expect(page.locator('main a[href="chapter-01.html"]')).toBeVisible();
@@ -50,6 +64,7 @@ for (const language of ["en", "hi"]) {
 
   test(`${language}: navigation preserves language through the lesson and its return path`, async ({ page }) => {
     await page.goto(pageUrl(language, "index"));
+    await page.locator("#next-chapter summary").click();
     await page.locator('main a[href="chapter-01.html"]').click();
     await expect(page).toHaveURL(pageUrl(language, "chapter-01"));
     await page.locator('main a[href="chapter-01-lesson-01.html"]').click();

@@ -145,6 +145,10 @@ class BuildStageTests(unittest.TestCase):
 
         (self.learner_web_root / "css/site.css").write_text("body {}\n", encoding="utf-8")
         (self.learner_web_root / "assets/icon.svg").write_text("<svg></svg>\n", encoding="utf-8")
+        (self.learner_web_root / "index.html").write_text(
+            '<meta http-equiv="refresh" content="0; url=en/html/pages/index.html">',
+            encoding="utf-8",
+        )
         (self.learner_web_root / "assets/.DS_Store").write_text("ignored", encoding="utf-8")
         (self.course_root / "cards.en.txt").write_text(
             "[instruction-language-tag]\nen-IN\n\n"
@@ -233,7 +237,8 @@ class BuildStageTests(unittest.TestCase):
             instruction_language="en",
         )
 
-        self.assertEqual(published_files, 4)
+        self.assertEqual(published_files, 5)
+        self.assertTrue((self.learner_web_root / "dist/index.html").is_file())
         self.assertEqual(
             (self.learner_web_root / "dist/en/html/pages/chapter-01-lesson-01.html").read_text(encoding="utf-8"),
             final_html,

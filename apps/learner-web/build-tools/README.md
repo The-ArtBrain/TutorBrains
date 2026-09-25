@@ -38,6 +38,7 @@ Application pages have one HTML source each. `chapter.html` and `lesson.html` ar
 
 ```text
 dist/
+├── index.html           # default English entry, usable from file or a static server root
 ├── en/html/pages/  # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
 └── hi/html/pages/  # the same page names
 ```

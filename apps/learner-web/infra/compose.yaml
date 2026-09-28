@@ -1,0 +1,19 @@
+services:
+  wrangler:
+    image: tutorbrains-wrangler:stable
+    build:
+      context: .
+      dockerfile: Dockerfile.wrangler
+      args:
+        WRANGLER_VERSION: latest
+    working_dir: /workspace/apps/learner-web/infra
+    read_only: true
+    init: true
+    environment:
+      CLOUDFLARE_ACCOUNT_ID: ${CLOUDFLARE_ACCOUNT_ID:-}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-}
+      HOME: /tmp/wrangler-home
+    tmpfs:
+      - /tmp
+    volumes:
+      - ../../..:/workspace:ro

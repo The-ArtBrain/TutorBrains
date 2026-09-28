@@ -31,7 +31,7 @@ async function disclosureMeasurements(page) {
 
 for (const filename of lessonPages) {
   test.describe(filename, () => {
-    test("TC-29 exposes lesson data sources and unresolved placeholders without JavaScript", async ({ page }) => {
+    test("TC-29 exposes lesson data sources without runtime composition JavaScript", async ({ page }) => {
       await openLesson(page, filename, { width: 780, height: 996 });
 
       const result = await page.evaluate(() => {
@@ -59,7 +59,10 @@ for (const filename of lessonPages) {
           placeholdersNameTheirSources: placeholders.every(
             (placeholder) => placeholder.textContent.trim() === `[${placeholder.dataset.source}]`,
           ),
-          scripts: document.querySelectorAll("script").length,
+          scripts: Array.from(document.scripts, (script) => ({
+            src: script.getAttribute("src"),
+            defer: script.defer,
+          })),
         };
       });
 
@@ -72,7 +75,7 @@ for (const filename of lessonPages) {
         referencesResolve: true,
         ariaReferencesResolve: true,
         placeholdersNameTheirSources: true,
-        scripts: 0,
+        scripts: [{ src: "../../assets/js/instruction-language-preference.js", defer: true }],
       });
 
       const expectedNames = {

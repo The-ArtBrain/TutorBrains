@@ -10,6 +10,8 @@
 
 This specification defines how to publish the generated learner course files from `apps/learner-web/dist/` on Cloudflare Pages. It also defines language routing, custom-domain and Domain Name System (DNS) setup, release verification, rollback, and the operational boundary between Cloudflare Pages and a future identity provider.
 
+This deployment is the independent Telugu Tutor course root. Its product name is **TeluguTutorBrains**; its Cloudflare project identifier is the required lowercase form `telugututorbrains`. Other independent courses must receive separate deployment roots and must not be added beneath this project's URL path. A course may initially reuse the shared learner-web implementation, but it becomes a separately owned application when its lifecycle or product requirements justify that boundary.
+
 The first release is a public static course site. Authentication may identify a learner and enable future saved progress, but it does not make files in `dist/` private.
 
 ## 2. Goals
@@ -146,9 +148,12 @@ The implementation should introduce or generate the following deployment-owned f
 ```text
 apps/learner-web/
 ├── infra/
+│   ├── .dockerignore
 │   ├── README.md
+│   ├── compose.yaml
+│   ├── Dockerfile.wrangler
 │   ├── deploy-cloudflare-pages.sh
-│   ├── functions/        # Pages Functions when implemented
+│   ├── functions/        # Pages Functions
 │   └── policies/         # authoritative _headers, _redirects, and _routes.json
 └── dist/
     ├── _headers          # generated/copied deployment headers
@@ -193,26 +198,32 @@ A Content Security Policy (CSP) must be designed alongside authentication. Do no
 
 Create one **Direct Upload** Pages project with these settings:
 
-| Setting | Required value |
-|---|---|
-| Project name | `tutorbrains-courses` |
-| Production branch | `main` |
-| Git provider | None |
-| Cloudflare build command | None; Cloudflare receives a prebuilt artifact |
-| Uploaded static directory | `apps/learner-web/dist` |
-| Deployment entry point | `apps/learner-web/infra/deploy-cloudflare-pages.sh` |
+| Setting                   | Required value                                      |
+| ------------------------- | --------------------------------------------------- |
+| Product/project name      | `TeluguTutorBrains`                                |
+| Cloudflare identifier     | `telugututorbrains`                                |
+| Production branch         | `main`                                              |
+| Git provider              | None                                                |
+| Cloudflare build command  | None; Cloudflare receives a prebuilt artifact       |
+| Uploaded static directory | `apps/learner-web/dist`                             |
+| Deployment entry point    | `apps/learner-web/infra/deploy-cloudflare-pages.sh` |
 
-Create the project once with reviewed, pinned Wrangler tooling:
+Create the project once with the current stable Wrangler tooling isolated in a repository-owned container:
 
 ```sh
-npx wrangler pages project create tutorbrains-courses --production-branch main
+docker compose -f apps/learner-web/infra/compose.yaml build --pull wrangler
+docker compose -f apps/learner-web/infra/compose.yaml run --rm wrangler --version
+docker compose -f apps/learner-web/infra/compose.yaml run --rm wrangler \
+  pages project create telugututorbrains --production-branch main
 ```
+
+The image build resolves npm's `latest` distribution tag so an explicit rebuild selects the newest stable Wrangler release. The reported version and full test suite must be reviewed before deployment. The repository-owned image keeps Wrangler and its Node.js dependency tree outside the host environment. The repository is mounted read-only, container state is temporary, and only the Cloudflare account identifier and restricted API token are passed through. The deployment entry point requires the prebuilt `tutorbrains-wrangler:stable` image and does not download or refresh tooling during a release.
 
 The project must not be connected to Cloudflare's native Git integration in this phase. The build and tests run in the operator's checked-out repository; Wrangler uploads only the verified `dist/` artifact and any Functions discovered from `infra/functions/`.
 
 Cloudflare does not allow a Direct Upload project to be converted later to native Git integration. Future automation should therefore invoke Wrangler from a controlled continuous-integration workflow against this same project. Its deployment logic, Functions, and policies remain owned by `infra/`.
 
-No runtime secret is required for static hosting and locale routing. Local deployment requires Wrangler login or restricted `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` environment variables; these credentials must never enter Git.
+No runtime secret is required for static hosting and locale routing. Deployment uses restricted `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` environment variables passed into the one-off container; these credentials must never enter Git.
 
 ## 10. Deployment workflow
 
@@ -276,8 +287,8 @@ This path leaves the current GoDaddy nameservers, apex records, `www`, mail, and
 
 1. Create the Cloudflare Pages project described in section 9 and complete a successful production deployment.
 2. Open the generated `https://<project>.pages.dev` hostname and verify the English page, Hindi page, styles, and assets before changing DNS.
-3. Record the exact Pages hostname. If the project is named `tutorbrains-courses`, the expected target is `tutorbrains-courses.pages.dev`; use the actual value shown by Cloudflare.
-4. In Cloudflare, open **Workers & Pages > tutorbrains-courses > Custom domains**.
+3. Record the exact Pages hostname. For the `telugututorbrains` project identifier, the expected target is `telugututorbrains.pages.dev`; use the actual value shown by Cloudflare.
+4. In Cloudflare, open **Workers & Pages > TeluguTutorBrains (`telugututorbrains`) > Custom domains**.
 5. Select **Set up a domain**.
 6. Enter `learntelugu.brainos.in` in lowercase and continue.
 7. Cloudflare will report that DNS validation is pending and show the required target. Keep this browser page open or record the exact target.
@@ -485,11 +496,11 @@ The Cloudflare hosting implementation is complete when:
 
 ## 18. Implementation sequence
 
-1. Add tests for language selection, hosted cookie persistence, cookie validation, and route isolation.
-2. Implement the root Pages Function and application-side preference writer.
-3. Add source-controlled `_routes.json` and `_headers` inputs under `infra/policies/` and stage them through the deployment entry point.
+1. **Complete:** Add tests for language selection, hosted cookie persistence, cookie validation, and route isolation.
+2. **Complete:** Implement the root Pages Function and application-side preference writer.
+3. **Complete:** Add source-controlled `_routes.json` and `_headers` inputs under `infra/policies/` and stage them through the deployment entry point.
 4. Create a Direct Upload Cloudflare Pages project without connecting a Git provider.
-5. Install and pin Wrangler for repeatable operator deployments.
+5. Build and review the current stable Wrangler container for repeatable operator deployments.
 6. Exercise the manual preview command and complete preview verification.
 7. Inventory DNS and add only the `learntelugu` CNAME at the current provider.
 8. Activate `learntelugu.brainos.in` as the custom domain and verify HTTPS without changing the apex or `www`.

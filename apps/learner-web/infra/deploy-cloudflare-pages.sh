@@ -11,7 +11,9 @@ readonly BUILD_SCRIPT="${APP_ROOT}/build-tools/build.py"
 readonly BUILD_TEST_ROOT="${APP_ROOT}/build-tools/tests"
 readonly E2E_ROOT="${REPOSITORY_ROOT}/tests/end-to-end/learner-web"
 readonly POLICY_ROOT="${INFRA_ROOT}/policies"
-readonly PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-tutorbrains-courses}"
+readonly COMPOSE_FILE="${INFRA_ROOT}/compose.yaml"
+readonly WRANGLER_IMAGE="tutorbrains-wrangler:stable"
+readonly PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-telugututorbrains}"
 readonly PRODUCTION_BRANCH="${CLOUDFLARE_PRODUCTION_BRANCH:-main}"
 readonly PRODUCTION_HOST="learntelugu.brainos.in"
 
@@ -29,7 +31,7 @@ Commands:
               the exact confirmation shown above.
 
 Optional environment variables:
-  CLOUDFLARE_PAGES_PROJECT       Pages project name (default: tutorbrains-courses)
+  CLOUDFLARE_PAGES_PROJECT       Pages project identifier (default: telugututorbrains)
   CLOUDFLARE_PRODUCTION_BRANCH   Pages production branch (default: main)
   CLOUDFLARE_ACCOUNT_ID          Used by Wrangler when authenticating with a token
   CLOUDFLARE_API_TOKEN           Restricted Cloudflare Pages API token
@@ -45,6 +47,21 @@ require_command() {
   command -v "$1" >/dev/null 2>&1 || fail "Required command not found: $1"
 }
 
+run_wrangler() {
+  docker compose -f "${COMPOSE_FILE}" run --rm --no-deps wrangler "$@"
+}
+
+require_wrangler_container() {
+  require_command docker
+  docker compose version >/dev/null 2>&1 || fail "Docker Compose v2 is required."
+  docker image inspect "${WRANGLER_IMAGE}" >/dev/null 2>&1 || fail \
+    "Wrangler container missing. Build it with: docker compose -f apps/learner-web/infra/compose.yaml build wrangler"
+
+  local version
+  version="$(run_wrangler --version)"
+  [[ -n "${version}" ]] || fail "Wrangler in ${WRANGLER_IMAGE} did not report a version."
+}
+
 require_clean_worktree() {
   if [[ -n "$(git -C "${REPOSITORY_ROOT}" status --porcelain)" ]]; then
     fail "Deployment requires a clean Git worktree so the artifact matches its commit."
@@ -52,7 +69,12 @@ require_clean_worktree() {
 }
 
 stage_policies() {
-  [[ -d "${POLICY_ROOT}" ]] || return 0
+  [[ -d "${POLICY_ROOT}" ]] || fail "Missing Cloudflare policy directory: ${POLICY_ROOT}"
+
+  local required_policy
+  for required_policy in _headers _routes.json; do
+    [[ -f "${POLICY_ROOT}/${required_policy}" ]] || fail "Missing required Cloudflare policy: ${required_policy}"
+  done
 
   local policy
   for policy in _headers _redirects _routes.json; do
@@ -78,6 +100,8 @@ build_and_verify() {
   [[ -f "${DIST_ROOT}/index.html" ]] || fail "Missing generated root entry: dist/index.html"
   [[ -f "${DIST_ROOT}/en/index.html" ]] || fail "Missing generated English entry: dist/en/index.html"
   [[ -f "${DIST_ROOT}/hi/index.html" ]] || fail "Missing generated Hindi entry: dist/hi/index.html"
+  [[ -f "${DIST_ROOT}/_headers" ]] || fail "Missing staged Cloudflare headers: dist/_headers"
+  [[ -f "${DIST_ROOT}/_routes.json" ]] || fail "Missing staged Cloudflare routes: dist/_routes.json"
 }
 
 deploy() {
@@ -85,20 +109,16 @@ deploy() {
   local commit_hash
   local commit_message
 
-  require_command npx
-  npx --no-install wrangler --version >/dev/null 2>&1 || fail "Pinned Wrangler is not installed; npx --no-install wrangler must succeed."
+  require_wrangler_container
 
   commit_hash="$(git -C "${REPOSITORY_ROOT}" rev-parse HEAD)"
   commit_message="$(git -C "${REPOSITORY_ROOT}" log -1 --pretty=%s)"
 
-  (
-    cd "${INFRA_ROOT}"
-    npx --no-install wrangler pages deploy "${DIST_ROOT}" \
-      --project-name "${PAGES_PROJECT}" \
-      --branch "${branch}" \
-      --commit-hash "${commit_hash}" \
-      --commit-message "${commit_message}"
-  )
+  run_wrangler pages deploy "/workspace/apps/learner-web/dist" \
+    --project-name "${PAGES_PROJECT}" \
+    --branch "${branch}" \
+    --commit-hash "${commit_hash}" \
+    --commit-message "${commit_message}"
 }
 
 main() {

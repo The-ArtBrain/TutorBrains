@@ -34,12 +34,19 @@ for (const language of ["en", "hi"]) {
         await expect(menu.locator('a[href="sign-in.html"]')).toBeVisible();
         const state = await page.evaluate(() => ({
           hasHorizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-          scripts: document.scripts.length,
+          scripts: Array.from(document.scripts, (script) => ({
+            src: script.getAttribute("src"),
+            defer: script.defer,
+          })),
           unlabeledControls: Array.from(document.querySelectorAll("select, input")).filter(
             (control) => !control.labels?.length,
           ).length,
         }));
-        expect(state, name).toEqual({ hasHorizontalOverflow: false, scripts: 0, unlabeledControls: 0 });
+        expect(state, name).toEqual({
+          hasHorizontalOverflow: false,
+          scripts: [{ src: "assets/js/instruction-language-preference.js", defer: true }],
+          unlabeledControls: 0,
+        });
       }
       await page.goto(pageUrl(language, "index"));
       const indexSections = page.locator("main > section");

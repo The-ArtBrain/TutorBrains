@@ -22,6 +22,12 @@ Watch the complete suite run in a visible browser:
 npm --prefix tests/end-to-end/learner-web test -- --headed --workers=1
 ```
 
+Run the Python build-tool unit tests with `uv` using the build tool's `pyproject.toml`:
+
+```sh
+uv run --project apps/learner-web/build-tools --group build python -m unittest discover -s apps/learner-web/build-tools/tests -v
+```
+
 Set up the build environment once, then generate the English and Hindi pages from the repository root:
 
 ```sh

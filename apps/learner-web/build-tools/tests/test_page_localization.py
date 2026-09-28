@@ -96,8 +96,12 @@ class PageLocalizationTests(unittest.TestCase):
                     self.assertIn(("html", {"lang": f"{language}-IN"}), doc.elements)
                     ids = [attrs["id"] for _, attrs in doc.elements if "id" in attrs]
                     self.assertEqual(len(ids), len(set(ids)))
+                    scripts = [attrs for tag, attrs in doc.elements if tag == "script"]
+                    self.assertEqual(
+                        scripts,
+                        [{"src": "assets/js/instruction-language-preference.js", "defer": None}],
+                    )
                     for tag, attrs in doc.elements:
-                        self.assertNotEqual(tag, "script")
                         self.assertFalse(any(key.startswith("on") for key in attrs))
                         for attribute in ("aria-labelledby", "aria-describedby"):
                             for ref in attrs.get(attribute, "").split():
@@ -131,7 +135,8 @@ class PageLocalizationTests(unittest.TestCase):
         self.assertIn(text, doc.text)
         self.assertIn(text, [attrs.get("aria-label") for _, attrs in doc.elements])
         self.assertIn(text, [attrs.get("content") for tag, attrs in doc.elements if tag == "meta"])
-        self.assertNotIn("script", [tag for tag, _ in doc.elements])
+        scripts = [attrs for tag, attrs in doc.elements if tag == "script"]
+        self.assertEqual(scripts, [{"src": "assets/js/instruction-language-preference.js", "defer": None}])
 
     def test_account_menu_include_updates_every_generated_page(self):
         partial = self.app / "html/includes/account-menu.inc"

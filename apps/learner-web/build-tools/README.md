@@ -34,6 +34,12 @@ Run the unit tests from the repository root:
 apps/learner-web/build-tools/.venv/bin/python -m unittest discover -s apps/learner-web/build-tools/tests -v
 ```
 
+Or let `uv` create and use the environment from the build tool's `pyproject.toml`:
+
+```sh
+uv run --project apps/learner-web/build-tools --group build python -m unittest discover -s apps/learner-web/build-tools/tests -v
+```
+
 Application pages have one HTML source each. `chapter.html` and `lesson.html` are generic sources: the build instantiates them once for every chapter and lesson folder in the selected course. Instruction-language files provide localized values; separate HTML files per language or chapter are not needed. Successive English and Hindi builds create these pages for the current course:
 
 ```text

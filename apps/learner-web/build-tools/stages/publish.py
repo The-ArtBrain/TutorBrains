@@ -13,6 +13,7 @@ def publish_static_site(
     learner_web_root: Path,
     prepared_html_root: Path,
     instruction_language: str,
+    distribution_root: str = "telugu",
 ) -> int:
     """Atomically publish prepared HTML with unchanged CSS and assets."""
 
@@ -38,8 +39,10 @@ def publish_static_site(
 
     dist_root = learner_web_root / "dist"
     dist_root.mkdir(exist_ok=True)
-    destination = dist_root / instruction_language.strip().lower()
-    with tempfile.TemporaryDirectory(prefix=".language-", dir=dist_root) as temporary_directory:
+    site_root = dist_root / distribution_root
+    site_root.mkdir(exist_ok=True)
+    destination = site_root / instruction_language.strip().lower()
+    with tempfile.TemporaryDirectory(prefix=".language-", dir=site_root) as temporary_directory:
         staging = Path(temporary_directory)
 
         for page in prepared_pages_root.glob("*.html"):
@@ -65,7 +68,7 @@ def publish_static_site(
         staging.replace(destination)
 
     if instruction_language.strip().lower() == "en":
-        shutil.copy2(root_entry, dist_root / "index.html")
+        shutil.copy2(root_entry, site_root / "index.html")
         published_files += 1
 
     return published_files

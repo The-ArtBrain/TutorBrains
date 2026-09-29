@@ -68,7 +68,7 @@ class PageLocalizationTests(unittest.TestCase):
             prepared_html_root=work / "html",
             instruction_language=language,
         )
-        return self.app / "dist" / language
+        return self.app / "dist" / "telugu" / language
 
     def test_all_pages_generate_in_both_languages_with_valid_links_and_semantics(self):
         expected_titles = {
@@ -79,7 +79,7 @@ class PageLocalizationTests(unittest.TestCase):
         for language in ("en", "hi"):
             self.build_language(language)
         for language in ("en", "hi"):
-            pages = self.app / "dist" / language
+            pages = self.app / "dist" / "telugu" / language
             self.assertEqual(len(list(pages.glob("*.html"))), 5)
             self.assertFalse((pages / "chapter.html").exists())
             self.assertFalse((pages / "lesson.html").exists())
@@ -150,7 +150,7 @@ class PageLocalizationTests(unittest.TestCase):
                 html = page.read_text()
                 self.assertEqual(html.count('data-shared-menu="yes"'), 1)
                 self.assertNotIn("#include file=", html)
-        self.assertFalse(list((self.app / "dist/en").rglob("*.inc")))
+        self.assertFalse(list((self.app / "dist/telugu/en").rglob("*.inc")))
 
     def test_publication_flattens_localized_pages_and_rewrites_paths(self):
         english_pages = self.build_language("en")
@@ -175,7 +175,7 @@ class PageLocalizationTests(unittest.TestCase):
         self.assertNotIn('../../css/', english_index)
         self.assertNotIn('../../assets/', english_index)
 
-        root_entry = (self.app / "dist/index.html").read_text(encoding="utf-8")
+        root_entry = (self.app / "dist/telugu/index.html").read_text(encoding="utf-8")
         self.assertIn('url=en/index.html', root_entry)
         self.assertIn('href="en/index.html"', root_entry)
 

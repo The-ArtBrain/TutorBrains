@@ -31,6 +31,7 @@ def parse_arguments(arguments: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--instruction-language", default="en")
     parser.add_argument("--course-name", default="telugu")
     parser.add_argument("--course-content-folder", default="practical telugu")
+    parser.add_argument("--distribution-root", default="telugu")
     return parser.parse_args(arguments)
 
 
@@ -86,6 +87,8 @@ def main(arguments: list[str] | None = None) -> None:
     if not course_root.is_dir():
         raise FileNotFoundError(f"Course content folder does not exist: {course_root}")
 
+    distribution_root = folder_slug(options.distribution_root)
+
     with tempfile.TemporaryDirectory(prefix=".build-", dir=learner_web_root) as temporary_directory:
         work_root = Path(temporary_directory)
         included_html_root = work_root / "included-html"
@@ -105,9 +108,10 @@ def main(arguments: list[str] | None = None) -> None:
             learner_web_root=learner_web_root,
             prepared_html_root=work_root / "html",
             instruction_language=options.instruction_language,
+            distribution_root=distribution_root,
         )
 
-    destination = learner_web_root / "dist" / options.instruction_language.strip().lower()
+    destination = learner_web_root / "dist" / distribution_root / options.instruction_language.strip().lower()
     print(
         f"Published {published_files} files to {destination} "
         f"for {options.course_name!r}, {options.course_content_folder!r}, "

@@ -8,7 +8,7 @@
 
 ## 1. Purpose
 
-This specification defines how to publish the generated learner course files from `apps/learner-web/dist/` on Cloudflare Pages. It also defines language routing, custom-domain and Domain Name System (DNS) setup, release verification, rollback, and the operational boundary between Cloudflare Pages and a future identity provider.
+This specification defines how to publish one generated learner course root from `apps/learner-web/dist/<root>/` on Cloudflare Pages. It also defines language routing, custom-domain and Domain Name System (DNS) setup, release verification, rollback, and the operational boundary between Cloudflare Pages and a future identity provider.
 
 This deployment is the independent Telugu Tutor course root. Its product name is **TeluguTutorBrains**; its Cloudflare project identifier is the required lowercase form `telugututorbrains`. Other independent courses must receive separate deployment roots and must not be added beneath this project's URL path. A course may initially reuse the shared learner-web implementation, but it becomes a separately owned application when its lifecycle or product requirements justify that boundary.
 
@@ -16,7 +16,7 @@ The first release is a public static course site. Authentication may identify a 
 
 ## 2. Goals
 
-- Publish only generated course output from `apps/learner-web/dist/`.
+- Publish only the selected generated course output from `apps/learner-web/dist/<root>/`.
 - Build English and Hindi instruction-language variants from source on every deployment.
 - Serve course HTML, Cascading Style Sheets (CSS), and images as static assets.
 - Use stable locale-prefixed URLs that can be cached, bookmarked, shared, and indexed.
@@ -43,7 +43,7 @@ If course content must later be restricted, protected content must not be publis
 ```mermaid
 flowchart LR
     Git["GitHub repository"] --> Build["Operator runs learner-web infra build"]
-    Build --> Dist["apps/learner-web/dist"]
+    Build --> Dist["apps/learner-web/dist/telugu"]
     Dist --> Upload["Wrangler Direct Upload"]
     Upload --> Pages["Cloudflare Pages"]
     Browser["Learner browser"] --> DNS["Custom domain DNS"]
@@ -53,7 +53,7 @@ flowchart LR
     Root --> Static
 ```
 
-The Pages project must publish `dist/` as its output directory. Source HTML, content files, build tools, tests, documentation, and repository metadata must not be exposed by the deployment.
+The Pages project must publish one `dist/<root>/` directory, defaulting to `dist/telugu/`. The parent `dist/` directory must not be uploaded because it may contain other independently deployable course roots. Source HTML, content files, build tools, tests, documentation, and repository metadata must not be exposed by the deployment.
 
 ## 5. Canonical URL design
 
@@ -127,7 +127,7 @@ The Cloudflare root Function continues to treat the cookie as untrusted input an
 
 ### 6.4 Function route isolation
 
-The published `dist/_routes.json` must restrict Pages Functions to the root route:
+The published `dist/<root>/_routes.json` must restrict Pages Functions to the root route:
 
 ```json
 {
@@ -156,10 +156,11 @@ apps/learner-web/
 │   ├── functions/        # Pages Functions
 │   └── policies/         # authoritative _headers, _redirects, and _routes.json
 └── dist/
-    ├── _headers          # generated/copied deployment headers
-    ├── _routes.json      # generated/copied function route selection
-    ├── en/
-    └── hi/
+    └── telugu/           # independently deployable root selected by --root
+        ├── _headers      # generated/copied deployment headers
+        ├── _routes.json  # generated/copied function route selection
+        ├── en/
+        └── hi/
 ```
 
 `dist/` remains generated and ignored by Git. Authoritative `_headers`, `_redirects`, and `_routes.json` files live under `infra/policies/`; the manual deployment entry point stages recognized policies into the complete output. Cloudflare JavaScript Functions live under `infra/functions/`. Wrangler runs from `infra/` so it can discover that Functions directory without publishing infrastructure source as a static asset.
@@ -205,16 +206,15 @@ Create one **Direct Upload** Pages project with these settings:
 | Production branch         | `main`                                              |
 | Git provider              | None                                                |
 | Cloudflare build command  | None; Cloudflare receives a prebuilt artifact       |
-| Uploaded static directory | `apps/learner-web/dist`                             |
+| Uploaded static directory | `apps/learner-web/dist/telugu`                      |
 | Deployment entry point    | `apps/learner-web/infra/deploy-cloudflare-pages.sh` |
 
 Create the project once with the current stable Wrangler tooling isolated in a repository-owned container:
 
 ```sh
 docker compose -f apps/learner-web/infra/compose.yaml build --pull wrangler
-docker compose -f apps/learner-web/infra/compose.yaml run --rm wrangler --version
-docker compose -f apps/learner-web/infra/compose.yaml run --rm wrangler \
-  pages project create telugututorbrains --production-branch main
+docker compose -f apps/learner-web/infra/compose.yaml run wrangler --version
+docker compose -f apps/learner-web/infra/compose.yaml run wrangler  pages project create telugututorbrains --production-branch main
 ```
 
 The image build resolves npm's `latest` distribution tag so an explicit rebuild selects the newest stable Wrangler release. The reported version and full test suite must be reviewed before deployment. The repository-owned image keeps Wrangler and its Node.js dependency tree outside the host environment. The repository is mounted read-only, container state is temporary, and only the Cloudflare account identifier and restricted API token are passed through. The deployment entry point requires the prebuilt `tutorbrains-wrangler:stable` image and does not download or refresh tooling during a release.
@@ -223,6 +223,8 @@ The project must not be connected to Cloudflare's native Git integration in this
 
 Cloudflare does not allow a Direct Upload project to be converted later to native Git integration. Future automation should therefore invoke Wrangler from a controlled continuous-integration workflow against this same project. Its deployment logic, Functions, and policies remain owned by `infra/`.
 
+Wrangler accepts `--production-branch` during project creation but does not currently expose a Pages project-update command. Changing the production branch of this Direct Upload project therefore requires the Cloudflare Pages Update Project API documented in `apps/learner-web/infra/README.md`. The value remains a Cloudflare deployment-classification label and does not create or validate a Git branch.
+
 No runtime secret is required for static hosting and locale routing. Deployment uses restricted `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` environment variables passed into the one-off container; these credentials must never enter Git.
 
 ## 10. Deployment workflow
@@ -230,7 +232,7 @@ No runtime secret is required for static hosting and locale routing. Deployment 
 ### 10.1 Preview deployment
 
 1. Commit the exact revision to be tested and ensure the worktree is clean.
-2. Run `./infra/deploy-cloudflare-pages.sh preview <branch-label>` from `apps/learner-web`.
+2. Run `./infra/deploy-cloudflare-pages.sh preview <git-branch>` from `apps/learner-web`. The supplied name must match the currently checked-out Git branch.
 3. The script runs unit tests, browser tests, a clean two-language build, policy staging, and an explicit Wrangler upload.
 4. Run the verification checklist in section 14 against the returned preview hostname.
 5. Confirm that only `/` appears as a Function invocation.
@@ -238,11 +240,13 @@ No runtime secret is required for static hosting and locale routing. Deployment 
 
 Preview hostnames should not be added to search indexes. If Cloudflare does not protect or mark preview deployments automatically, add an appropriate preview-only `X-Robots-Tag: noindex` response policy.
 
+Uncommitted work may be tested only through `./infra/deploy-cloudflare-pages.sh preview-uncommitted <preview-label>`. This command runs the same verification and build stages, marks the uploaded deployment as dirty, and rejects the production label `main`. It must not be used as release evidence or promoted as a production artifact.
+
 ### 10.2 Production deployment
 
 1. Review and commit the exact release revision; the worktree must be clean.
 2. Run `./infra/deploy-cloudflare-pages.sh build` and inspect the generated `dist/` when a separate preflight is desired.
-3. Run `./infra/deploy-cloudflare-pages.sh production --confirm learntelugu.brainos.in`.
+3. Run `./infra/deploy-cloudflare-pages.sh production --confirm learntelugu.brainos.in`. This uses `main` by default. To use another Cloudflare-configured production branch, add `--branch <git-branch>`; the supplied name must match the currently checked-out Git branch.
 4. The script reruns all verification, rebuilds the artifact, and explicitly uploads it to the Pages production branch.
 5. Smoke-test the generated `pages.dev` hostname.
 6. Attach or validate the custom domain.
@@ -271,13 +275,13 @@ The recommended first setup changes only one DNS record at the current DNS provi
 
 Public DNS was inspected on 25 September 2026 and returned:
 
-| Name | Type | Current value |
-|---|---|---|
-| `brainos.in` | `NS` | `ns45.domaincontrol.com`, `ns46.domaincontrol.com` |
-| `brainos.in` | `A` | `76.223.105.230`, `13.248.243.5` |
-| `www.brainos.in` | `CNAME` | `brainos.in` |
-| `learntelugu.brainos.in` | — | No record observed |
-| `brainos.in` | `DS` | No record observed |
+| Name                     | Type    | Current value                                      |
+| ------------------------ | ------- | -------------------------------------------------- |
+| `brainos.in`             | `NS`    | `ns45.domaincontrol.com`, `ns46.domaincontrol.com` |
+| `brainos.in`             | `A`     | `76.223.105.230`, `13.248.243.5`                   |
+| `www.brainos.in`         | `CNAME` | `brainos.in`                                       |
+| `learntelugu.brainos.in` | —       | No record observed                                 |
+| `brainos.in`             | `DS`    | No record observed                                 |
 
 This public check cannot enumerate every record in the GoDaddy zone. Before any nameserver migration, export or manually record the complete zone from the GoDaddy DNS dashboard, including mail, verification, service, and inactive records. Recheck all public values immediately before making changes.
 
@@ -409,9 +413,9 @@ The assigned `pages.dev` hostname must not silently become an unrestricted produ
 
 - [ ] Unit tests for the build pipeline pass.
 - [ ] End-to-end learner-web tests pass.
-- [ ] The manual infrastructure build generates both `dist/en/` and `dist/hi/` before upload.
+- [ ] The manual infrastructure build generates both `dist/telugu/en/` and `dist/telugu/hi/` before upload.
 - [ ] No unresolved `[#placeholder]` or `<!--#include` marker exists in published HTML.
-- [ ] `dist/_routes.json` and `dist/_headers` exist.
+- [ ] `dist/telugu/_routes.json` and `dist/telugu/_headers` exist.
 - [ ] Repository source, YAML content, build scripts, and tests are not served.
 
 ### 14.2 Routing and cookies

@@ -9,7 +9,7 @@ apps/learner-web/build-tools/.venv/bin/python -m pip install --group apps/learne
 
 Dependencies are declared in the `build` dependency group in `pyproject.toml`. The install command requires a pip version supporting `--group`; upgrade pip in the virtual environment if that option is unavailable.
 
-The commands below use the environment's Python directly (on Windows, use `.venv/Scripts/python.exe`). PyYAML is a build dependency; no Python or YAML parser ships to the browser. The default build uses English instructions, the Telugu course, and the `practical-telugu` course-content folder:
+The commands below use the environment's Python directly (on Windows, use `.venv/Scripts/python.exe`). PyYAML is a build dependency; no Python or YAML parser ships to the browser. The default build uses English instructions, the Telugu course, the `practical-telugu` course-content folder, and the `telugu` distribution root:
 
 ```sh
 apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py
@@ -18,7 +18,14 @@ apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build
 All parameters can be supplied explicitly:
 
 ```sh
-apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi --course-name telugu --course-content-folder "practical telugu"
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --instruction-language hi --course-name telugu --course-content-folder "practical telugu" --distribution-root telugu
+```
+
+For a manual build without creating the project-local virtual environment, let `uv` install and run the declared build dependencies:
+
+```sh
+uv run --project apps/learner-web/build-tools --group build python apps/learner-web/build-tools/build.py
+uv run --project apps/learner-web/build-tools --group build python apps/learner-web/build-tools/build.py --instruction-language hi --course-name telugu --course-content-folder "practical telugu" --distribution-root telugu
 ```
 
 The build has four stages:
@@ -26,7 +33,7 @@ The build has four stages:
 1. `include_html_files` copies HTML into a temporary workspace and replaces file include markers with the named files.
 2. `merge_html_and_instructions` merges the selected course instruction files into lessons and fills every other page from its top-level YAML files.
 3. `generate_course_content` inserts canonical course values, verifies that no placeholders remain in the selected lesson HTML, and removes review-only placeholder attributes and classes.
-4. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<instruction-language>/`.
+4. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<distribution-root>/<instruction-language>/`.
 
 Run the unit tests from the repository root:
 
@@ -44,9 +51,10 @@ Application pages have one HTML source each. `chapter.html` and `lesson.html` ar
 
 ```text
 dist/
-├── index.html           # default English entry, usable from file or a static server root
-├── en/                  # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
-└── hi/                  # the same page names
+└── telugu/              # default distribution root; upload this folder, not dist/
+    ├── index.html       # default English entry, usable from file or a static server root
+    ├── en/              # index, chapter-01, chapter-01-lesson-01, sign-in, patterns
+    └── hi/              # the same page names
 ```
 
 Building one language replaces only that language directory and preserves other generated languages. The entire `dist/` directory is generated output and is not committed.
@@ -55,13 +63,13 @@ Building one language replaces only that language directory and preserves other 
 
 | HTML source | Localized instructions | Optional fixed content | Generated page |
 | --- | --- | --- | --- |
-| `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<language>/index.html` |
-| `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<language>/<chapter>.html` |
-| `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<language>/<chapter>-<lesson>.html` |
-| `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<language>/sign-in.html` |
-| `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<language>/patterns.html` |
+| `html/pages/index.html` | `content/index.en.yml`, `content/index.hi.yml` | `content/index.yml` | `dist/<root>/<language>/index.html` |
+| `html/pages/chapter.html` | `content/subjects/languages/te/courses/practical-telugu/<chapter>/chapter.<language>.yml` | `<chapter>/chapter.yml` | `dist/<root>/<language>/<chapter>.html` |
+| `html/pages/lesson.html` | `<chapter>/<lesson>/lesson.<language>.txt` and course `cards.<language>.txt` | `<chapter>/<lesson>/lesson.txt` | `dist/<root>/<language>/<chapter>-<lesson>.html` |
+| `html/pages/sign-in.html` | `content/sign-in.<language>.yml` | — | `dist/<root>/<language>/sign-in.html` |
+| `html/pages/patterns.html` | `content/patterns.<language>.yml` | `content/patterns.yml` | `dist/<root>/<language>/patterns.html` |
 
-Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. Application page filename stems must match their top-level YAML files. Course content is selected with `--course-name` and `--course-content-folder`; chapter and lesson folders below that course determine the generated page names and values. For example, `chapter-01/lesson-01/` becomes `chapter-01-lesson-01.html`. The generic `chapter-` and `lesson-` placeholder prefixes stay the same for every instance. This convention is build input, not a final educational content schema.
+Here `content/` is the repository's top-level content folder; HTML and output paths are relative to `apps/learner-web/`. Application page filename stems must match their top-level YAML files. Course content is selected with `--course-name` and `--course-content-folder`; chapter and lesson folders below that course determine the generated page names and values. `--distribution-root` names the independently deployable folder directly below `dist/` and defaults to `telugu`. For example, `chapter-01/lesson-01/` becomes `dist/telugu/<language>/chapter-01-lesson-01.html`. The generic `chapter-` and `lesson-` placeholder prefixes stay the same for every instance. This convention is build input, not a final educational content schema.
 
 Use a flat YAML mapping with semantic keys prefixed by the page name:
 

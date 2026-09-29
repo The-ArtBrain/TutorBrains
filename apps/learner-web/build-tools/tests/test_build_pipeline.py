@@ -27,6 +27,7 @@ class BuildParameterTests(unittest.TestCase):
         self.assertEqual(options.instruction_language, "en")
         self.assertEqual(options.course_name, "telugu")
         self.assertEqual(options.course_content_folder, "practical telugu")
+        self.assertEqual(options.distribution_root, "telugu")
         self.assertEqual(options.command, "build")
 
     def test_clean_command_is_selected_explicitly(self) -> None:
@@ -57,12 +58,15 @@ class BuildParameterTests(unittest.TestCase):
                 "telugu",
                 "--course-content-folder",
                 "another course",
+                "--distribution-root",
+                "another-root",
             ]
         )
 
         self.assertEqual(options.instruction_language, "hi")
         self.assertEqual(options.course_name, "telugu")
         self.assertEqual(options.course_content_folder, "another course")
+        self.assertEqual(options.distribution_root, "another-root")
 
 
 class ContentFileTests(unittest.TestCase):
@@ -195,7 +199,7 @@ class BuildStageTests(unittest.TestCase):
 
     def test_clean_removes_only_generated_distribution(self) -> None:
         source_file = self.pages_root / "lesson.html"
-        generated_file = self.learner_web_root / "dist/en/chapter-01-lesson-01.html"
+        generated_file = self.learner_web_root / "dist/telugu/en/chapter-01-lesson-01.html"
         generated_file.parent.mkdir(parents=True)
         generated_file.write_text("generated", encoding="utf-8")
 
@@ -229,8 +233,8 @@ class BuildStageTests(unittest.TestCase):
         self.assertNotIn("[#", final_html)
         self.assertIn('class="heading"', final_html)
 
-        (self.learner_web_root / "dist/en").mkdir(parents=True)
-        (self.learner_web_root / "dist/en/stale.txt").write_text("stale", encoding="utf-8")
+        (self.learner_web_root / "dist/telugu/en").mkdir(parents=True)
+        (self.learner_web_root / "dist/telugu/en/stale.txt").write_text("stale", encoding="utf-8")
         published_files = publish_static_site(
             learner_web_root=self.learner_web_root,
             prepared_html_root=work_root / "html",
@@ -238,16 +242,16 @@ class BuildStageTests(unittest.TestCase):
         )
 
         self.assertEqual(published_files, 5)
-        self.assertTrue((self.learner_web_root / "dist/index.html").is_file())
+        self.assertTrue((self.learner_web_root / "dist/telugu/index.html").is_file())
         self.assertEqual(
-            (self.learner_web_root / "dist/en/chapter-01-lesson-01.html").read_text(encoding="utf-8"),
+            (self.learner_web_root / "dist/telugu/en/chapter-01-lesson-01.html").read_text(encoding="utf-8"),
             final_html,
         )
-        self.assertIn("Greeting chapter", (self.learner_web_root / "dist/en/chapter-01.html").read_text())
-        self.assertTrue((self.learner_web_root / "dist/en/css/site.css").is_file())
-        self.assertTrue((self.learner_web_root / "dist/en/assets/icon.svg").is_file())
-        self.assertFalse((self.learner_web_root / "dist/en/assets/.DS_Store").exists())
-        self.assertFalse((self.learner_web_root / "dist/en/stale.txt").exists())
+        self.assertIn("Greeting chapter", (self.learner_web_root / "dist/telugu/en/chapter-01.html").read_text())
+        self.assertTrue((self.learner_web_root / "dist/telugu/en/css/site.css").is_file())
+        self.assertTrue((self.learner_web_root / "dist/telugu/en/assets/icon.svg").is_file())
+        self.assertFalse((self.learner_web_root / "dist/telugu/en/assets/.DS_Store").exists())
+        self.assertFalse((self.learner_web_root / "dist/telugu/en/stale.txt").exists())
 
     def test_hindi_build_uses_same_lesson_template_and_preserves_english_output(self) -> None:
         (self.course_root / "cards.hi.txt").write_text(
@@ -261,7 +265,7 @@ class BuildStageTests(unittest.TestCase):
         )
         (self.lesson_root / "overview.hi.yml").write_text('lesson-title: "अभिवादन पाठ"\n', encoding="utf-8")
         (self.lesson_root.parent / "chapter.hi.yml").write_text('chapter-heading: "अभिवादन अध्याय"\n', encoding="utf-8")
-        english_output = self.learner_web_root / "dist/en/keep.txt"
+        english_output = self.learner_web_root / "dist/telugu/en/keep.txt"
         english_output.parent.mkdir(parents=True)
         english_output.write_text("keep", encoding="utf-8")
 
@@ -280,7 +284,7 @@ class BuildStageTests(unittest.TestCase):
             instruction_language="hi",
         )
 
-        hindi_html = (self.learner_web_root / "dist/hi/chapter-01-lesson-01.html").read_text(
+        hindi_html = (self.learner_web_root / "dist/telugu/hi/chapter-01-lesson-01.html").read_text(
             encoding="utf-8"
         )
         self.assertIn("अभिवादन पाठ", hindi_html)
@@ -294,7 +298,7 @@ class BuildStageTests(unittest.TestCase):
         self.assertNotIn("lesson-01-hi.html", hindi_html)
         self.assertTrue(english_output.is_file())
         self.assertFalse((self.pages_root / "lesson-01-hi.html").exists())
-        self.assertIn("अभिवादन अध्याय", (self.learner_web_root / "dist/hi/chapter-01.html").read_text())
+        self.assertIn("अभिवादन अध्याय", (self.learner_web_root / "dist/telugu/hi/chapter-01.html").read_text())
 
     def test_alternate_metadata_matches_generated_documents(self) -> None:
         (self.course_root / "cards.hi.txt").write_text(

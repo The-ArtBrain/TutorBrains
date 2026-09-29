@@ -4,7 +4,7 @@ const { expect, test } = require("@playwright/test");
 
 const repositoryRoot = path.resolve(__dirname, "../../../..");
 const infraRoot = path.join(repositoryRoot, "apps/learner-web/infra");
-const distRoot = path.join(repositoryRoot, "apps/learner-web/dist");
+const distRoot = path.join(repositoryRoot, "apps/learner-web/dist/telugu");
 const preferenceScriptPath = path.join(
   repositoryRoot,
   "apps/learner-web/assets/js/instruction-language-preference.js",

@@ -5,6 +5,7 @@
 
 # Build outputs
 dist/
+apps/learner-web/infra/.wrangler/
 build/
 out/
 target/

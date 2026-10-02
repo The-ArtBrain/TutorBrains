@@ -28,14 +28,44 @@
       <h1>[#sign-in-sign-in-link]</h1>
       <p class="lede">[#sign-in-introduction]</p>
 
-      <section class="surface form-card" aria-labelledby="identity-options-title">
+      <section class="surface form-card form-stack" aria-labelledby="identity-options-title">
         <h2 id="identity-options-title">[#sign-in-options-title]</h2>
-        <ul class="provider-list">
-          <li><button type="button" disabled aria-describedby="identity-help">[#sign-in-provider-label]</button></li>
-          <li><button type="button" disabled aria-describedby="identity-help">[#sign-in-email-label]</button></li>
-          <li><a class="button button--primary" href="chapter.html">[#sign-in-guest-label]</a></li>
-        </ul>
         <p id="identity-help" class="field-help">[#sign-in-identity-help]</p>
+
+        <ul class="provider-list" aria-describedby="identity-help">
+          <li><button type="button" disabled data-auth-provider="google">[#sign-in-google-label]</button></li>
+          <li><button type="button" disabled data-auth-provider="apple">[#sign-in-apple-label]</button></li>
+        </ul>
+
+        <form class="form-stack" aria-labelledby="phone-auth-title">
+          <h3 id="phone-auth-title">[#sign-in-phone-heading]</h3>
+          <div>
+            <label for="phone-number">[#sign-in-phone-label]</label>
+            <input id="phone-number" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="[#sign-in-phone-placeholder]" aria-describedby="phone-help" disabled>
+          </div>
+          <div class="setup-actions">
+            <button type="submit" disabled>[#sign-in-send-code-label]</button>
+          </div>
+          <p id="phone-help" class="field-help">[#sign-in-phone-help]</p>
+        </form>
+
+        <details class="disclosure">
+          <summary>[#sign-in-more-label]</summary>
+          <div class="panel form-stack">
+            <ul class="provider-list" aria-describedby="identity-help">
+              <li><button type="button" disabled data-auth-provider="facebook">[#sign-in-facebook-label]</button></li>
+              <li><button type="button" disabled data-auth-provider="azure">[#sign-in-microsoft-label]</button></li>
+              <li><button type="button" disabled data-auth-provider="x">[#sign-in-x-label]</button></li>
+              <li><button type="button" disabled data-auth-provider="linkedin_oidc">[#sign-in-linkedin-label]</button></li>
+            </ul>
+            <p class="field-help">[#sign-in-unavailable-providers]</p>
+          </div>
+        </details>
+
+        <p class="field-help">[#sign-in-or-label]</p>
+        <div class="setup-actions">
+          <a class="button button--primary" href="chapter.html">[#sign-in-guest-label]</a>
+        </div>
       </section>
 
       <aside class="prototype-note" aria-label="[#sign-in-privacy-label]">

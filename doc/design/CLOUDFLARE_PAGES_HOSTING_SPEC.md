@@ -396,10 +396,10 @@ DNS rollback does not replace a Pages deployment rollback. Choose the smallest r
 
 ## 13. Identity-provider preparation
 
-After the production custom domain is active, use only that canonical origin in future identity configuration:
+After the production custom domain is active, use it as the explicit Telugu Tutor return origin for the shared identity configuration described in [Supabase authentication design and URL setup](SUPABASE_AUTH_DESIGN.md):
 
-- register the production origin with the identity provider;
-- register an explicit authentication callback path;
+- add the exact `https://learntelugu.brainos.in/<language>/auth-callback.html` return URLs to the Supabase allowlist;
+- register the shared `https://auth.brainos.com/auth/v1/callback` with each identity provider after the paid Supabase custom domain is activated;
 - allow only required preview or local-development callbacks;
 - keep provider client secrets out of static files and Git;
 - expose only browser-safe publishable configuration in the generated site; and
@@ -411,12 +411,12 @@ The assigned `pages.dev` hostname must not silently become an unrestricted produ
 
 ### 14.1 Build and publication
 
-- [ ] Unit tests for the build pipeline pass.
-- [ ] End-to-end learner-web tests pass.
-- [ ] The manual infrastructure build generates both `dist/telugu/en/` and `dist/telugu/hi/` before upload.
+- [x] Unit tests for the build pipeline pass.
+- [x] End-to-end learner-web tests pass.
+- [x] The manual infrastructure build generates both `dist/telugu/en/` and `dist/telugu/hi/` before upload.
 - [ ] No unresolved `[#placeholder]` or `<!--#include` marker exists in published HTML.
-- [ ] `dist/telugu/_routes.json` and `dist/telugu/_headers` exist.
-- [ ] Repository source, YAML content, build scripts, and tests are not served.
+- [x] `dist/telugu/_routes.json` and `dist/telugu/_headers` exist.
+- [x] Repository source, YAML content, build scripts, and tests are not served.
 
 ### 14.2 Routing and cookies
 

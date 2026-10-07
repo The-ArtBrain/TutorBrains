@@ -23,7 +23,21 @@
       </div>
     </header>
 
-    <main id="main-content" class="page-shell page-shell--narrow">
+    <main id="main-content" class="page-shell page-shell--narrow"
+      data-auth-cancelled="[#sign-in-auth-cancelled]"
+      data-auth-popup-blocked="[#sign-in-auth-popup-blocked]"
+      data-auth-existing-account="[#sign-in-auth-existing-account]"
+      data-auth-credential-in-use="[#sign-in-auth-credential-in-use]"
+      data-auth-invalid-phone="[#sign-in-auth-invalid-phone]"
+      data-auth-invalid-code="[#sign-in-auth-invalid-code]"
+      data-auth-try-later="[#sign-in-auth-try-later]"
+      data-auth-provider-disabled="[#sign-in-auth-provider-disabled]"
+      data-auth-network-error="[#sign-in-auth-network-error]"
+      data-auth-generic-error="[#sign-in-auth-generic-error]"
+      data-auth-code-sent="[#sign-in-auth-code-sent]"
+      data-auth-signed-in="[#sign-in-auth-signed-in]"
+      data-auth-name-saved="[#sign-in-auth-name-saved]"
+      data-auth-signed-out="[#sign-in-auth-signed-out]">
       <p class="eyebrow">[#sign-in-eyebrow]</p>
       <h1>[#sign-in-sign-in-link]</h1>
       <p class="lede">[#sign-in-introduction]</p>
@@ -37,7 +51,7 @@
           <li><button type="button" disabled data-auth-provider="apple">[#sign-in-apple-label]</button></li>
         </ul>
 
-        <form class="form-stack" aria-labelledby="phone-auth-title">
+        <form class="form-stack" aria-labelledby="phone-auth-title" data-auth-phone-form>
           <h3 id="phone-auth-title">[#sign-in-phone-heading]</h3>
           <div>
             <label for="phone-number">[#sign-in-phone-label]</label>
@@ -49,18 +63,38 @@
           <p id="phone-help" class="field-help">[#sign-in-phone-help]</p>
         </form>
 
+        <form class="form-stack" data-auth-code-form hidden>
+          <div>
+            <label for="phone-code">[#sign-in-code-label]</label>
+            <input id="phone-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+          </div>
+          <div class="setup-actions"><button type="submit">[#sign-in-verify-code-label]</button></div>
+        </form>
+        <div data-auth-recaptcha></div>
+
         <details class="disclosure">
           <summary>[#sign-in-more-label]</summary>
           <div class="panel form-stack">
             <ul class="provider-list" aria-describedby="identity-help">
               <li><button type="button" disabled data-auth-provider="facebook">[#sign-in-facebook-label]</button></li>
-              <li><button type="button" disabled data-auth-provider="azure">[#sign-in-microsoft-label]</button></li>
+              <li><button type="button" disabled data-auth-provider="microsoft">[#sign-in-microsoft-label]</button></li>
               <li><button type="button" disabled data-auth-provider="x">[#sign-in-x-label]</button></li>
-              <li><button type="button" disabled data-auth-provider="linkedin_oidc">[#sign-in-linkedin-label]</button></li>
+              <li><button type="button" disabled data-auth-provider="linkedin">[#sign-in-linkedin-label]</button></li>
             </ul>
             <p class="field-help">[#sign-in-unavailable-providers]</p>
           </div>
         </details>
+
+        <p class="field-help" role="status" aria-live="polite" data-auth-status></p>
+        <form id="edit-name" class="form-stack" data-auth-name-form hidden>
+          <div>
+            <label for="learner-name">[#sign-in-name-label]</label>
+            <input id="learner-name" type="text" autocomplete="name" maxlength="80" required aria-describedby="learner-name-help">
+            <p id="learner-name-help" class="field-help">[#sign-in-name-help]</p>
+          </div>
+          <div class="setup-actions"><button type="submit">[#sign-in-save-name-label]</button></div>
+        </form>
+        <button class="button button--quiet" type="button" data-auth-edit-name hidden>[#sign-in-edit-name-label]</button>
 
         <p class="field-help">[#sign-in-or-label]</p>
         <div class="setup-actions">

@@ -23,3 +23,5 @@ patterns-document-description: "Semantic HTML Card patterns for TutorBrains lear
 account-menu-label: "Account menu"
 account-preferences-link: "Preferences"
 account-sign-in-link: "Sign in"
+account-sign-out-link: "Sign out"
+account-edit-name-link: "Edit display name"

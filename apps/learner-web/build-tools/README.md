@@ -35,6 +35,18 @@ The build has four stages:
 3. `generate_course_content` inserts canonical course values, verifies that no placeholders remain in the selected lesson HTML, and removes review-only placeholder attributes and classes.
 4. `publish_static_site` rejects unresolved placeholders in any page, then copies the prepared HTML, CSS, and assets into `apps/learner-web/dist/<distribution-root>/<instruction-language>/`.
 
+## Firebase authentication bundle
+
+Authentication source and its example course config remain in [`../auth/`](../auth/). Only npm dependencies and build machinery live in [`auth-build/`](auth-build/). From the repository root, run `npm ci --prefix apps/learner-web/build-tools/auth-build` once, then `npm run clean --prefix apps/learner-web/build-tools/auth-build` followed by `npm run build --prefix apps/learner-web/build-tools/auth-build` after changing authentication source. The clean step removes only `apps/learner-web/dist/auth.js`; npm writes the fresh bundle directly to that learner-web `dist/` directory. When a Firebase config is supplied, the regular static build copies the bundle into the generated course distribution at `apps/learner-web/dist/<distribution-root>/<instruction-language>/assets/js/firebase-auth.js` and adds the config and script reference to its HTML pages. The generic `dist/auth.js` is an intermediate artifact, not an upload root.
+
+Authentication is disabled unless an exact course config is passed explicitly with `--firebase-config`. Start from [`firebase-config.example.json`](../auth/firebase-config.example.json), save the filled config as an untracked local file, then run the command from the repository root:
+
+```sh
+apps/learner-web/build-tools/.venv/bin/python apps/learner-web/build-tools/build.py --firebase-config apps/learner-web/auth/firebase-config.telugu.local.json
+```
+
+The config's `courseOrigin` must be the course's exact HTTPS subdomain of `brainos.com`; the generated build rejects placeholder values and only accepts `auth.brainos.com` as the Firebase `authDomain`. Make a separate local config and build for every course origin. Never add provider secrets, service-account credentials, or the local config file to a published distribution.
+
 Run the unit tests from the repository root:
 
 ```sh
@@ -57,7 +69,7 @@ dist/
     └── hi/              # the same page names
 ```
 
-Building one language replaces only that language directory and preserves other generated languages. The entire `dist/` directory is generated output and is not committed.
+Building one language replaces only that language directory and preserves other generated languages. The shared npm auth artifact is at `dist/auth.js`; `build.py clean` preserves it while clearing generated course outputs so the Docker bind mount remains attached. All generated outputs are ignored and are not committed.
 
 ## Page and content naming
 

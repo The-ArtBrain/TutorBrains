@@ -30,6 +30,8 @@ index-document-description: "Static semantic HTML review of the Telugu Tutor lea
 account-menu-label: "Account menu"
 account-preferences-link: "Preferences"
 account-sign-in-link: "Sign in"
+account-sign-out-link: "Sign out"
+account-edit-name-link: "Edit display name"
 index-language-title: "Language"
 index-instruction-language-label: "Instruction language"
 index-instruction-language-help: "Used for instructions, meanings, feedback, and transliteration. Canonical Telugu and learning progress do not change."

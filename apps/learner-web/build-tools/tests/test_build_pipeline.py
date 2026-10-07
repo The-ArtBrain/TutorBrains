@@ -200,15 +200,20 @@ class BuildStageTests(unittest.TestCase):
     def test_clean_removes_only_generated_distribution(self) -> None:
         source_file = self.pages_root / "lesson.html"
         generated_file = self.learner_web_root / "dist/telugu/en/chapter-01-lesson-01.html"
+        auth_bundle = self.learner_web_root / "dist/auth.js"
         generated_file.parent.mkdir(parents=True)
         generated_file.write_text("generated", encoding="utf-8")
+        auth_bundle.write_text("shared bundle", encoding="utf-8")
 
         removed = build.clean_distribution(learner_web_root=self.learner_web_root)
 
         self.assertTrue(removed)
-        self.assertFalse((self.learner_web_root / "dist").exists())
+        self.assertTrue((self.learner_web_root / "dist").is_dir())
+        self.assertTrue(auth_bundle.is_file())
+        self.assertFalse(generated_file.exists())
         self.assertTrue(source_file.is_file())
-        self.assertFalse(build.clean_distribution(learner_web_root=self.learner_web_root))
+        self.assertTrue(build.clean_distribution(learner_web_root=self.learner_web_root))
+        self.assertTrue(auth_bundle.is_file())
 
     def test_three_stages_merge_generate_and_publish(self) -> None:
         work_root = self.root / "work"

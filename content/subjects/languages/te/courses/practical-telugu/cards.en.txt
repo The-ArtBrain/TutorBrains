@@ -69,3 +69,9 @@ Preferences
 
 [account-sign-in-link]
 Sign in
+
+[account-sign-out-link]
+Sign out
+
+[account-edit-name-link]
+Edit display name

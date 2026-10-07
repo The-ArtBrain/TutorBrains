@@ -1,5 +1,7 @@
 # Supabase authentication design and URL setup
 
+> **Superseded for implementation on 3 October 2026:** Firebase is now the selected authentication provider. Use [Firebase Authentication design and setup](FIREBASE_AUTH_DESIGN.md) for the current setup. The architecture below is retained as the earlier Supabase proposal and comparison reference.
+
 **Status:** Proposed implementation design  
 **Applies to:** every TutorBrains course website, Android WebView, and iOS WKWebView  
 **Backend boundary:** Supabase Auth only; no TutorBrains authentication server
@@ -41,7 +43,29 @@ flowchart LR
 
 Reddit and Instagram cannot honestly be enabled under the current “Supabase or cookies, no own backend” constraint. Keep them out of active controls. Revisit only if Supabase adds them, or if the architecture later permits a managed identity broker or a trusted backend.
 
-### 2.1 Email identity and duplicate prevention
+### 2.1 Firebase versus Supabase cost and capability trade-off
+
+The following comparison was verified against the vendors' published documentation on 3 October 2026. It is decision support rather than a change to the Supabase architecture proposed by this document. Recheck pricing and provider terms immediately before implementation.
+
+| Consideration | Firebase Spark (free) | Firebase Blaze (minimum paid) | Supabase Free | Supabase Pro (minimum paid) |
+|---|---|---|---|---|
+| Base platform charge | No charge and no payment method required | No fixed Firebase plan charge; eligible usage is billed as consumed | No charge | $25 per organization per month; project compute and add-ons can increase the invoice |
+| Standard authentication allowance | Basic Firebase Authentication offers most email and social authentication without a monthly-active-user charge; normal service limits and abuse controls still apply | Same basic authentication allowance unless the project is upgraded to Identity Platform | 50,000 monthly active users (MAU) | 100,000 MAU included, then $0.00325 for each additional MAU |
+| Optional enterprise identity tier | If upgraded to Firebase Authentication with Identity Platform, Spark is limited to 3,000 daily active users for email, social, anonymous, and custom authentication, and 2 daily active users for Security Assertion Markup Language (SAML) or OpenID Connect (OIDC) | Identity Platform includes 50,000 standard MAU and 50 SAML/OIDC MAU; excess standard usage is approximately $0.0025-$0.0055 per MAU and excess SAML/OIDC usage is $0.015 per MAU | Single sign-on is unavailable | 50 single-sign-on MAU included, then $0.015 per MAU |
+| Supported requested social providers | Google, Apple, Facebook, Microsoft, X, and LinkedIn are supported provider configurations | Same | Google, Apple, Facebook, Microsoft/Azure, X, and LinkedIn OIDC | Same, plus custom OAuth/OIDC provider support |
+| Reddit and Instagram | Neither is a standard built-in sign-in provider; enabling either would require a separately supported identity broker or custom trusted integration | Same | Neither is a standard built-in provider | Custom OAuth/OIDC may broaden options, but Reddit and Instagram still require provider-specific feasibility and security review |
+| Phone OTP | Production SMS authentication is not available without billing | Billed per SMS or phone-number verification according to destination country | Supabase does not supply free SMS; configure Twilio, Vonage, or MessageBird and pay that provider | Same |
+| Vendor-supplied authentication email | Address verification: 1,000 emails per day; password reset: 150 per day; email-link sign-in: 5 per day | Address verification: 100,000 per day; password reset: 10,000 per day; email-link sign-in: 25,000 per day | Built-in sender is limited to 2 authentication emails per hour and is unsuitable for production launch volume | Use a production Simple Mail Transfer Protocol (SMTP) provider; its charges and limits are separate |
+| Custom authentication domain | A Firebase Hosting custom domain and Secure Sockets Layer (SSL) certificate have no separate charge within Hosting quotas; otherwise use `<project-id>.firebaseapp.com` | Same, subject to Hosting usage charges above its allowance | Supabase custom domains are unavailable on Free | Paid-plan add-on at $0.0137 per hour, approximately $10 per month for each project domain |
+| Inactive project behavior | Authentication is not routinely paused merely because the project is quiet | Not routinely paused | A low-activity project can be paused after a seven-day inactivity assessment and must be resumed | Paid projects are not automatically paused for inactivity |
+| User-data access | Firebase manages the authentication store; the client receives the user and token interfaces rather than direct database access to Auth tables | Same | Auth is backed by the project's PostgreSQL database and integrates directly with Row Level Security (RLS) | Same |
+| Data-region model | Firebase Authentication is a global service and does not provide per-user India, United States, or European Union/United Kingdom Auth placement | Same | Each project has one selected primary region | Same; strict three-region residency requires separate projects, routing, and identity reconciliation |
+| Web, Android, and iOS | Mature first-party client software development kits (SDKs), including web | Same | Web and mobile clients are supported through Supabase libraries and OAuth redirects | Same |
+| Operational fit for the current static design | Lowest initial cost and no database requirement; use the default Firebase domain first | Add billing only for phone OTP or other paid services | Fits the present Supabase design but has email-delivery and inactivity constraints | Removes inactivity risk and increases quotas, but the custom domain makes the practical starting platform cost about $35 per month before additional compute or usage |
+
+Decision update: use Firebase Authentication on Blaze, with `auth.brainos.com` as the Firebase Hosting auth domain, because production phone OTP is required. Standard social providers remain enabled according to provider setup; phone-only accounts are allowed, so an individual may have separate phone and social accounts until they explicitly link them. Upgrade to Identity Platform only to enable LinkedIn OIDC. This Firebase implementation and its manual setup are documented in [FIREBASE_AUTH_DESIGN.md](FIREBASE_AUTH_DESIGN.md). Supabase-specific architecture below is retained as the previous proposal. Neither provider supplies built-in Reddit or Instagram sign-in under the no-own-backend constraint.
+
+### 2.2 Email identity and duplicate prevention
 
 A verified email address is the canonical human-readable uniqueness key. Application records still reference the immutable Supabase `user.id`; never use an email address as a database foreign key because addresses can change.
 
@@ -207,3 +231,13 @@ The HTML must not branch on `android` or `ios`. Capability detection chooses a b
 - [User identities](https://supabase.com/docs/guides/auth/identities)
 - [Identity linking](https://supabase.com/docs/guides/auth/auth-identity-linking)
 - [Supabase JavaScript Auth client](https://supabase.com/docs/reference/javascript/auth)
+- [Supabase billing and included usage](https://supabase.com/docs/guides/platform/billing-on-supabase)
+- [Supabase monthly active users](https://supabase.com/docs/guides/platform/manage-your-usage/monthly-active-users)
+- [Supabase authentication rate limits](https://supabase.com/docs/guides/auth/rate-limits)
+- [Supabase Free project pausing](https://supabase.com/docs/guides/platform/free-project-pausing)
+- [Supabase custom-domain pricing](https://supabase.com/docs/guides/platform/manage-your-usage/custom-domains)
+- [Firebase pricing](https://firebase.google.com/pricing)
+- [Firebase pricing plans](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans)
+- [Firebase Authentication and Identity Platform pricing](https://firebase.google.com/docs/auth/)
+- [Firebase Authentication limits](https://firebase.google.com/docs/auth/limits)
+- [Firebase supported OAuth providers](https://firebase.google.com/docs/auth/configure-oauth-rest-api)

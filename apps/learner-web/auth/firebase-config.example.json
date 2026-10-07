@@ -1,0 +1,12 @@
+{
+  "courseId": "<stable-course-id>",
+  "courseOrigin": "https://<course-subdomain>.brainos.com",
+  "firebase": {
+    "apiKey": "<firebase-web-api-key>",
+    "authDomain": "auth.brainos.com",
+    "projectId": "<firebase-project-id>",
+    "appId": "<firebase-web-app-id>"
+  },
+  "enabledProviders": [],
+  "phoneEnabled": true
+}

@@ -23,3 +23,5 @@ patterns-document-description: "TutorBrains शिक्षार्थियो
 account-menu-label: "खाता मेनू"
 account-preferences-link: "प्राथमिकताएँ"
 account-sign-in-link: "साइन इन करें"
+account-sign-out-link: "साइन आउट करें"
+account-edit-name-link: "दिखाया जाने वाला नाम बदलें"

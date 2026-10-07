@@ -2,6 +2,7 @@
 """Build a localized static learner-web distribution."""
 
 import argparse
+import json
 from pathlib import Path
 import re
 import shutil
@@ -28,20 +29,40 @@ def folder_slug(value: str) -> str:
 def parse_arguments(arguments: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", nargs="?", choices=("build", "clean"), default="build")
+    parser.add_argument("--all", action="store_true", help="When cleaning, remove everything including auth.js.")
     parser.add_argument("--instruction-language", default="en")
     parser.add_argument("--course-name", default="telugu")
     parser.add_argument("--course-content-folder", default="practical telugu")
     parser.add_argument("--distribution-root", default="telugu")
+    parser.add_argument(
+        "--firebase-config",
+        type=Path,
+        help="Optional per-course Firebase web configuration JSON; enables authentication in the build.",
+    )
     return parser.parse_args(arguments)
 
 
-def clean_distribution(*, learner_web_root: Path) -> bool:
-    """Delete only the generated learner-web distribution directory."""
+def clean_distribution(*, learner_web_root: Path, all: bool = False) -> bool:
+    """Clear generated course outputs.
+
+    By default, preserves the shared auth bundle (auth.js).
+    Pass ``all=True`` to remove everything including auth.js.
+    """
 
     destination = learner_web_root / "dist"
     if not destination.exists():
         return False
-    shutil.rmtree(destination)
+
+    if all:
+        shutil.rmtree(destination)
+    else:
+        for path in destination.iterdir():
+            if path.name == "auth.js":
+                continue
+            if path.is_dir() and not path.is_symlink():
+                shutil.rmtree(path)
+            else:
+                path.unlink()
     return True
 
 
@@ -70,9 +91,12 @@ def main(arguments: list[str] | None = None) -> None:
     learner_web_root = Path(__file__).resolve().parents[1]
 
     if options.command == "clean":
-        removed = clean_distribution(learner_web_root=learner_web_root)
+        removed = clean_distribution(learner_web_root=learner_web_root, all=options.all)
         if removed:
-            print(f"Deleted {learner_web_root / 'dist'}")
+            if options.all:
+                print(f"Cleaned entire dist folder at {learner_web_root / 'dist'}")
+            else:
+                print(f"Cleaned generated outputs under {learner_web_root / 'dist'} (preserved auth.js)")
         else:
             print(f"Nothing to clean at {learner_web_root / 'dist'}")
         return
@@ -89,7 +113,9 @@ def main(arguments: list[str] | None = None) -> None:
 
     distribution_root = folder_slug(options.distribution_root)
 
-    with tempfile.TemporaryDirectory(prefix=".build-", dir=learner_web_root) as temporary_directory:
+    temporary_build_root = learner_web_root / "dist"
+    temporary_build_root.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".build-", dir=temporary_build_root) as temporary_directory:
         work_root = Path(temporary_directory)
         included_html_root = work_root / "included-html"
         include_html_files(
@@ -109,6 +135,7 @@ def main(arguments: list[str] | None = None) -> None:
             prepared_html_root=work_root / "html",
             instruction_language=options.instruction_language,
             distribution_root=distribution_root,
+            firebase_config_path=options.firebase_config,
         )
 
     destination = learner_web_root / "dist" / distribution_root / options.instruction_language.strip().lower()

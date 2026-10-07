@@ -69,3 +69,9 @@ hi-IN
 
 [account-sign-in-link]
 साइन इन करें
+
+[account-sign-out-link]
+साइन आउट करें
+
+[account-edit-name-link]
+दिखाया जाने वाला नाम बदलें

@@ -30,6 +30,8 @@ index-document-description: "तेलुगु ट्यूटर के शि
 account-menu-label: "खाता मेनू"
 account-preferences-link: "प्राथमिकताएँ"
 account-sign-in-link: "साइन इन करें"
+account-sign-out-link: "साइन आउट करें"
+account-edit-name-link: "दिखाया जाने वाला नाम बदलें"
 index-language-title: "भाषा"
 index-instruction-language-label: "निर्देशों की भाषा"
 index-instruction-language-help: "निर्देशों, अर्थों, प्रतिक्रिया और लिप्यंतरण के लिए उपयोग होती है। मूल तेलुगु और सीखने की प्रगति नहीं बदलती।"

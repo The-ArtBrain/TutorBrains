@@ -396,14 +396,14 @@ DNS rollback does not replace a Pages deployment rollback. Choose the smallest r
 
 ## 13. Identity-provider preparation
 
-After the production custom domain is active, use it as the explicit Telugu Tutor return origin for the shared identity configuration described in [Supabase authentication design and URL setup](SUPABASE_AUTH_DESIGN.md):
+After the production course subdomain is active, use it as the exact Telugu Tutor origin for the Firebase configuration described in [Firebase Authentication design and setup](FIREBASE_AUTH_DESIGN.md):
 
-- add the exact `https://learntelugu.brainos.in/<language>/auth-callback.html` return URLs to the Supabase allowlist;
-- register the shared `https://auth.brainos.com/auth/v1/callback` with each identity provider after the paid Supabase custom domain is activated;
+- add the exact course origin, such as `https://learntelugu.brainos.com`, to Firebase Authentication's authorized domains;
+- register the shared `https://auth.brainos.com/__/auth/handler` with each enabled OAuth provider after the Firebase Hosting custom domain is active;
 - allow only required preview or local-development callbacks;
 - keep provider client secrets out of static files and Git;
-- expose only browser-safe publishable configuration in the generated site; and
-- apply database row-level authorization independently of the client interface.
+- expose only browser-safe Firebase web configuration in the generated site; and
+- keep provider secrets in Firebase and provider consoles.
 
 The assigned `pages.dev` hostname must not silently become an unrestricted production OAuth redirect unless there is a documented need.
 

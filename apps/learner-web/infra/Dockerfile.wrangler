@@ -1,10 +1,54 @@
 FROM node:22-bookworm-slim
 
+COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+
 ARG WRANGLER_VERSION=latest
+ENV UV_PROJECT_ENVIRONMENT=/opt/brainos-build-venv
+ENV UV_PYTHON_INSTALL_DIR=/opt/brainos-uv/python
+ENV UV_PYTHON_PREFERENCE=only-managed
+ENV UV_PYTHON_DOWNLOADS=automatic
+ENV GIT_CONFIG_COUNT=1
+ENV GIT_CONFIG_KEY_0=safe.directory
+ENV GIT_CONFIG_VALUE_0=/workspace
+
+WORKDIR /opt/brainos-auth-build
+
+COPY apps/learner-web/build-tools/auth-build/package.json apps/learner-web/build-tools/auth-build/package-lock.json ./
+RUN npm ci --no-audit --no-fund \
+    && npm cache clean --force
+
+COPY apps/learner-web/build-tools/auth-build/build.mjs apps/learner-web/build-tools/auth-build/clean.mjs ./
+
+WORKDIR /opt/brainos-e2e-review
+COPY tests/end-to-end/learner-web/package.json tests/end-to-end/learner-web/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+WORKDIR /opt/brainos-build
+COPY apps/learner-web/build-tools/pyproject.toml ./
+RUN uv sync --no-install-project --no-default-groups --group build
+
+RUN set -eu; \
+    apt-get update; \
+    apt-get install --yes --no-install-recommends ca-certificates curl git; \
+    /opt/brainos-e2e-review/node_modules/.bin/playwright install-deps chromium; \
+    case "$(dpkg --print-architecture)" in \
+      amd64) CHROME_DEB_URL="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" ;; \
+      arm64) CHROME_DEB_URL="https://dl.google.com/linux/direct/google-chrome-stable_current_arm64.deb" ;; \
+      *) echo "Unsupported Chrome architecture: $(dpkg --print-architecture)" >&2; exit 1 ;; \
+    esac; \
+    curl --fail --location --silent --show-error "${CHROME_DEB_URL}" --output /tmp/google-chrome-stable.deb; \
+    apt-get install --yes /tmp/google-chrome-stable.deb; \
+    rm -f /tmp/google-chrome-stable.deb; \
+    chmod -R a+rX /opt/brainos-uv/python /opt/brainos-build-venv /opt/brainos-e2e-review; \
+    rm -rf /var/lib/apt/lists/*
 
 RUN npm install --global --omit=dev --no-audit --no-fund "wrangler@${WRANGLER_VERSION}" \
     && npm cache clean --force
 
+WORKDIR /workspace/apps/learner-web/infra
 USER node
+RUN google-chrome --version \
+    && node -e 'const { chromium } = require("/opt/brainos-e2e-review/node_modules/playwright"); (async () => { const browser = await chromium.launch({ channel: "chrome", headless: true }); await browser.close(); })().catch((error) => { console.error(error); process.exit(1); });' \
+    && /opt/brainos-build-venv/bin/python -c "import yaml; print(yaml.__version__)"
 
 ENTRYPOINT ["wrangler"]

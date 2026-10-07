@@ -12,10 +12,11 @@ This directory is the intended home for:
 
 ```text
 infra/
-├── .dockerignore
 ├── README.md
 ├── compose.yaml
 ├── Dockerfile.wrangler
+├── Dockerfile.wrangler.dockerignore
+├── container-build.sh
 ├── deploy-cloudflare-pages.sh
 ├── functions/                 # Cloudflare Pages Functions
 ├── policies/                  # _headers, optional _redirects, and _routes.json sources
@@ -40,12 +41,12 @@ The current release model is manual Direct Upload:
 
 ```text
 operator command
-    -> local unit and browser tests
-    -> clean English and Hindi build
-    -> policy staging
-    -> explicit Wrangler upload from an isolated container
+    -> Docker CLI runs the complete test, auth-bundle, site-build, policy-staging, and artifact-verification pipeline in the existing container
+    -> explicit Wrangler upload from that container
     -> Cloudflare Pages immutable deployment
 ```
+
+The host runs only the deployment shell script and Docker CLI. Git checks and commit metadata, Python, npm, Playwright, content generation, policy staging, and Wrangler all run in the persistent container. No host Git, Python environment, npm install, or browser installation is required for this workflow. The container receives the repository read-only and writes generated output only through the learner-web `dist/` mount.
 
 GitHub stores source history but does not build or deploy the site in this phase. Cloudflare receives only the selected generated root, `apps/learner-web/dist/<root>/`, plus any Functions discovered under `infra/functions/`. The default root is `telugu`; the parent `dist/` directory is never uploaded.
 
@@ -57,29 +58,49 @@ The Pages project should be created as a Direct Upload project. Cloudflare does 
 
 Complete these steps once on each deployment machine:
 
-1. Prepare the learner-web Python environment as described in [`../build-tools/README.md`](../build-tools/README.md).
-2. Install the learner-web end-to-end test dependencies and Playwright browser described in [`../../../tests/end-to-end/learner-web/README.md`](../../../tests/end-to-end/learner-web/README.md).
-3. Install Docker with Docker Compose v2.
-4. Build the reviewed Wrangler container from the repository root:
+1. Install Docker with Docker Compose v2. Host Python, npm, and Playwright are not used by this deploy workflow.
+2. Build the complete test/build/Wrangler image from the repository root:
 
    ```sh
    docker compose -f apps/learner-web/infra/compose.yaml build --pull wrangler
-   docker compose -f apps/learner-web/infra/compose.yaml run wrangler --version
    ```
 
-   The version check prints the stable Wrangler release selected by npm's `latest` distribution tag when the image was built. Review `Dockerfile.wrangler`, the reported version, and the test results before using a rebuilt image. Wrangler and its Node.js dependencies remain inside the `tutorbrains-wrangler:stable` image. The deployment helper reuses one long-running container named after the Cloudflare Pages project (`telugututorbrains` by default), starting it when stopped and creating it only when absent. The container mounts the repository read-only and overlays the tracked empty `infra/.wrangler/` mount point with temporary writable storage for Wrangler's cache and build files. The deployment script refuses to build or refresh the image implicitly during preview or production.
+   The image installs the pinned auth and Playwright npm dependencies, Google Chrome Stable for the container architecture (`amd64` or `arm64`), and uv, in addition to Wrangler. Playwright's bundled `install chrome` command currently rejects Linux ARM64, so the Dockerfile installs Google's architecture-specific Chrome package directly at the path used by the `chrome` channel. The Playwright test package is resolved from the image's pinned install even when the read-only source mount contains host `node_modules`. It copies the learner-web build-tools `pyproject.toml` and runs `uv sync`; Python compatibility and the build dependency are defined there, with no Python version duplicated in the Dockerfile. A `uv.lock` is not tracked in Git, so uv resolves dependencies from the project definition during the image build. Review `Dockerfile.wrangler` and run the full verification before using a rebuilt image. The deployment helper runs both test suites, cleans/builds the shared auth bundle, generates English and Hindi site output, stages Cloudflare policies, and verifies the final artifact inside that container. The repository stays read-only except for the learner-web `dist/` output mount and temporary dependency overlay, where generated files are written. The persistent container defaults to the Pages project name (`telugututorbrains`) and can be overridden with `CLOUDFLARE_WRANGLER_CONTAINER`. The deployment script only uses an already-running named container: it does not create or start one, and fails if it is missing or stopped.
 
-   Rebuild with `--pull --no-cache` whenever checking for a newer stable Wrangler release. A breaking change then appears during the explicit rebuild and verification step, where the repository scripts or configuration can be upgraded before deployment:
+   On a new setup only, create the persistent container once after building the image. Skip this if your existing container is already configured and running:
+
+   ```sh
+   docker compose -f apps/learner-web/infra/compose.yaml run --detach --no-deps \
+     --name telugututorbrains --entrypoint /bin/sh wrangler \
+     -c 'while :; do sleep 3600; done'
+   docker exec telugututorbrains wrangler --version
+   ```
+
+   This is a one-time manual container creation, not something the deployment script runs. Rebuilding the image does not update an existing container, and changing Compose mounts requires creating a container with the updated configuration. If your current container predates the Chrome or temporary npm overlay setup, explicitly create a second persistent container with a different name, then use that name for each deployment:
+
+   ```sh
+   docker compose -f apps/learner-web/infra/compose.yaml run --detach --no-deps \
+     --name telugututorbrains-auth --entrypoint /bin/sh wrangler \
+     -c 'while :; do sleep 3600; done'
+   CLOUDFLARE_WRANGLER_CONTAINER=telugututorbrains-auth \
+     ./apps/learner-web/infra/deploy-cloudflare-pages.sh build
+   ```
+
+   Rebuild with `--pull --no-cache` whenever checking for a newer stable Wrangler release or changing the npm build dependencies/build script. The npm layer is reinstalled from its checked-in lockfile; a breaking change then appears during explicit rebuild and verification before deployment:
 
    ```sh
    docker compose -f apps/learner-web/infra/compose.yaml build --pull --no-cache wrangler
-   docker compose -f apps/learner-web/infra/compose.yaml run wrangler --version
+   docker exec "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" wrangler --version
    ```
-5. Create a restricted Cloudflare API token with Account > Cloudflare Pages > Edit permission. Store the token and account identifier in an approved secret store; never place them in Git, `.dev.vars`, shell history, or a checked-in environment file.
-6. Create the Pages project once, if it does not already exist. Export the credentials into the current shell first, as shown in the per-deployment checklist below, then run:
+3. Create a restricted Cloudflare API token with Account > Cloudflare Pages > Edit permission. Store the token and account identifier in an approved secret store; never place them in Git, `.dev.vars`, shell history, or a checked-in environment file.
+4. Create the Pages project once, if it does not already exist. Export the credentials into the current shell first, as shown in the per-deployment checklist below, then run:
 
    ```sh
-	   docker compose -f apps/learner-web/infra/compose.yaml run wrangler pages project create telugututorbrains --production-branch main
+   docker exec \
+     --env "CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID}" \
+     --env "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}" \
+     "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" \
+     wrangler pages project create telugututorbrains --production-branch main
    ```
 
 ### Before every deployment
@@ -92,11 +113,12 @@ Complete these checks from the repository root before running `apps/learner-web/
    docker compose version
    ```
 
-2. From the repository root, confirm that the reviewed Wrangler image exists and inspect its version:
+2. From the repository root, confirm that the reviewed image and selected running container exist, then inspect its version:
 
    ```sh
    docker image inspect tutorbrains-wrangler:stable >/dev/null
-   docker compose -f apps/learner-web/infra/compose.yaml run wrangler --version
+   docker container inspect "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" >/dev/null
+   docker exec "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" wrangler --version
    ```
 
 3. Export the restricted Cloudflare credentials into the current shell:
@@ -106,11 +128,13 @@ Complete these checks from the repository root before running `apps/learner-web/
    export CLOUDFLARE_API_TOKEN="..."
    ```
 
-4. Confirm the intended Git revision is committed and the worktree is clean:
+   Optionally enable Firebase auth in the generated site by setting `BRAINOS_FIREBASE_CONFIG` to a repository-relative config path, for example `apps/learner-web/auth/firebase-config.telugu.local.json`. The config must be inside the repository so the container can read it. Without it, the bundle is built but authentication remains disabled in the generated pages.
+
+4. Confirm the intended Git revision is committed and the worktree is clean inside the selected container:
 
    ```sh
-   git status --short
-   git rev-parse --short HEAD
+   docker exec "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" git -C /workspace status --short
+   docker exec "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" git -C /workspace rev-parse --short HEAD
    ```
 
    `git status --short` must produce no output. The deployment script rejects a dirty worktree so the uploaded artifact remains traceable to the recorded commit.
@@ -138,7 +162,8 @@ The default root is `telugu`. Select another independently deployable root expli
 Create a preview deployment for an explicit non-production branch label:
 
 ```sh
-./apps/learner-web/infra/deploy-cloudflare-pages.sh preview "$(git branch --show-current)"
+./apps/learner-web/infra/deploy-cloudflare-pages.sh preview \
+  "$(docker exec "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" git -C /workspace branch --show-current)"
 ```
 
 Test uncommitted work in an isolated Cloudflare preview deployment:
@@ -187,7 +212,11 @@ Changing these values is an operational decision and should be recorded with the
 Wrangler accepts the production branch when the Direct Upload project is created:
 
 ```sh
-docker compose -f apps/learner-web/infra/compose.yaml run wrangler \
+docker exec \
+  --env "CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID}" \
+  --env "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}" \
+  "${CLOUDFLARE_WRANGLER_CONTAINER:-telugututorbrains}" \
+  wrangler \
   pages project create telugututorbrains --production-branch main
 ```
 
@@ -207,13 +236,12 @@ Replace `release` with the intended production branch label. This changes how Cl
 
 For every command, the script:
 
-1. verifies required local tools and dependencies;
-2. runs the Python build-tool unit tests;
-3. runs the learner-web Playwright suite;
-4. deletes only the generated learner-web `dist/` directory;
-5. builds English and Hindi outputs below the selected `dist/<root>/` directory;
-6. stages recognized Cloudflare policy artifacts into that root; and
-7. verifies the selected root and its locale entry pages.
+1. checks that the selected persistent container already exists and is running; if not, it fails without creating or starting one;
+2. runs tests, then cleans generated course outputs while preserving the `dist/` directory and shared mount point;
+3. reuses the selected container, runs npm clean for `dist/auth.js`, and builds a fresh auth bundle directly into learner-web `dist/`;
+4. builds English and Hindi outputs below the selected `dist/<root>/` directory, passing `BRAINOS_FIREBASE_CONFIG` when supplied;
+5. stages recognized Cloudflare policy artifacts into that root; and
+6. verifies the selected root and its locale entry pages.
 
 `build` stops at that point. `preview` and `production` then run Wrangler from `infra/`, allowing the root Function under `infra/functions/` to be included in the Pages deployment.
 

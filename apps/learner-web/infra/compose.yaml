@@ -2,11 +2,12 @@ services:
   wrangler:
     image: tutorbrains-wrangler:stable
     build:
-      context: .
-      dockerfile: Dockerfile.wrangler
+      context: ../../..
+      dockerfile: apps/learner-web/infra/Dockerfile.wrangler
       args:
         WRANGLER_VERSION: latest
     working_dir: /workspace/apps/learner-web/infra
+    shm_size: 1gb
     read_only: true
     init: true
     environment:
@@ -16,6 +17,8 @@ services:
       WRANGLER_CACHE_DIR: /tmp/wrangler-cache
     tmpfs:
       - /tmp
+      - /workspace/tests/end-to-end/learner-web/node_modules:uid=1000,gid=1000,mode=0755
       - /workspace/apps/learner-web/infra/.wrangler:uid=1000,gid=1000,mode=0700
     volumes:
       - ../../..:/workspace:ro
+      - ../dist:/workspace/apps/learner-web/dist:rw

@@ -6,15 +6,10 @@ readonly INFRA_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly APP_ROOT="$(cd "${INFRA_ROOT}/.." && pwd)"
 readonly REPOSITORY_ROOT="$(cd "${APP_ROOT}/../.." && pwd)"
 readonly DIST_ROOT="${APP_ROOT}/dist"
-readonly BUILD_PYTHON="${APP_ROOT}/build-tools/.venv/bin/python"
-readonly BUILD_SCRIPT="${APP_ROOT}/build-tools/build.py"
-readonly BUILD_TEST_ROOT="${APP_ROOT}/build-tools/tests"
-readonly E2E_ROOT="${REPOSITORY_ROOT}/tests/end-to-end/learner-web"
-readonly POLICY_ROOT="${INFRA_ROOT}/policies"
-readonly COMPOSE_FILE="${INFRA_ROOT}/compose.yaml"
-readonly WRANGLER_STATE_ROOT="${INFRA_ROOT}/.wrangler"
+readonly CONTAINER_BUILD_SCRIPT="/workspace/apps/learner-web/infra/container-build.sh"
 readonly WRANGLER_IMAGE="tutorbrains-wrangler:stable"
 readonly PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-telugututorbrains}"
+readonly WRANGLER_CONTAINER="${CLOUDFLARE_WRANGLER_CONTAINER:-${PAGES_PROJECT}}"
 readonly DEFAULT_DISTRIBUTION_ROOT="telugu"
 readonly DEFAULT_PRODUCTION_BRANCH="main"
 readonly PRODUCTION_HOST="learntelugu.brainos.in"
@@ -37,8 +32,10 @@ Commands:
 
 Optional environment variables:
   CLOUDFLARE_PAGES_PROJECT       Pages project identifier (default: telugututorbrains)
+  CLOUDFLARE_WRANGLER_CONTAINER  Persistent Docker container name (defaults to project identifier)
   CLOUDFLARE_ACCOUNT_ID          Used by Wrangler when authenticating with a token
   CLOUDFLARE_API_TOKEN           Restricted Cloudflare Pages API token
+  BRAINOS_FIREBASE_CONFIG        Optional course-local Firebase config path
 
 Options:
   --root <name>                  Distribution folder below dist/ (default: telugu)
@@ -55,27 +52,14 @@ require_command() {
 }
 
 run_wrangler() {
-  ensure_wrangler_container
   docker exec \
     --env "CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID:-}" \
     --env "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN:-}" \
-    "${PAGES_PROJECT}" wrangler "$@"
+    "${WRANGLER_CONTAINER}" wrangler "$@"
 }
 
-ensure_wrangler_container() {
-  mkdir -p "${WRANGLER_STATE_ROOT}"
-
-  if docker container inspect "${PAGES_PROJECT}" >/dev/null 2>&1; then
-    if [[ "$(docker container inspect --format '{{.State.Running}}' "${PAGES_PROJECT}")" != "true" ]]; then
-      docker start "${PAGES_PROJECT}" >/dev/null
-    fi
-    return
-  fi
-
-  docker compose -f "${COMPOSE_FILE}" run --detach --no-deps \
-    --name "${PAGES_PROJECT}" \
-    --entrypoint /bin/sh \
-    wrangler -c 'while :; do sleep 3600; done' >/dev/null
+container_git() {
+  docker exec "${WRANGLER_CONTAINER}" git -C /workspace "$@"
 }
 
 require_wrangler_container() {
@@ -84,13 +68,22 @@ require_wrangler_container() {
   docker image inspect "${WRANGLER_IMAGE}" >/dev/null 2>&1 || fail \
     "Wrangler container missing. Build it with: docker compose -f apps/learner-web/infra/compose.yaml build wrangler"
 
+  docker container inspect "${WRANGLER_CONTAINER}" >/dev/null 2>&1 || fail \
+    "Required persistent Docker container '${WRANGLER_CONTAINER}' is unavailable. This script will not create a container; create it explicitly using apps/learner-web/infra/README.md."
+  [[ "$(docker container inspect --format '{{.State.Running}}' "${WRANGLER_CONTAINER}")" == "true" ]] || fail \
+    "Required persistent Docker container '${WRANGLER_CONTAINER}' exists but is stopped. Start it explicitly, then retry."
+
   local version
-  version="$(run_wrangler --version)"
+  version="$(docker exec "${WRANGLER_CONTAINER}" wrangler --version)"
   [[ -n "${version}" ]] || fail "Wrangler in ${WRANGLER_IMAGE} did not report a version."
+
+  docker exec "${WRANGLER_CONTAINER}" sh -c \
+    "command -v git >/dev/null && command -v uv >/dev/null && test -x /opt/brainos-auth-build/node_modules/.bin/esbuild && test -f /opt/brainos-auth-build/clean.mjs && test -x /opt/brainos-e2e-review/node_modules/.bin/playwright && test -x /opt/brainos-build-venv/bin/python" || fail \
+    "The existing Docker container does not have the complete build and test layers. Rebuild the image and explicitly create a fresh container as documented in apps/learner-web/infra/README.md."
 }
 
 require_clean_worktree() {
-  if [[ -n "$(git -C "${REPOSITORY_ROOT}" status --porcelain)" ]]; then
+  if [[ -n "$(container_git status --porcelain)" ]]; then
     fail "Deployment requires a clean Git worktree so the artifact matches its commit."
   fi
 }
@@ -99,8 +92,8 @@ require_current_branch() {
   local requested_branch="$1"
   local current_branch
 
-  git check-ref-format --branch "${requested_branch}" >/dev/null 2>&1 || fail "Invalid Git branch name: ${requested_branch}"
-  current_branch="$(git -C "${REPOSITORY_ROOT}" branch --show-current)"
+  container_git check-ref-format --branch "${requested_branch}" >/dev/null 2>&1 || fail "Invalid Git branch name: ${requested_branch}"
+  current_branch="$(container_git branch --show-current)"
   [[ -n "${current_branch}" ]] || fail "Deployment is not allowed from a detached HEAD."
   [[ "${current_branch}" == "${requested_branch}" ]] || fail \
     "Requested branch ${requested_branch} does not match the current Git branch ${current_branch}."
@@ -130,26 +123,38 @@ stage_policies() {
   done
 }
 
+# Build and test command details are documented in container-build.sh.
 build_and_verify() {
   local distribution_root="$1"
-  local publish_root="${DIST_ROOT}/${distribution_root}"
-  [[ -x "${BUILD_PYTHON}" ]] || fail "Build environment missing. Follow apps/learner-web/build-tools/README.md."
-  [[ -d "${E2E_ROOT}/node_modules/@playwright/test" ]] || fail "Playwright dependencies missing. Follow tests/end-to-end/learner-web/README.md."
+  local firebase_config_path="${BRAINOS_FIREBASE_CONFIG:-}"
+  local container_firebase_config=""
+  require_wrangler_container
 
-  "${BUILD_PYTHON}" -m unittest discover -s "${BUILD_TEST_ROOT}" -v
-  npm --prefix "${E2E_ROOT}" test
+  if [[ -n "${firebase_config_path}" ]]; then
+    if [[ "${firebase_config_path}" != /* ]]; then
+      firebase_config_path="${REPOSITORY_ROOT}/${firebase_config_path}"
+    fi
+    [[ "${firebase_config_path}" == "${REPOSITORY_ROOT}/"* ]] || fail \
+      "Firebase config must be inside the repository so the container can read it."
+    container_firebase_config="/workspace/${firebase_config_path#"${REPOSITORY_ROOT}/"}"
+  fi
 
-  "${BUILD_PYTHON}" "${BUILD_SCRIPT}" clean
-  "${BUILD_PYTHON}" "${BUILD_SCRIPT}" --distribution-root "${distribution_root}"
-  "${BUILD_PYTHON}" "${BUILD_SCRIPT}" --instruction-language hi --distribution-root "${distribution_root}"
+  docker exec "${WRANGLER_CONTAINER}" bash "${CONTAINER_BUILD_SCRIPT}" \
+    "${distribution_root}" "${container_firebase_config}"
+}
 
-  stage_policies "${distribution_root}"
+build_auth_module() {
+  docker exec \
+    --env "BRAINOS_AUTH_ENTRY=/workspace/apps/learner-web/auth/src/main.js" \
+    --env "BRAINOS_AUTH_OUTFILE=${AUTH_DOCKER_OUTPUT}" \
+    "${WRANGLER_CONTAINER}" npm --prefix "${AUTH_DOCKER_ROOT}" run clean
 
-  [[ -f "${publish_root}/index.html" ]] || fail "Missing generated root entry: dist/${distribution_root}/index.html"
-  [[ -f "${publish_root}/en/index.html" ]] || fail "Missing generated English entry: dist/${distribution_root}/en/index.html"
-  [[ -f "${publish_root}/hi/index.html" ]] || fail "Missing generated Hindi entry: dist/${distribution_root}/hi/index.html"
-  [[ -f "${publish_root}/_headers" ]] || fail "Missing staged Cloudflare headers: dist/${distribution_root}/_headers"
-  [[ -f "${publish_root}/_routes.json" ]] || fail "Missing staged Cloudflare routes: dist/${distribution_root}/_routes.json"
+  docker exec \
+    --env "BRAINOS_AUTH_ENTRY=/workspace/apps/learner-web/auth/src/main.js" \
+    --env "BRAINOS_AUTH_OUTFILE=${AUTH_DOCKER_OUTPUT}" \
+    "${WRANGLER_CONTAINER}" npm --prefix "${AUTH_DOCKER_ROOT}" run build
+
+  [[ -s "${AUTH_BUNDLE}" ]] || fail "The Docker npm build did not produce ${AUTH_BUNDLE}."
 }
 
 deploy() {
@@ -162,8 +167,8 @@ deploy() {
 
   require_wrangler_container
 
-  commit_hash="$(git -C "${REPOSITORY_ROOT}" rev-parse HEAD)"
-  commit_message="$(git -C "${REPOSITORY_ROOT}" log -1 --pretty=%s)"
+  commit_hash="$(container_git rev-parse HEAD)"
+  commit_message="$(container_git log -1 --pretty=%s)"
 
   deploy_arguments=(
     pages deploy "/workspace/apps/learner-web/dist/${distribution_root}"
@@ -182,9 +187,6 @@ deploy() {
 main() {
   local command_name="${1:-}"
   local distribution_root="${DEFAULT_DISTRIBUTION_ROOT}"
-
-  require_command git
-  require_command npm
 
   case "${command_name}" in
     build)
@@ -222,7 +224,8 @@ main() {
       fi
       local preview_label="$2"
       validate_distribution_root "${distribution_root}"
-      git check-ref-format --branch "${preview_label}" >/dev/null 2>&1 || fail "Invalid preview label: ${preview_label}"
+      require_wrangler_container
+      container_git check-ref-format --branch "${preview_label}" >/dev/null 2>&1 || fail "Invalid preview label: ${preview_label}"
       [[ "${preview_label}" != "${DEFAULT_PRODUCTION_BRANCH}" ]] || fail "Uncommitted work cannot use the production branch label ${DEFAULT_PRODUCTION_BRANCH}."
       build_and_verify "${distribution_root}"
       deploy "${distribution_root}" "${preview_label}" true

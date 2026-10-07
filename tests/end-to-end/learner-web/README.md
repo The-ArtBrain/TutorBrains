@@ -1,12 +1,8 @@
 # Learner Web end-to-end tests
 
-These Playwright tests cover the shared lesson HTML source through test cases TC-08, TC-15 through TC-18, and TC-29, plus the generated English Card-pattern evaluations TC-25 through TC-28. Additional tests check all five generated non-lesson pages in English and Hindi at mobile and desktop widths, including accessibility labels, language metadata, static controls, and navigation through the lesson and back. They use an installed Google Chrome browser and do not require a learner-web server.
+These Playwright tests cover the shared lesson HTML source through test cases TC-08, TC-15 through TC-18, and TC-29, plus the generated English Card-pattern evaluations TC-25 through TC-28. Additional tests check all five generated non-lesson pages in English and Hindi at mobile and desktop widths, including accessibility labels, language metadata, static controls, and navigation through the lesson and back. They use Google Chrome Stable through Playwright's `chrome` channel and do not require a learner-web server. The Docker image installs its own Linux Chrome; tests do not use the host's browser.
 
 Global setup generates both languages before browser tests, using `LEARNER_WEB_PYTHON` when supplied, otherwise `apps/learner-web/build-tools/.venv` if present, otherwise `python3`. Follow the [build environment setup](../../../apps/learner-web/build-tools/README.md) first. Build-pipeline unit tests cover all six pages, YAML validation, escaped text and attributes, fixed Telugu content, local links, missing translations, and preservation of previously published output on content errors.
-
-## Latest verification
-
-The complete suite was run in Google Chrome after generating all pages: **16 passed**. The build-pipeline unit suite now covers distinct chapter and lesson folders with **20 passing tests**. Continuous integration is not configured for this static review slice.
 
 ## Test cases
 
@@ -44,17 +40,18 @@ The complete suite was run in Google Chrome after generating all pages: **16 pas
 
 ## Install
 
-From the repository root:
+From the repository root, install the lockfile-pinned test dependencies. Google Chrome Stable must also be installed on the host for the `chrome` channel:
 
 ```sh
-cd tests/end-to-end/learner-web
-npm install
+npm ci --prefix tests/end-to-end/learner-web
 ```
 
 ## Run
 
+From the repository root, run the suite in installed Google Chrome:
+
 ```sh
-npm test
+npm --prefix tests/end-to-end/learner-web test
 ```
 
 ## Watch the tests run
@@ -62,13 +59,13 @@ npm test
 Run one test with Playwright Inspector so you can pause, step through, and inspect the page:
 
 ```sh
-npx playwright test --debug -g "TC-16"
+npm --prefix tests/end-to-end/learner-web test -- --debug --grep "TC-16"
 ```
 
 Run the complete suite in a visible browser, one test at a time:
 
 ```sh
-npx playwright test --headed --workers=1
+npm --prefix tests/end-to-end/learner-web test -- --headed --workers=1
 ```
 
 The tests finish quickly, so use debug mode when you want time to inspect an individual test.

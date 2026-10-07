@@ -17,6 +17,8 @@ target/
 *-lock.yaml
 *-lock.yml
 npm-shrinkwrap.json
+!apps/learner-web/build-tools/auth-build/package-lock.json
+apps/learner-web/auth/firebase-config.*.local.json
 
 # Python
 __pycache__/
